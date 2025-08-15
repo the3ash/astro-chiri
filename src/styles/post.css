@@ -26,10 +26,17 @@
 .prose h3,
 .prose h4,
 .prose h5 {
-  font-size: var(--font-size-m);
+  font-size: var(--font-size-m); 
   font-weight: var(--font-weight-bold);
   line-height: 1.75;
   margin: 3.75em 0 1.75em 0;
+}
+
+/*zmieniłam rozmiary fontów dla nagłowków*/
+
+.prose h1,
+.prose h2 {
+  font-size: 1.4em; 
 }
 
 /* Bold text */

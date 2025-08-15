@@ -24,7 +24,7 @@
   --spacing-m: -0.02em;
 
   /* Light Mode Colors (Default) */
-  --bg: #ffffff;
+  --bg: #fbfbf9; /*pierwotnie byl bialy*/
   --text-primary: rgba(0, 0, 0, 0.85);
   --text-secondary: rgba(0, 0, 0, 0.4);
   --text-tertiary: rgba(0, 0, 0, 0.24);
@@ -49,7 +49,7 @@
 
 /* Light Mode (Explicit) */
 html.light {
-  --bg: #ffffff;
+  --bg: #fbfbf9; /*pierwotnie byl bialy*/
   --text-primary: rgba(0, 0, 0, 0.85);
   --text-secondary: rgba(0, 0, 0, 0.4);
   --text-tertiary: rgba(0, 0, 0, 0.24);
