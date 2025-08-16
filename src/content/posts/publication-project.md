@@ -96,17 +96,7 @@ Czytelnik ma dziś swoje przyzwyczajenia – jedni wolą nocny tryb na Kindle’
 - Długość linii 50–70 znaków  
 - Akapity: wybierz jedną metodę – albo wcięcia, albo odstępy  
 - Spis treści – zawsze interaktywny w e-booku  
-- Kontrast wysoki, bez udziwnień kolorystycznych  
-
----
-
-## Infografika (do wizualizacji)  
-**5 elementów, które poprawiają komfort czytania:**  
-1. Czytelny font (kontrastujący, jeśli łączysz dwa)  
-2. Dobrze dobrana interlinia  
-3. Białe marginesy  
-4. Spójna struktura i przejrzyste akapity  
-5. Intuicyjna nawigacja  
+- Kontrast wysoki, bez udziwnień kolorystycznych   
 
 ---
 
