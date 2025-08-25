@@ -70,8 +70,8 @@ importers:
         version: 5.0.0
     devDependencies:
       '@eslint/js':
-        specifier: ^9.33.0
-        version: 9.33.0
+        specifier: ^9.34.0
+        version: 9.34.0
       '@types/markdown-it':
         specifier: ^14.1.2
         version: 14.1.2
