@@ -57,3 +57,9 @@ const imageUrl = ogImage ? new URL(ogImage, Astro.url) : new URL('/og/chiri-og.p
 <meta property="twitter:description" content={description} />
 <meta property="twitter:image" content={imageUrl} />
 <script defer data-domain="elfapublikacje.com" src="https://plausible.io/js/script.js"></script>
+<script is:inline>
+  // Fire after any page load (hard or soft) with View Transitions
+  document.addEventListener('astro:page-load', () => {
+    if (window.plausible) window.plausible('pageview');
+  });
+</script>
