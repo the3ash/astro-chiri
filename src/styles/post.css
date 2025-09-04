@@ -197,6 +197,7 @@
   text-align: center;
 }
 
+
 /* Podpis generowany z alt w paragrafie (opcjonalnie) */
 .prose p > img { position: relative; margin-bottom: 1.25em; }
 .prose p > img::after {

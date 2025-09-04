@@ -7,7 +7,8 @@ This content will be displayed at the top of the index page.
 You can leave this empty if you don’t want to show any content.
 -->
 
-<!--<p>
+<!--
+<p>
   <img src="/images/elfa-logo.png"
        alt="Elfa Publikacje"
        style="display:block;margin:0.5rem auto 1.25rem;max-width:180px;height:auto;">
