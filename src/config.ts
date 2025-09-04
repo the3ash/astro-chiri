@@ -7,7 +7,7 @@ export const themeConfig: ThemeConfig = {
     title: 'ELFA Publikacje', // Site title
     author: '3ASH', // Author name
     description: 'Minimal blog built by Astro', // Site description
-    language: 'en-US' // Default language
+    language: 'pl-PL' // Default language
   },
 
   // GENERAL SETTINGS ////////////////////////////////////////////////////////////////////////////////////
@@ -22,7 +22,7 @@ export const themeConfig: ThemeConfig = {
 
   // DATE SETTINGS ///////////////////////////////////////////////////////////////////////////////////////
   date: {
-    dateFormat: 'YYYY-MM-DD', // Date format: YYYY-MM-DD, MM-DD-YYYY, DD-MM-YYYY, MONTH DAY YYYY, DAY MONTH YYYY
+    dateFormat: 'DD-MM-YYYY', // Date format: YYYY-MM-DD, MM-DD-YYYY, DD-MM-YYYY, MONTH DAY YYYY, DAY MONTH YYYY
     dateSeparator: '.', // Date separator: . - / (except for MONTH DAY YYYY and DAY MONTH YYYY)
     dateOnRight: true // Date position in post list (true for right, false for left)
   },

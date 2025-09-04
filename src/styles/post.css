@@ -1,182 +1,226 @@
-/* Base styles for all elements */
+/* ===============================
+   PROSE — BOOK-LIKE (PL)
+   Justify bez dzielenia + mobile = left
+   =============================== */
+
+/* Reset lokalny + domyślny rozmiar bazowy dla potomków */
 .prose * {
   margin: 0;
   padding: 0;
   font-size: var(--font-size-m);
 }
 
-/* Main content container */
+/* Główny kontener */
 .prose {
-  margin-bottom: 8rem;
+  margin-bottom: 6rem;
+  line-height: 1.6;
+  letter-spacing: 0;
+  /* WYŁĄCZENIE DZIELENIA WYRAZÓW GLOBALNIE */
+  hyphens: none;
+  -webkit-hyphens: none;
+  -ms-hyphens: none;
+  font-kerning: normal;
+  font-variant-ligatures: common-ligatures;
 }
 
-/* Post title section */
-.prose .title {
-  margin-bottom: 2.5em;
-}
+/* Sekcja tytułu wpisu */
+.prose .title { margin-bottom: 1.5em; }
+.prose .title h1 { margin: 0 0 0.5rem 0; }
 
-.prose .title h1 {
-  margin: 0 0 0.375rem 0;
-}
+/* ===============================
+   NAGŁÓWKI — hierarchia książkowa
+   =============================== */
 
-/* Headings (h1-h5)
- Adjust size or spacing below if needed. */
-.prose h1,
-.prose h2,
-.prose h3,
-.prose h4,
-.prose h5 {
-  font-size: var(--font-size-m); 
+.prose h1 {
+  font-size: 1.6em;            /* ~26–32px zależnie od body */
+  line-height: 1.22;
   font-weight: var(--font-weight-bold);
-  line-height: 1.75;
-  margin: 3.75em 0 1.75em 0;
+  font-variant: normal;        /* H1 zwykle bez kapitalików */
+  margin: 1.4em 0 0.7em 0;
 }
-
-/*zmieniłam rozmiary fontów dla nagłowków*/
-
-.prose h1,
 .prose h2 {
-  font-size: 1.4em; 
-}
-
-/* Bold text */
-.prose strong,
-.prose b {
+  font-size: 1.4em;
+  line-height: 1.25;
   font-weight: var(--font-weight-bold);
+  font-variant: normal;
+  margin: 1.3em 0 0.65em 0;
+}
+.prose h3 {
+  font-size: 1.2em;
+  line-height: 1.28;
+  font-weight: var(--font-weight-bold);
+  font-variant: small-caps;
+  margin: 1.2em 0 0.6em 0;
+}
+.prose h4 {
+  font-size: 1.05em;
+  line-height: 1.3;
+  font-weight: var(--font-weight-bold);
+  font-variant: small-caps;
+  letter-spacing: 0.01em;
+  margin: 1.1em 0 0.55em 0;
+}
+.prose h5 {
+  font-size: 1em;
+  line-height: 1.3;
+  font-weight: var(--font-weight-bold);
+  font-variant: small-caps;
+  letter-spacing: 0.01em;
+  margin: 1em 0 0.5em 0;
 }
 
-/* Italic text */
+/* kosmetyka odstępów między kolejnymi nagłówkami */
+.prose > :first-child { margin-top: 0; }
+.prose h1 + h2,
+.prose h2 + h3,
+.prose h3 + h4,
+.prose h4 + h5 { margin-top: 0.5em; }
+
+/* ===============================
+   TEKST BIEŻĄCY
+   =============================== */
+
+.prose strong,
+.prose b { font-weight: var(--font-weight-bold); }
+
 .prose em {
   font-family: var(--serif);
   font-style: italic;
   letter-spacing: 0;
 }
 
-/* Links */
+/* Akapity: JUSTOWANIE bez dzielenia */
+.prose p {
+  line-height: 1.6;
+  margin: 1.1em 0;
+  text-align: justify;       /* pełne justowanie */
+  text-justify: inter-word;  /* (wspierane w części przeglądarek) */
+  hyphens: none;             /* bez dzielenia */
+  -webkit-hyphens: none;
+  -ms-hyphens: none;
+  overflow-wrap: normal;     /* nie łam nadmiernie słów */
+  word-break: normal;
+}
+
+/* pierwszy akapit po nagłówku/elemencie blokowym ma mniejszy odstęp u góry */
+.prose h1 + p,
+.prose h2 + p,
+.prose h3 + p,
+.prose h4 + p,
+.prose h5 + p,
+.prose .title + p,
+.prose figure + p,
+.prose blockquote + p,
+.prose ul + p,
+.prose ol + p,
+.prose hr + p { margin-top: 0.6em; }
+
+/* Linki */
 .prose a {
   color: var(--primary);
   text-decoration: underline;
   text-decoration-color: var(--text-tertiary);
   transition: text-decoration-color 0.2s ease-out;
 }
-
 .prose a:hover {
   color: var(--primary);
   text-decoration-color: var(--text-primary);
 }
 
-/* Paragraphs */
-.prose p {
-  line-height: 1.75;
-  margin: 1.75em 0;
-}
+/* ===============================
+   LEAD (akapit wprowadzający)
+   =============================== */
 
-/* Tables */
+.prose .lead {
+  font-size: 1.125em;          /* ~+12.5% */
+  line-height: 1.55;
+  margin: 1.2em 0 1em;
+  letter-spacing: 0;
+  font-weight: var(--font-weight-regular);
+  text-align: justify;         /* zachowaj justowanie jak w body */
+  text-justify: inter-word;
+  hyphens: none;
+}
+.prose .title + .lead,
+.prose h1 + .lead,
+.prose h2 + .lead { margin-top: 0.5em; }
+
+/* ===============================
+   TABELA
+   =============================== */
+
 .prose table {
   table-layout: fixed;
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
-  margin: 1.75em 0;
+  margin: 1.4em 0;
   font-size: var(--font-size-m);
   border: 1px solid var(--border);
   border-radius: 8px;
   overflow: hidden;
 }
-
-/* Table cells */
 .prose th,
 .prose td {
   border: none;
   border-right: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
-  padding: 0.5em 1em;
+  padding: 0.45em 0.85em;
   text-align: left;
 }
-
 .prose th:last-child,
-.prose td:last-child {
-  border-right: none;
-}
-
-.prose tr:last-child td {
-  border-bottom: none;
-}
-
+.prose td:last-child { border-right: none; }
+.prose tr:last-child td { border-bottom: none; }
 .prose th {
   background: var(--astro-code-background);
   font-weight: var(--font-weight-bold);
 }
 
-/* Images */
+/* ===============================
+   OBRAZY / FIGURY
+   =============================== */
+
 .prose img {
   max-width: 100%;
   height: auto;
   display: block;
-  margin: 2em 0;
+  margin: 1.25em 0;
 }
+.img-placeholder { background: var(--code-bg); display: block; }
+.prose img[loading='lazy'] { opacity: 0; animation: fadeIn 0.3s ease-out forwards; }
 
-.img-placeholder {
-  background: var(--code-bg);
-  display: block;
-}
-
-/* Loading state for images */
-.prose img[loading='lazy'] {
-  opacity: 0;
-  animation: fadeIn 0.3s ease-out forwards;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-.prose figure {
-  margin-bottom: 2em;
-  text-align: center;
-}
-
-.prose figure img {
-  margin-bottom: 1em;
-}
-
+.prose figure { margin: 1.5em 0; text-align: center; }
+.prose figure img { margin-bottom: 0.75em; }
 .prose figure figcaption {
   color: var(--text-secondary);
   font-size: var(--font-size-s);
   text-align: center;
 }
 
-.prose p > img {
-  position: relative;
-  margin-bottom: 2em;
-}
-
+/* Podpis generowany z alt w paragrafie (opcjonalnie) */
+.prose p > img { position: relative; margin-bottom: 1.25em; }
 .prose p > img::after {
   content: attr(alt);
   display: block;
   position: absolute;
-  left: 0;
-  width: 100%;
+  left: 0; width: 100%;
   text-align: center;
   color: var(--text-secondary);
   font-size: var(--font-size-s);
-  margin-top: 0.75em;
+  margin-top: 0.6em;
 }
-
 .prose .img-caption {
   display: block;
   text-align: center;
   color: var(--text-secondary);
   font-size: var(--font-size-s);
-  margin-bottom: 2em;
+  margin-bottom: 1.5em;
 }
 
-/* Inline code */
+/* ===============================
+   KOD / PRE
+   =============================== */
+
 .prose code {
   padding: 2.5px 3.5px;
   border-radius: 5px;
@@ -184,146 +228,113 @@
   border: 0.5px solid var(--border);
   font-family: var(--mono);
   font-size: 0.9em;
-  font-feature-settings:
-    'liga' 0,
-    'calt' 0;
-  -webkit-font-feature-settings:
-    'liga' 0,
-    'calt' 0;
+  font-feature-settings: 'liga' 0, 'calt' 0;
+  -webkit-font-feature-settings: 'liga' 0, 'calt' 0;
 }
+.prose pre {
+  background-color: var(--astro-code-background);
+  border-radius: 8px;
+  padding: 1.15em 1.35em;
+  margin: 1.5em 0;
+  overflow-x: auto;
+}
+.prose pre > code {
+  font-family: var(--mono);
+  font-feature-settings: 'liga' 0, 'calt' 0;
+  display: block;
+  white-space: pre;
+  word-break: normal;
+  overflow-wrap: normal;
+  padding: 0; margin: 0; background: none; border: none;
+  line-height: 1.5; border-radius: 0;
+}
+.prose pre > code * { font-size: var(--font-size-s); }
 
-/* Blockquotes */
+/* ===============================
+   CYTATY
+   =============================== */
 .prose blockquote {
-  border-left: 2px solid var(--border);
-  margin: 0 0 1.75em 0.125em;
-  padding: 0 0 0 1.375em;
+  border-left: 1px solid var(--border);
+  margin: 1.2em 0;
+  padding-left: 1em;
   text-align: left;
 }
+.prose blockquote p { margin: 0.6em 0; text-align: left; } /* cytaty zwykle na lewo */
+.prose blockquote cite { display: inline-block; margin-top: 0.5em; }
 
-.prose blockquote p {
-  margin: 0;
-}
+/* ===============================
+   LISTY
+   =============================== */
 
-.prose blockquote cite {
-  display: inline-block;
-  margin-top: 0.5em;
-}
-
-/* Unordered lists */
 .prose ul {
   list-style-type: none;
   padding-left: 0;
-  margin-left: 1rem;
-  margin-bottom: 1.75em;
-  line-height: 1.75;
+  margin: 0.9em 0 1em 1.25rem;
+  line-height: 1.5;
+  text-align: left; /* listy na lewo dla czytelności */
 }
-
-.prose ul ul {
-  margin-left: 0.625rem;
-  margin-top: 0.5em;
-  margin-bottom: 0.5em;
-}
-
-.prose ul li {
-  position: relative;
-  padding-left: 0.5rem;
-  margin-bottom: 0.5em;
-}
-
-.prose ul li:last-child {
-  margin-bottom: 0;
-}
-
-.prose ul li > ul {
-  margin-top: 0.5em;
-  margin-bottom: 0.5em;
-}
-
+.prose ul ul { margin-left: 0.625rem; margin-top: 0.4em; margin-bottom: 0.4em; }
+.prose ul li { position: relative; padding-left: 0.5rem; margin: 0.25em 0; }
+.prose ul li:last-child { margin-bottom: 0; }
+.prose ul li > ul { margin-top: 0.4em; margin-bottom: 0.4em; }
 .prose ul li::before {
   content: '•';
   position: absolute;
-  left: -1.25rem;
-  top: -0.05em;
-  width: 1.5rem;
-  text-align: center;
+  left: -1.25rem; top: -0.05em;
+  width: 1.5rem; text-align: center;
   color: var(--text-tertiary);
 }
 
-/* Ordered lists */
 .prose ol {
   list-style-position: outside;
   padding-left: 0;
-  margin-left: 1.25rem;
-  margin-bottom: 1.75em;
+  margin: 0.9em 0 1em 1.25rem;
   counter-reset: item;
+  text-align: left;
 }
-
 .prose ol li {
   display: block;
   position: relative;
   padding-left: 0.25rem;
-  margin-bottom: 0.5em;
+  margin: 0.25em 0;
 }
-
-.prose ol li:last-child {
-  margin-bottom: 0;
-}
-
+.prose ol li:last-child { margin-bottom: 0; }
 .prose ol li::before {
   content: counter(item) '.';
   counter-increment: item;
   position: absolute;
   left: -1.15rem;
-  width: 1.5rem;
-  text-align: left;
+  width: 1.5rem; text-align: left;
   color: var(--text-secondary);
   opacity: 0.75;
   font-variant-numeric: tabular-nums;
-  font-feature-settings:
-    'tnum' 1,
-    'zero' 0,
-    'cv01' 1,
-    'cv02' 1,
-    'calt' 1,
-    'ss03' 1,
-    'liga' 1,
-    'ordn' 1;
+  font-feature-settings: 'tnum' 1, 'zero' 0, 'cv01' 1, 'cv02' 1, 'calt' 1, 'ss03' 1, 'liga' 1, 'ordn' 1;
 }
 
-/* Task lists */
+/* LISTY ZADANIOWE */
 .prose ul.contains-task-list {
   list-style: none;
   margin-left: 0;
   white-space: nowrap;
+  text-align: left;
 }
-
-.prose ul.contains-task-list li::before {
-  content: none;
-}
-
+.prose ul.contains-task-list li::before { content: none; }
 .prose ul.contains-task-list li.task-list-item {
   padding-left: 0.125em;
   margin-bottom: 0.5em;
 }
+.prose ul.contains-task-list li.task-list-item:last-child { margin-bottom: 0; }
 
-.prose ul.contains-task-list li.task-list-item:last-child {
-  margin-bottom: 0;
-}
-
-/* Task list checkboxes */
 .prose ul.contains-task-list li.task-list-item input[type='checkbox'] {
   margin-right: 0.5em;
   position: relative;
   top: 0.175em;
-  width: 1em;
-  height: 1em;
+  width: 1em; height: 1em;
   border: 1.35px solid var(--text-tertiary);
   border-radius: 4px;
   background: transparent;
-  appearance: none;
-  -webkit-appearance: none;
+  appearance: none; -webkit-appearance: none;
 }
-
 .prose ul.contains-task-list li.task-list-item input[type='checkbox']:checked {
   position: relative;
   background: var(--code-bg);
@@ -331,12 +342,10 @@
   border: 1.35px solid var(--text-tertiary);
   opacity: 0.75;
 }
-
 .prose ul.contains-task-list li.task-list-item input[type='checkbox']:checked::after {
   content: '✓';
   position: absolute;
-  top: 50%;
-  left: 50%;
+  top: 50%; left: 50%;
   transform: translate(-45%, -55%);
   font-family: var(--sans);
   font-size: 10px;
@@ -344,19 +353,14 @@
   color: var(--text-primary);
   opacity: 0.55;
 }
-
 .prose ul.contains-task-list li.task-list-item input[type='checkbox'] + * {
   display: inline;
   margin-left: 0;
-  line-height: 1.75;
+  line-height: 1.5;
   white-space: nowrap;
 }
 
-/* .prose ul.contains-task-list li.task-list-item:has(input[type='checkbox']:checked) {
-  text-decoration: line-through;
-} */
-
-/* Subscript and superscript */
+/* Indeksy górne/dolne */
 .prose sup,
 .prose sub,
 .prose sup a {
@@ -365,16 +369,12 @@
   line-height: 1;
 }
 
-/* Horizontal rule */
+/* Linia pozioma */
 .prose hr {
-  margin: 3.75em 0;
-  height: auto;
-  border: none;
-  background: none;
-  text-align: center;
-  position: relative;
+  margin: 1.25em 0;
+  height: auto; border: none; background: none;
+  text-align: center; position: relative;
 }
-
 .prose hr::before {
   content: '***';
   font-family: var(--mono);
@@ -383,7 +383,7 @@
   letter-spacing: 0.25em;
 }
 
-/* Keyboard input */
+/* Klawisze */
 .prose kbd {
   font-family: var(--mono);
   font-size: var(--font-size-s);
@@ -393,59 +393,40 @@
   min-width: 1.75em;
   display: inline-block;
   text-align: center;
-  /* box-shadow: inset 0 -2.5px 0 var(--border); */
 }
 
-/* Highlighted text */
+/* Marker tekstu */
 .prose mark {
   background-color: var(--mark);
   color: var(--text-primary);
   padding: 3px 1px;
 }
 
-/* Footnotes */
+/* Przypisy */
 .prose .footnotes {
-  margin-top: 4rem;
-  padding-top: 1.75rem;
+  margin-top: 2.5rem;
+  padding-top: 1rem;
   position: relative;
 }
-
 .prose .footnotes::before {
   content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 4rem;
-  height: 1px;
+  position: absolute; top: 0; left: 0;
+  width: 4rem; height: 1px;
   background-color: var(--border);
 }
+.prose cite { font-style: normal; }
 
-.prose cite {
-  font-style: normal;
-}
-
-/* Footnote references */
 .prose [data-footnote-backref] {
   position: relative;
   font-family: var(--mono);
-  font-size: var(--font-size-l);
+  font-size: 0.875em;
   top: -0.05em;
 }
-
 .prose [data-footnote-ref] {
   font-size: 1em;
   font-variant-numeric: tabular-nums;
-  font-feature-settings:
-    'tnum' 1,
-    'zero' 0,
-    'cv01' 1,
-    'cv02' 1,
-    'calt' 1,
-    'ss03' 1,
-    'liga' 1,
-    'ordn' 1;
+  font-feature-settings: 'tnum' 1, 'zero' 0, 'cv01' 1, 'cv02' 1, 'calt' 1, 'ss03' 1, 'liga' 1, 'ordn' 1;
 }
-
 .prose [data-footnote-ref],
 .prose [data-footnote-backref] {
   color: var(--text-secondary);
@@ -454,103 +435,27 @@
   transition: color 0.2s ease-out;
   padding-right: 0.5em;
 }
-
 .prose [data-footnote-ref]:hover,
-.prose [data-footnote-backref]:hover {
-  color: var(--text-primary);
+.prose [data-footnote-backref]:hover { color: var(--text-primary); }
+
+/* KaTeX */
+.katex-mathml { display: none !important; }
+.katex-display { text-align: center; margin: 1.4em 0; }
+.katex * { box-sizing: content-box; }
+.katex, .katex * { color: inherit; }
+.katex .base, .katex .strut, .katex .mathit, .katex .mathrm,
+.katex .mathbf, .katex .mathsf, .katex .mathtt {
+  line-height: initial; vertical-align: baseline;
 }
-
-/* Code blocks */
-.prose pre {
-  background-color: var(--astro-code-background);
-  border-radius: 8px;
-  padding: 1.25em 1.5em;
-  margin: 2em 0;
-  overflow-x: auto;
-}
-
-@media (max-width: 768px) {
-  .prose pre {
-    padding: 1em 1.25em;
-  }
-}
-
-.prose pre > code {
-  font-family: var(--mono);
-  font-feature-settings:
-    'liga' 0,
-    'calt' 0;
-  display: block;
-  white-space: pre;
-  word-break: normal;
-  overflow-wrap: normal;
-  padding: 0;
-  margin: 0;
-  background: none;
-  border: none;
-  line-height: 1.5;
-  border-radius: 0;
-}
-
-.prose pre > code * {
-  font-size: var(--font-size-s);
-}
-
-/* KaTeX Math Rendering */
-
-/* Hide MathML fallback to prevent duplication */
-.katex-mathml {
-  display: none !important;
-}
-
-/* Ensure display math is centered */
-.katex-display {
-  text-align: center;
-  margin: 1.75em 0;
-}
-
-/* Reset any conflicting styles that might interfere with KaTeX */
-.katex * {
-  box-sizing: content-box;
-}
-
-/* Ensure KaTeX elements inherit color properly */
-.katex,
-.katex * {
-  color: inherit;
-}
-
-/* Specific fixes for common CSS framework conflicts */
-.katex .base,
-.katex .strut,
-.katex .mathit,
-.katex .mathrm,
-.katex .mathbf,
-.katex .mathsf,
-.katex .mathtt {
-  line-height: initial;
-  vertical-align: baseline;
-}
-
-/* Dark mode support */
 @media (prefers-color-scheme: dark) {
-  .katex,
-  .katex * {
-    color: inherit;
-  }
+  .katex, .katex * { color: inherit; }
 }
 
-/* Reading Time */
-.reading-time {
-  color: var(--text-secondary);
-  letter-spacing: -0.025em;
-}
+/* Reading time */
+.reading-time { color: var(--text-secondary); letter-spacing: -0.025em; }
+.reading-time .separator { margin: 0 0.25em; }
 
-.reading-time .separator {
-  margin: 0 0.25em;
-}
-
-/* Video */
+/* Wideo/Spotify */
 .prose iframe {
   width: 100%;
   aspect-ratio: 16/9;
@@ -558,8 +463,61 @@
   border-radius: 6px;
   margin: 0.25em 0 0 0;
 }
+.prose iframe[src*='spotify.com'] { aspect-ratio: auto; }
 
-/* Spotify */
-.prose iframe[src*='spotify.com'] {
-  aspect-ratio: auto;
+/* Animacja obrazków (wspólna) */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ===============================
+   MOBILE TWEAKS (≤ 640px)
+   =============================== */
+
+@media (max-width: 640px) {
+  .prose { line-height: 1.55; }
+
+  /* Na mobile akapity wyrównaj do lewej, bez dzielenia */
+  .prose p,
+  .prose .lead {
+    text-align: left;
+    text-justify: auto;
+    hyphens: none;
+    -webkit-hyphens: none;
+    -ms-hyphens: none;
+  }
+
+  .prose h1 { font-size: 1.45em; margin: 1.2em 0 0.6em; }
+  .prose h2 { font-size: 1.3em;  margin: 1.15em 0 0.55em; }
+  .prose h3 { font-size: 1.12em; margin: 1.05em 0 0.5em; }
+  .prose h4 { font-size: 1.02em; margin: 1em 0 0.5em; }
+  .prose h5 { font-size: 1em;    margin: 0.9em 0 0.45em; }
+
+  .prose p { margin: 0.9em 0; }
+  .prose .lead { font-size: 1.1em; line-height: 1.5; margin: 1em 0 0.9em; }
+
+  .prose img { margin: 1em 0; }
+  .prose figure { margin: 1.1em 0; }
+  .prose figure img { margin-bottom: 0.6em; }
+  .prose figure figcaption { font-size: calc(var(--font-size-s) * 0.95); }
+
+  .prose table {
+    margin: 1.1em 0;
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .prose th, .prose td { padding: 0.4em 0.7em; }
+
+  .prose pre { margin: 1.2em 0; padding: 0.9em 1em; }
+  .prose pre > code { line-height: 1.45; }
+  .prose code { font-size: 0.88em; }
+
+  .prose blockquote { margin: 1em 0; padding-left: 0.85em; }
+  .prose ul, .prose ol { margin: 0.75em 0 0.9em 1rem; }
+  .prose ul ul { margin-left: 0.5rem; }
+  .prose ol li::before { left: -1rem; width: 1.25rem; }
+
+  .prose hr { margin: 1em 0; }
 }

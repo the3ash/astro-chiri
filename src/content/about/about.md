@@ -7,14 +7,17 @@ This content will be displayed at the top of the index page.
 You can leave this empty if you don’t want to show any content.
 -->
 
-<p>
+<!--<p>
   <img src="/images/elfa-logo.png"
        alt="Elfa Publikacje"
        style="display:block;margin:0.5rem auto 1.25rem;max-width:180px;height:auto;">
 </p>
+-->
+<p></p>
 
-**Nazywam się Aneta Jagła** i od kilkunastu lat zajmuję się składem publikacji – zarówno przeznaczonych do druku (DTP), jak i w formatach cyfrowych. Od kilku lat prowadzę działalność pod marką **Elfa Publikacje**, wspierając autorów, wydawnictwa i firmy w tworzeniu estetycznych, czytelnych oraz zgodnych z technicznymi standardami e-booków i materiałów drukowanych.
-Na blogu dzielę się wiedzą i doświadczeniem z zakresu przygotowania publikacji – od zasad typografii po kompletny proces wydawniczy w wersji cyfrowej i drukowanej.
+**Zapraszam do lektury mojego bloga.**
+
+Nazywam się Aneta Jagła i od kilkunastu lat zajmuję się składem publikacji – zarówno drukowanych (DTP), jak i cyfrowych. Pod marką Elfa Publikacje wspieram autorów, wydawnictwa i firmy w tworzeniu estetycznych, czytelnych i zgodnych ze standardami e-booków oraz materiałów do druku. Na blogu dzielę się wiedzą, doświadczeniem i małymi typograficznymi sekretami.
 
 <p style="display: flex; gap: 0.5em;">
   <a href="https://www.instagram.com/elfapublikacje"  target="_blank" rel="noopener noreferrer">

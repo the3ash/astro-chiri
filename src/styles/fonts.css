@@ -20,3 +20,83 @@
     U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
+/* Tiempos Text Regular */
+@font-face {
+  font-family: 'Tiempos Text';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/tiempos-text-regular.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0100-017F, U+0180-024F, U+2000-206F, U+20AC, U+2122;
+}
+
+/* Tiempos Text Italic */
+@font-face {
+  font-family: 'Tiempos Text';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/tiempos-text-regular-italic.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0100-017F, U+0180-024F, U+2000-206F, U+20AC, U+2122;
+}
+
+/* Tiempos Text Medium */
+@font-face {
+  font-family: 'Tiempos Text';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/tiempos-text-medium.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0100-017F, U+0180-024F, U+2000-206F, U+20AC, U+2122;
+}
+
+/* Tiempos Text Medium Italic */
+@font-face {
+  font-family: 'Tiempos Text';
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/tiempos-text-medium-italic.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0100-017F, U+0180-024F, U+2000-206F, U+20AC, U+2122;
+}
+
+/* Tiempos Text Semibold */
+@font-face {
+  font-family: 'Tiempos Text';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/tiempos-text-semibold.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0100-017F, U+0180-024F, U+2000-206F, U+20AC, U+2122;
+}
+
+/* Tiempos Text Semibold Italic */
+@font-face {
+  font-family: 'Tiempos Text';
+  font-style: italic;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/tiempos-text-semibold-italic.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0100-017F, U+0180-024F, U+2000-206F, U+20AC, U+2122;
+}
+
+/* Tiempos Text Bold */
+@font-face {
+  font-family: 'Tiempos Text';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/tiempos-text-bold.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0100-017F, U+0180-024F, U+2000-206F, U+20AC, U+2122;
+}
+
+/* Tiempos Text Bold Italic */
+@font-face {
+  font-family: 'Tiempos Text';
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/tiempos-text-bold-italic.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0100-017F, U+0180-024F, U+2000-206F, U+20AC, U+2122;
+}
+
