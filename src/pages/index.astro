@@ -4,8 +4,8 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Elfa Publikacje — skład DTP, konwersje EPUB/PDF, przygotowanie do druku</title>
-  <meta name="description" content="Profesjonalny skład publikacji (DTP), konwersje e‑booków (EPUB3/Kindle‑ready/PDF), projektowanie i przygotowanie do druku. Oferta dla wydawnictw, autorów i firm." />
-  <meta property="og:title" content="Elfa Publikacje — skład DTP i e‑booki" />
+  <meta name="description" content="Profesjonalny skład publikacji (DTP), konwersje e-booków (EPUB3/Kindle-ready/PDF), projektowanie i przygotowanie do druku. Oferta dla wydawnictw, autorów i firm." />
+  <meta property="og:title" content="Elfa Publikacje — skład DTP i e-booki" />
   <meta property="og:description" content="Skład DTP • Konwersje EPUB3/Kindle • Przygotowanie do druku" />
   <meta property="og:type" content="website" />
   <meta name="color-scheme" content="light only" />
@@ -39,12 +39,25 @@
       border-bottom:1px solid var(--rule);
     }
     .brand{display:flex; gap:.8rem; align-items:center;}
-    .brand__logo{width:36px; height:36px; display:grid; place-items:center; border:1px solid var(--rule); border-radius:10px; box-shadow:var(--shadow); background:white; font-size:26px}
     .brand__name{font-size:1.05rem; font-weight:600}
     header.site .wrap{position:relative}
-    /* Nawigacja — styl publikacyjny + responsywny hamburger */
-    .nav-toggle{display:none; border:1px solid var(--rule); background:white; border-radius:999px; width:38px; height:38px; align-items:center; justify-content:center; box-shadow:var(--shadow)}
-    .nav-toggle svg{width:20px;height:20px}
+
+    /* Nawigacja */
+    .nav-toggle{
+      display:none;            /* pokazujemy w @media */
+      background:none;
+      border:none;
+      padding:8px;
+      cursor:pointer;
+      line-height:0;
+    }
+    .nav-toggle svg{
+      width:28px; height:28px;
+      stroke:var(--ink);
+      stroke-width:2;
+      fill:none;
+    }
+    .nav-toggle svg path{ stroke-linecap:round; }
 
     nav[aria-label="Główne"]{display:flex; align-items:center; gap:.2rem}
     nav[aria-label="Główne"] a{color:var(--ink-soft); text-decoration:none; letter-spacing:.06em; font-variant-caps: all-small-caps; padding:.2rem 0}
@@ -53,7 +66,14 @@
 
     @media(max-width:899px){
       .nav-toggle{display:inline-flex}
-      nav[aria-label="Główne"]{position:absolute; right:0; top:calc(100% + 8px); background:var(--bg); border:1px solid var(--rule); border-radius:12px; padding:.5rem; box-shadow:var(--shadow); flex-direction:column; align-items:flex-start; gap:.2rem; min-width:220px; overflow:visible; white-space:normal; opacity:0; visibility:hidden; transform:translateY(-6px); transition:.2s ease}
+      nav[aria-label="Główne"]{
+        position:absolute; right:0; top:calc(100% + 8px);
+        background:var(--bg); border:1px solid var(--rule); border-radius:12px;
+        padding:.5rem; box-shadow:var(--shadow);
+        flex-direction:column; align-items:flex-start; gap:.2rem; min-width:220px;
+        overflow:visible; white-space:normal; opacity:0; visibility:hidden;
+        transform:translateY(-6px); transition:.2s ease;
+      }
       nav[aria-label="Główne"].open{opacity:1; visibility:visible; transform:translateY(0)}
       nav[aria-label="Główne"] a + a::before{content:none}
       nav[aria-label="Główne"] a{padding:.6rem .4rem; font-size:1rem}
@@ -79,16 +99,6 @@
     @media(min-width:720px){.grid.cols-2{grid-template-columns:1fr 1fr}}
     @media(min-width:960px){.grid.cols-3{grid-template-columns:1fr 1fr 1fr}}
 
-    .grid > *{padding:0}
-    @media(min-width:720px){
-      .grid.cols-2 > *{padding-left:clamp(12px,2vw,18px); border-left:1px solid var(--rule)}
-      .grid.cols-2 > *:nth-child(2n+1){border-left:none; padding-left:0}
-    }
-    @media(min-width:960px){
-      .grid.cols-3 > *{padding-left:clamp(12px,2vw,18px); border-left:1px solid var(--rule)}
-      .grid.cols-3 > *:nth-child(3n+1){border-left:none; padding-left:0}
-    }
-
     footer{border-top:1px solid var(--rule); background:var(--bg)}
     .footgrid{display:grid; gap:24px}
     @media(min-width:820px){.footgrid{grid-template-columns:1fr 1fr}}
@@ -99,8 +109,6 @@
       section{break-inside:avoid}
     }
 
-
-    /* Ikony social w stopce */
     .social{display:flex; gap:.6rem; margin-top:.4rem}
     .social a{display:inline-flex; align-items:center; justify-content:center; width:38px; height:38px; border:1px solid var(--rule); border-radius:999px; background:white; box-shadow:var(--shadow); text-decoration:none; color:var(--ink-soft)}
     .social a:hover{transform:translateY(-1px); color:var(--ink)}
@@ -113,17 +121,17 @@
   <header class="site">
     <div class="wrap" style="display:flex; align-items:center; justify-content:space-between; gap:1rem;">
       <div class="brand">
-        <div class="brand__logo" aria-hidden="true">¶</div>
-        <div class="brand__name">ELFA Publikacje</div>
+        <div class="brand__name"><em>Elfa</em> Publikacje</div>
       </div>
       <button class="nav-toggle" aria-controls="nav-main" aria-expanded="false" aria-label="Menu">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M3 6h18M3 12h18M3 18h18"/>
+        </svg>
       </button>
       <nav id="nav-main" aria-label="Główne">
-        <a href="#oferta">Oferta</a>
-        <a href="#proces">Proces</a>
         <a href="#portfolio">Realizacje</a>
         <a href="#cennik">Cennik</a>
+        <a href="https://elfapublikacje.com" target="_blank" rel="noopener noreferrer">Blog</a>
         <a href="#kontakt">Kontakt</a>
       </nav>
     </div>
@@ -131,19 +139,17 @@
 
   <main>
     <section class="hero">
-      <div class="wrap grid cols-2">
+      <div class="wrap grid">
         <div>
-          <div class="kicker">Skład DTP • E‑booki • Druk</div>
-          <h1>Projektuję publikacje jak <em>publikacje</em> — eleganckie, czytelne i gotowe na ekran oraz papier.</h1>
-          <p class="lead">Kompleksowo: skład gazet i książek, konwersje do <strong>EPUB3 (Kindle‑ready)</strong> i <strong>PDF</strong>, przygotowanie plików do druku (FOGRA/PSO). Dla wydawnictw, firm i autorów, którym zależy na jakości typografii.</p>
+          <div class="kicker">Skład DTP • E-booki • Okładki</div>
+          <h1>Projekty publikacji <span style="font-weight: normal;"> — logiczna struktura i komfort czytania na ekranie i papierze.</span></h1>
+          <p style="text-align: center;">✦ ✦ ✦</p>
+          <p class="lead">Skład książek, gazet, katalogów, konwersje ebooków do formatów EPUB i PDF, projekty okładek, przygotowanie plików do druku.<strong> Oferta dla wydawnictw, firm i autorów.</strong></p>
           <div class="cta">
-            <a class="btn" href="#oferta">Zobacz ofertę</a>
+            <a class="btn" href="#portfolio">Wybrane projekty</a>
             <a class="btn btn--ghost" href="#kontakt">Kontakt i wycena</a>
           </div>
         </div>
-        <aside class="aside-note">
-          <strong>Używane standardy:</strong> EPUB3, HTML/XHTML + CSS, PDF/X‑1a / PDF/X‑4, profile FOGRA39/FOGRA52/PSO Uncoated v3, EpubCheck, Kindle Previewer. Praca w InDesign, Pandoc, Sigil, Calibre.
-        </aside>
       </div>
     </section>
 
@@ -152,65 +158,65 @@
         <h2>Oferta</h2>
         <div class="grid cols-3">
           <article class="card">
-            <h3>Skład i łamanie tekstu + przygotowanie do druku</h3>
-            <p>Gazety, magazyny, katalogi, książki. Siatki modułowe, staranna typografia (wdowy/sieroty, siatka bazowa, OMA). Kompletny <strong>prepress</strong> i pliki <strong>druk‑ready</strong> (ICC, spady, PDF/X).</p>
+            <h3>Skład i przygotowanie do druku</h3>
+            <p>Gazety, magazyny, katalogi i książki. Profesjonalny skład z dbałością o typografię, strukturę publikacji i wymagania techniczne druku oraz e-booków.</p>
             <ul>
-              <li>Projekt stron wzorcowych i stylów</li>
-              <li>Przygotowanie do druku (Fogra/PSO, TAC, overprint)</li>
-              <li>Eksport i preflight: PDF/X‑1a lub PDF/X‑4</li>
+              <li>Projekt układu i stylów</li>
+              <li>Przygotowanie plików do druku</li>
+              <li>Eksport i kontrola PDF/X</li>
             </ul>
           </article>
           <article class="card">
-            <h3>E‑booki EPUB3 / Kindle‑ready</h3>
-            <p>EPUB3 z czystym XHTML + CSS, responsywny układ, poprawna nawigacja i metadane. Walidacja <strong>EpubCheck</strong>, test w Kindle Previewer. Opcjonalnie hybrydowe MOBI dla starszych czytników.</p>
+            <h3>E-booki PDF /EPUB3 / Kindle</h3>
+            <p>Nowoczesne e-booki zgodne ze standardem EPUB3. Responsywny układ, poprawna nawigacja i testy w czytnikach.</p>
             <ul>
-              <li>Konwersja z Markdown/DOCX/InDesign</li>
-              <li>Obrazy zoptymalizowane do ≤200 KB</li>
-              <li>Accessibility: alt‑teksty, role, język</li>
+              <li>Konwersja z DOCX, Markdown, InDesign</li>
+              <li>Optymalizacja obrazów do czytników</li>
+              <li>Dostępność: alt-teksty i metadane</li>
             </ul>
           </article>
           <article class="card">
-            <h3>Projekty okładek</h3>
-            <p>Okładki do książek, magazynów i e‑booków — spójne z treścią i wymaganiami produkcji. Makiety techniczne i wizualizacje.</p>
+            <h3>Okładki</h3>
+            <p>Okładki do książek i magazynów — dopasowane do treści i wymagań produkcji. Gotowe wersje dla druku i e-booków.</p>
             <ul>
-              <li>Siatka, typografia, grzbiet, ISBN/ISSN</li>
-              <li>Wersje: druk (spady, profil ICC) i e‑book</li>
-              <li>Gotowe pliki dla drukarni i platform</li>
+              <li>Projekt graficzny + grzbiet, ISBN/ISSN</li>
+              <li>Wersje: druk i e-book</li>
+              <li>Pliki dostosowane do drukarni i platform</li>
             </ul>
           </article>
         </div>
+      </div>
+    </section>
+
+    <!-- ======= PORTFOLIO (tylko nagłówek) ======= -->
+    <section id="portfolio">
+      <div class="wrap">
+        <h2>Wybrane realizacje</h2>
       </div>
     </section>
 
     <section id="proces">
       <div class="wrap">
-        <h2>Jak pracuję — prosty proces</h2>
+        <h2>Jak pracujemy — prosty proces</h2>
         <div class="grid cols-3">
           <div class="card">
             <h3>1. Materiały i brief</h3>
-            <p>Tekst (DOCX/MD), obrazy, wytyczne (format, papier, kolorystyka). Ustalamy zakres, terminy i budżet.</p>
+            <p>Otrzymujemy od Państwa tekst (DOCX, Markdown), ilustracje oraz wytyczne dotyczące formatu, stylu i kolorystyki. Ustalamy wspólnie zakres prac, harmonogram i budżet.</p>
           </div>
           <div class="card">
             <h3>2. Projekt i skład</h3>
-            <p>Tworzę siatkę, style i pierwsze rozkładówki. Po akceptacji łamię całość i przygotowuję wersje próbne.</p>
+            <p>Przygotowujemy układ stron i styl typograficzny. Na etapie wstępnym przedstawiamy przykładowe rozkładówki, a po akceptacji składamy całość publikacji i przygotowujemy wersję próbną.</p>
           </div>
           <div class="card">
-            <h3>3. Eksport i kontrola</h3>
-            <p>EPUB3 (walidacja), PDF/X (preflight), pliki źródłowe. Wsparcie przy wdrożeniu do druku i dystrybucji.</p>
+            <h3>3. Gotowe pliki</h3>
+            <p>Finalnie przekazujemy gotowe pliki e-booka w standardzie EPUB3 oraz pliki drukarskie PDF/X. Każda wersja przechodzi kontrolę zgodności ze standardami i jest gotowa do druku i dystrybucji.</p>
           </div>
         </div>
-        <p class="orn">✦ ✦ ✦</p>
-        <div class="aside-note">Pracuję <strong>bez automatycznej konwersji z PDF lub InDesign</strong>. E‑book tworzę „na czysto” — XHTML + prosty CSS (wstępnie z Pandoc), potem ręczna edycja w Sigil. Dzięki temu układ jest lekki, dostępny i zgodny ze standardami.</div>
-      </div>
-    </section>
 
-    <section id="portfolio">
-      <div class="wrap">
-        <h2>Wybrane realizacje</h2>
-        <div class="grid cols-3">
-          <figure class="card"><figcaption><strong>Namaste Polska</strong> — magazyn kulturalny, PL/EN, siatka 2–3 kol., Merriweather + Rajdhani.</figcaption></figure>
-          <figure class="card"><figcaption><strong>Japonia</strong> — e‑book EPUB3 z rozbudowaną nawigacją, optymalizacja obrazów i metadane.</figcaption></figure>
-          <figure class="card"><figcaption><strong>Publikacje firmowe</strong> — katalogi i broszury, PDF/X‑4, profile FOGRA/PSO, konsultacje z drukarnią.</figcaption></figure>
+        <p class="orn" style="text-align: center;">✦ ✦ ✦</p>
+
+        <div class="aside-note">
+          Publikacje przygotowujemy od podstaw, bez użycia automatycznych konwerterów. E-booki powstają na czystym kodzie XHTML i CSS, dzięki czemu są lekkie, zgodne ze standardami i działają poprawnie na wszystkich czytnikach.
         </div>
       </div>
     </section>
@@ -220,38 +226,24 @@
         <h2>Cennik orientacyjny</h2>
         <div class="grid cols-3">
           <div class="card">
-            <h3>Skład DTP</h3>
-            <div class="price">od 180 zł / arkusz</div>
-            <p class="meta">Arkusz wydawniczy = 40 000 znaków ze spacjami. Cena zależy od złożoności i ilustracji.</p>
+            <h3>Skład tekstu (DTP)</h3>
+            <div class="price">od 120 zł / arkusz</div>
+            <p class="meta">1 arkusz wydawniczy = 40 000 znaków ze spacjami (ok. 22 strony). Cena zależy od stopnia skomplikowania układu i liczby ilustracji.</p>
           </div>
           <div class="card">
-            <h3>E‑book EPUB3</h3>
-            <div class="price">od 900 zł</div>
-            <p class="meta">Konwersja z MD/DOCX, styl CSS, spis treści, walidacja EpubCheck. Hybrydowy MOBI — opcjonalnie.</p>
+            <h3>E-book (EPUB3 / Kindle-ready)</h3>
+            <div class="price">od 700 zł</div>
+            <p class="meta">Kompleksowe przygotowanie e-booka: konwersja z pliku tekstowego, styl CSS, spis treści, testy i walidacja. Opcjonalnie także wersja MOBI dla starszych czytników.</p>
           </div>
           <div class="card">
-            <h3>Okładka</h3>
-            <div class="price">400 zł</div>
-            <p class="meta">Projekt okładki do druku (spady, grzbiet) i/lub e‑booka. Dostosowanie do platform.</p>
+            <h3>Projekt okładki</h3>
+            <div class="price">od 400 zł</div>
+            <p class="meta">Projekt okładki do druku (ze spadami i grzbietem) oraz/lub wersja do e-booka. Pliki dostosowane do wymogów drukarni i platform sprzedażowych.</p>
           </div>
         </div>
-        <p class="meta">Pełną wycenę przygotuję po analizie materiałów (objętość, ilustracje, termin, wymagania techniczne).</p>
-      </div>
-    </section>
 
-    <section id="faq">
-      <div class="wrap">
-        <h2>Najczęstsze pytania</h2>
-        <div class="grid cols-2">
-          <div class="card">
-            <h3>Na jaki profil kolorów przygotować PDF do druku?</h3>
-            <p>Najczęściej <strong>Fogra39</strong> (papier powlekany) lub <strong>PSO Uncoated v3 / Fogra52</strong> (niepowlekany). Jeśli drukarnia przekaże własny profil ICC — używam <em>dokładnie tego</em> profilu.</p>
-          </div>
-          <div class="card">
-            <h3>Jaki format plików przyjmujesz?</h3>
-            <p>Tekst: DOCX lub Markdown. Obrazy: TIFF/JPG/PNG, najlepiej w RGB przed konwersją. Pliki źródłowe InDesign — mile widziane.</p>
-          </div>
-        </div>
+        <p class="orn" style="text-align: center;">✦ ✦ ✦</p>
+        <p class="meta">Ostateczna wycena zależy od objętości tekstu, liczby ilustracji, terminu realizacji i wymagań technicznych. Szczegółową ofertę przygotowujemy po zapoznaniu się z materiałami.</p>
       </div>
     </section>
   </main>
@@ -260,41 +252,26 @@
     <div class="wrap footgrid">
       <div>
         <h2>Kontakt</h2>
-        <p><strong>ELFA Publikacje — Aneta Jagła</strong><br>
-        Maciejowice 54, 32‑010 Maciejowice, Polska<br>
-        NIP 6782151637</p>
-        <p>E‑mail: <a href="mailto:kontakt@elfapublikacje.com">kontakt@elfapublikacje.com</a><br>
-        GitHub: <a href="https://github.com/anett1" target="_blank" rel="noopener">anett1</a> • Strona: <a href="https://elfapublikacje.com/" target="_blank" rel="noopener">elfapublikacje.com</a></p>
-        <p>Znajdziesz mnie również tutaj:</p>
+        <p><strong>ELFA Publikacje — Aneta Jagła</strong><br>NIP 6782151637<br>tel. 513 090 196</p>
+        <p>e-mail: aneta.jagla@elfapublikacje.com</p>
         <div class="social" aria-label="Linki społecznościowe">
-          <a href="#" aria-label="Facebook" title="Facebook" target="_blank" rel="noopener">
-            <!-- Facebook (kontur) -->
+          <a href="https://www.facebook.com/profile.php?id=100089374577169" aria-label="Facebook" title="Facebook" target="_blank" rel="noopener">
             <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
               <path d="M18 2h-3a4 4 0 0 0-4 4v3H8v4h3v9h4v-9h3.5l.5-4H15V6a1 1 0 0 1 1-1h3V2z"/>
             </svg>
           </a>
-          <a href="#" aria-label="Instagram" title="Instagram" target="_blank" rel="noopener">
-            <!-- Instagram (kontur) -->
+          <a href="https://www.instagram.com/elfapublikacje/" aria-label="Instagram" title="Instagram" target="_blank" rel="noopener">
             <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
               <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
               <circle cx="12" cy="12" r="5"/>
               <circle class="fill" cx="18" cy="6" r="1.5"/>
             </svg>
           </a>
-          <a href="#" aria-label="LinkedIn" title="LinkedIn" target="_blank" rel="noopener">
-            <!-- LinkedIn (kontur) -->
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-              <rect x="2" y="9" width="4" height="12"/>
-              <circle class="fill" cx="4" cy="4" r="2"/>
-              <path d="M10 9h4v2c.9-1.3 2-2 3.7-2 3 0 4.3 2 4.3 5v7h-4v-6c0-1.8-.8-3-2.5-3s-2.5 1.2-2.5 3v6h-4V9z"/>
-            </svg>
-          </a>
         </div>
-        <p class="meta">(Podmień adresy URL na swoje profile — zostawiłam placeholdery „#”.)</p>
       </div>
       <div>
         <h3>Dlaczego warto?</h3>
-        <p>Stawiam na czytelność, zgodność ze standardami i czyste pliki. Publikacje mają wyglądać dobrze dziś i za kilka lat — na czytnikach, w przeglądarce i na papierze.</p>
+        <p>Stawiamy na przejrzystość i zgodność ze standardami. Tworzymy pliki, które działają poprawnie i wyglądają dobrze na każdym urządzeniu — dziś i w przyszłości.</p>
       </div>
     </div>
     <div class="wrap" style="text-align:center; color:var(--ink-soft); padding-top:0">
@@ -303,28 +280,31 @@
   </footer>
 
   <script>
-  document.getElementById('y').textContent = new Date().getFullYear();
-  (function(){
-    const btn = document.querySelector('.nav-toggle');
-    const nav = document.getElementById('nav-main');
-    if(!btn || !nav) return;
-    btn.addEventListener('click', function(){
-      const open = nav.classList.toggle('open');
-      btn.setAttribute('aria-expanded', String(open));
-    });
-    document.addEventListener('click', function(e){
-      if(nav.classList.contains('open') && !nav.contains(e.target) && !btn.contains(e.target)){
-        nav.classList.remove('open');
-        btn.setAttribute('aria-expanded','false');
-      }
-    });
-    document.addEventListener('keydown', function(e){
-      if(e.key === 'Escape'){
-        nav.classList.remove('open');
-        btn.setAttribute('aria-expanded','false');
-      }
-    });
-  })();
-</script>
+    // Rok w stopce
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    // Menu mobilne
+    (function(){
+      const btn = document.querySelector('.nav-toggle');
+      const nav = document.getElementById('nav-main');
+      if(!btn || !nav) return;
+      btn.addEventListener('click', function(){
+        const open = nav.classList.toggle('open');
+        btn.setAttribute('aria-expanded', String(open));
+      });
+      document.addEventListener('click', function(e){
+        if(nav.classList.contains('open') && !nav.contains(e.target) && !btn.contains(e.target)){
+          nav.classList.remove('open');
+          btn.setAttribute('aria-expanded','false');
+        }
+      });
+      document.addEventListener('keydown', function(e){
+        if(e.key === 'Escape'){
+          nav.classList.remove('open');
+          btn.setAttribute('aria-expanded','false');
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
