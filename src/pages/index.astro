@@ -1,5 +1,14 @@
 ---
 import Header from '@/components/layout/Header.astro'
+import { Masonry } from 'astro-masonry';
+import { Image } from 'astro:assets'
+
+import img1 from '@/assets/img-1.jpeg'
+import img2 from '@/assets/img-2.jpeg'
+import img3 from '@/assets/img-3.jpeg'
+import img4 from '@/assets/img-4.jpeg'
+import img5 from '@/assets/img-5.jpeg'
+import img6 from '@/assets/img-6.jpeg'
 ---
 
 <!doctype html>
@@ -14,8 +23,9 @@ import Header from '@/components/layout/Header.astro'
   <meta property="og:type" content="website" />
   <meta name="color-scheme" content="light only" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><text x='10' y='48' font-family='Georgia,serif' font-size='48'>¶</text></svg>">
+  <link rel="stylesheet" href="/node_modules/glightbox/dist/css/glightbox.min.css" />
 
-  <style>
+  <style is:global>
     :root{
       --bg:#faf7f2;
       --ink:#2a2a2a;
@@ -73,6 +83,45 @@ import Header from '@/components/layout/Header.astro'
     .social svg{width:18px; height:18px}
     .social svg *{stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round}
     .social svg .fill{fill:currentColor; stroke:none}
+
+    /* Masonry gallery styles */
+    .astro-masonry-grid {
+      display: flex;
+      gap: 12px;
+      width: 100%;
+      column-gap: 12px;
+    }
+    .astro-masonry-grid_column {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-left: 6px;
+      margin-right: 6px;
+    }
+    .astro-masonry-grid_column:first-child {
+      margin-left: 0;
+    }
+    .astro-masonry-grid_column:last-child {
+      margin-right: 0;
+    }
+    .masonry-item {
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform 0.2s ease;
+      padding: 12px;
+      background: white;
+      margin-bottom: 12px;
+    }
+    .masonry-item:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0,0,0,.12);
+    }
+    .masonry-item img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
   </style>
 </head>
 <body>
@@ -133,6 +182,33 @@ import Header from '@/components/layout/Header.astro'
     <section id="portfolio">
       <div class="wrap">
         <h2>Wybrane realizacje</h2>
+        <Masonry
+          breakpointCols={{
+            default: 2,
+
+            700: 2,
+            500: 1
+          }}
+        >
+          <a href={img1.src} class="masonry-item glightbox">
+            <Image src={img1} alt="Projekt publikacji 1" />
+          </a>
+          <a href={img2.src} class="masonry-item glightbox">
+            <Image src={img2} alt="Projekt publikacji 2" />
+          </a>
+          <a href={img3.src} class="masonry-item glightbox">
+            <Image src={img3} alt="Projekt publikacji 3" />
+          </a>
+          <a href={img4.src} class="masonry-item glightbox">
+            <Image src={img4} alt="Projekt publikacji 4" />
+          </a>
+          <a href={img5.src} class="masonry-item glightbox">
+            <Image src={img5} alt="Projekt publikacji 5" />
+          </a>
+          <a href={img6.src} class="masonry-item glightbox">
+            <Image src={img6} alt="Projekt publikacji 6" />
+          </a>
+        </Masonry>
       </div>
     </section>
 
@@ -223,6 +299,16 @@ import Header from '@/components/layout/Header.astro'
   <script>
     // Rok w stopce
     document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
+
+  <script>
+    import GLightbox from 'glightbox';
+
+    GLightbox({
+      touchNavigation: true,
+      loop: true,
+      autoplayVideos: false
+    });
   </script>
 </body>
 </html>
