@@ -26,7 +26,7 @@
     "astro-og-canvas": "^0.7.0",
     "canvaskit-wasm": "^0.40.0",
     "feed": "^5.1.0",
-    "katex": "^0.16.22",
+    "katex": "^0.16.23",
     "markdown-it": "^14.1.0",
     "mdast-util-to-string": "^4.0.0",
     "node-html-parser": "^7.0.1",
