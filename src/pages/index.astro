@@ -1,3 +1,7 @@
+---
+import Header from '@/components/layout/Header.astro'
+---
+
 <!doctype html>
 <html lang="pl">
 <head>
@@ -33,52 +37,6 @@
       hyphens:auto;
     }
     .wrap{max-width:var(--max); margin-inline:auto; padding:clamp(16px,5vw,28px)}
-    header.site{
-      position:sticky; top:0; z-index:5; backdrop-filter:saturate(140%) blur(6px);
-      background:var(--bg);
-      border-bottom:1px solid var(--rule);
-    }
-    .brand{display:flex; gap:.8rem; align-items:center;}
-    .brand__name{font-size:1.05rem; font-weight:600}
-    header.site .wrap{position:relative}
-
-    /* Nawigacja */
-    .nav-toggle{
-      display:none;            /* pokazujemy w @media */
-      background:none;
-      border:none;
-      padding:8px;
-      cursor:pointer;
-      line-height:0;
-    }
-    .nav-toggle svg{
-      width:28px; height:28px;
-      stroke:var(--ink);
-      stroke-width:2;
-      fill:none;
-    }
-    .nav-toggle svg path{ stroke-linecap:round; }
-
-    nav[aria-label="Główne"]{display:flex; align-items:center; gap:.2rem}
-    nav[aria-label="Główne"] a{color:var(--ink-soft); text-decoration:none; letter-spacing:.06em; font-variant-caps: all-small-caps; padding:.2rem 0}
-    nav[aria-label="Główne"] a + a::before{content:"·"; margin:0 .6rem; color:var(--ink-soft); opacity:.35}
-    nav[aria-label="Główne"] a:hover{color:var(--ink); border-bottom:1px solid var(--ink); text-underline-offset:2px}
-
-    @media(max-width:899px){
-      .nav-toggle{display:inline-flex}
-      nav[aria-label="Główne"]{
-        position:absolute; right:0; top:calc(100% + 8px);
-        background:var(--bg); border:1px solid var(--rule); border-radius:12px;
-        padding:.5rem; box-shadow:var(--shadow);
-        flex-direction:column; align-items:flex-start; gap:.2rem; min-width:220px;
-        overflow:visible; white-space:normal; opacity:0; visibility:hidden;
-        transform:translateY(-6px); transition:.2s ease;
-      }
-      nav[aria-label="Główne"].open{opacity:1; visibility:visible; transform:translateY(0)}
-      nav[aria-label="Główne"] a + a::before{content:none}
-      nav[aria-label="Główne"] a{padding:.6rem .4rem; font-size:1rem}
-    }
-
     .hero{padding:clamp(36px,8vw,88px) 0}
     .kicker{color:var(--accent-ink); letter-spacing:.08em; text-transform:uppercase; font-size:.8rem}
     h1{font-size:clamp(1.8rem,6vw,3rem); line-height:1.1; margin:.35em 0 .4em}
@@ -118,24 +76,7 @@
   </style>
 </head>
 <body>
-  <header class="site">
-    <div class="wrap" style="display:flex; align-items:center; justify-content:space-between; gap:1rem;">
-      <div class="brand">
-        <div class="brand__name"><em>Elfa</em> Publikacje</div>
-      </div>
-      <button class="nav-toggle" aria-controls="nav-main" aria-expanded="false" aria-label="Menu">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M3 6h18M3 12h18M3 18h18"/>
-        </svg>
-      </button>
-      <nav id="nav-main" aria-label="Główne">
-        <a href="#portfolio">Realizacje</a>
-        <a href="#cennik">Cennik</a>
-        <a href="https://elfapublikacje.com" target="_blank" rel="noopener noreferrer">Blog</a>
-        <a href="#kontakt">Kontakt</a>
-      </nav>
-    </div>
-  </header>
+  <Header />
 
   <main>
     <section class="hero">
@@ -282,29 +223,6 @@
   <script>
     // Rok w stopce
     document.getElementById('y').textContent = new Date().getFullYear();
-
-    // Menu mobilne
-    (function(){
-      const btn = document.querySelector('.nav-toggle');
-      const nav = document.getElementById('nav-main');
-      if(!btn || !nav) return;
-      btn.addEventListener('click', function(){
-        const open = nav.classList.toggle('open');
-        btn.setAttribute('aria-expanded', String(open));
-      });
-      document.addEventListener('click', function(e){
-        if(nav.classList.contains('open') && !nav.contains(e.target) && !btn.contains(e.target)){
-          nav.classList.remove('open');
-          btn.setAttribute('aria-expanded','false');
-        }
-      });
-      document.addEventListener('keydown', function(e){
-        if(e.key === 'Escape'){
-          nav.classList.remove('open');
-          btn.setAttribute('aria-expanded','false');
-        }
-      });
-    })();
   </script>
 </body>
 </html>

@@ -4,6 +4,7 @@ import type { PostLayoutProps } from '@/types'
 import FormattedDate from '@/components/widgets/FormattedDate.astro'
 import FootnoteScroll from '@/components/widgets/FootnoteScroll.astro'
 import BaseHead from '@/components/layout/BaseHead.astro'
+import Header from '@/components/layout/Header.astro'
 import Footer from '@/components/layout/Footer.astro'
 import BackButton from '@/components/ui/BackButton.astro'
 import TableOfContents from '@/components/ui/TableOfContents.astro'
@@ -37,6 +38,7 @@ const ogImage = `/open-graph/${postSlug}.png`
     slot="head"
   />
   <div class="post-container">
+    <Header />
     <main>
       <div class="prose">
         <GradientMask />

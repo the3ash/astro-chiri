@@ -1,28 +1,127 @@
 ---
-import { themeConfig } from '@/config'
-import ThemeToggle from '@/components/ui/ThemeToggle.astro'
+// Shared header component
 ---
 
-<header>
-  <nav>
-    <a href="/">{themeConfig.site.title}</a>
-    <ThemeToggle />
-  </nav>
+<header class="site">
+  <div class="wrap" style="display:flex; align-items:center; justify-content:space-between; gap:1rem;">
+    <div class="brand">
+      <a href="/" style="text-decoration:none; color:inherit;">
+        <div class="brand__name"><em>Elfa</em> Publikacje</div>
+      </a>
+    </div>
+    <button class="nav-toggle" aria-controls="nav-main" aria-expanded="false" aria-label="Menu">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M3 6h18M3 12h18M3 18h18"/>
+      </svg>
+    </button>
+    <nav id="nav-main" aria-label="Główne">
+      <a href="/#portfolio">Realizacje</a>
+      <a href="/#cennik">Cennik</a>
+      <a href="/blog">Blog</a>
+      <a href="/#kontakt">Kontakt</a>
+    </nav>
+  </div>
 </header>
+
 <style>
-  header {
-    margin: 0;
+  :root{
+    --bg:#faf7f2;
+    --ink:#2a2a2a;
+    --ink-soft:#4b4b4b;
+    --accent:#b68b3c;
+    --accent-ink:#6a521f;
+    --rule:#e8e0d6;
+    --shadow:0 10px 30px rgba(0,0,0,.06);
   }
-  nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+
+  .wrap{max-width:78ch; margin-inline:auto; padding:clamp(16px,5vw,28px)}
+
+  header.site{
+    position:sticky; top:0; z-index:5; backdrop-filter:saturate(140%) blur(6px);
+    background:var(--bg);
+    border-bottom:1px solid var(--rule);
   }
-  header a {
-    font-weight: var(--font-weight-bold);
-    color: var(--text-primary);
-    text-decoration: none;
-    min-width: 3rem;
-    display: inline-block;
+  .brand{display:flex; gap:.8rem; align-items:center;}
+  .brand__name{font-size:1.25rem; font-weight:600}
+  header.site .wrap{position:relative}
+
+  /* Nawigacja */
+  .nav-toggle{
+    display:none;
+    background:none;
+    border:none;
+    padding:8px;
+    cursor:pointer;
+    line-height:0;
+  }
+  .nav-toggle svg{
+    width:28px; height:28px;
+    stroke:var(--ink);
+    stroke-width:2;
+    fill:none;
+  }
+  .nav-toggle svg path{ stroke-linecap:round; }
+
+  nav[aria-label="Główne"]{display:flex; align-items:center; gap:1.2rem}
+  nav[aria-label="Główne"] a{
+    color:var(--ink-soft);
+    text-decoration:none;
+    letter-spacing:.06em;
+    font-variant-caps: all-small-caps;
+    font-size:1.05rem;
+    position:relative;
+    padding-bottom:2px;
+  }
+  nav[aria-label="Główne"] a::after{
+    content:'';
+    position:absolute;
+    bottom:0;
+    left:0;
+    right:0;
+    height:1px;
+    background:var(--ink);
+    transform:scaleX(0);
+    transition:transform .2s ease;
+  }
+  nav[aria-label="Główne"] a:hover{color:var(--ink)}
+  nav[aria-label="Główne"] a:hover::after{transform:scaleX(1)}
+
+  @media(max-width:899px){
+    .nav-toggle{display:inline-flex}
+    nav[aria-label="Główne"]{
+      position:absolute; right:0; top:calc(100% + 8px);
+      background:var(--bg); border:1px solid var(--rule); border-radius:12px;
+      padding:.5rem; box-shadow:var(--shadow);
+      flex-direction:column; align-items:flex-start; gap:.2rem; min-width:220px;
+      overflow:visible; white-space:normal; opacity:0; visibility:hidden;
+      transform:translateY(-6px); transition:.2s ease;
+    }
+    nav[aria-label="Główne"].open{opacity:1; visibility:visible; transform:translateY(0)}
+    nav[aria-label="Główne"] a{padding:.6rem .4rem; font-size:1rem}
   }
 </style>
+
+<script>
+  // Menu mobilne
+  (function(){
+    const btn = document.querySelector('.nav-toggle');
+    const nav = document.getElementById('nav-main');
+    if(!btn || !nav) return;
+    btn.addEventListener('click', function(){
+      const open = nav.classList.toggle('open');
+      btn.setAttribute('aria-expanded', String(open));
+    });
+    document.addEventListener('click', function(e){
+      if(nav.classList.contains('open') && !nav.contains(e.target) && !btn.contains(e.target)){
+        nav.classList.remove('open');
+        btn.setAttribute('aria-expanded','false');
+      }
+    });
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape'){
+        nav.classList.remove('open');
+        btn.setAttribute('aria-expanded','false');
+      }
+    });
+  })();
+</script>

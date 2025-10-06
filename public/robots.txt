@@ -1,0 +1,6 @@
+# Elfa Publikacje - Robots.txt
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://elfapublikacje.com/sitemap-index.xml
