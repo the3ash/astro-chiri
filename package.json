@@ -17,12 +17,12 @@
     "update-theme": "tsx scripts/update-theme.ts"
   },
   "dependencies": {
-    "@astrojs/mdx": "^4.3.6",
-    "@astrojs/netlify": "^6.5.11",
+    "@astrojs/mdx": "^4.3.7",
+    "@astrojs/netlify": "^6.5.13",
     "@astrojs/rss": "^4.0.12",
     "@astrojs/sitemap": "^3.6.0",
     "@playform/inline": "^0.1.2",
-    "astro": "^5.13.10",
+    "astro": "^5.14.6",
     "astro-masonry": "^1.2.2",
     "astro-og-canvas": "^0.7.0",
     "canvaskit-wasm": "^0.40.0",
