@@ -3,10 +3,10 @@ title: 'Automatyczna czy kontrolowana konwersja e-booków do formatu EPUB?'
 pubDate: '2025-09-25'
 ---
 
-![_publication-project](./_assets/publication-project.jpg)
+![_publication-project](./_assets/konwersja-ebook.jpg)
 
 
-Wielu autorów, którzy kończą swoją książkę i chcą wydać ją w wersji cyfrowej, staje przed dylematem: **skoro można szybko i za darmo przekonwertować plik do formatu EPUB w automatycznym konwerterze, to po co inwestować w profesjonalne przygotowanie e-booka?** Internet jest pełen narzędzi online, które obiecują gotowego EPUB-a „od ręki”. Ale czy taka droga naprawdę się opłaca? A może lepiej zainwestować w kontrolowaną konwersję, która wymaga więcej pracy, ale daje znacznie lepszy efekt?  
+Wielu autorów, którzy kończą swoją książkę i chcą wydać ją w wersji cyfrowej, staje przed dylematem: **skoro można szybko i za darmo przekonwertować plik do formatu EPUB w automatycznym konwerterze, to po co inwestować w profesjonalne przygotowanie e-booka?** Internet jest pełen narzędzi online, które obiecują gotowego EPUB-a „od jednego kliknięcia”. Ale czy taka droga naprawdę się opłaca? A może lepiej zainwestować w kontrolowaną konwersję, która wymaga więcej pracy, ale daje znacznie lepszy efekt?  
 
 ---
 
@@ -24,7 +24,7 @@ Automatyczna konwersja niestety często tę elastyczność psuje. Programy narzu
 
 Atutem automatycznych konwerterów jest prostota: wrzucasz plik .doc albo .pdf, klikasz „konwertuj” i po chwili masz gotowego e-booka w formacie epub. Bez znajomości kodu, bez dodatkowych kosztów.  
 
-Jednak za tą prostotą kryją się poważne ograniczenia. Automatyka generuje często:  
+Jednak za tą prostotą kryją się poważne ograniczenia. Automatyka może generować często:  
 - **brudny kod** – nadmiarowe znaczniki, które tylko powiększają plik,  
 - **sztywne układy** – brak responsywności, zakodowane piksele, brak możliwości zmiany ustawień przez czytelnika,  
 - **złą kompresję obrazków** – plik jest zbyt ciężki albo ilustracje tracą jakość,  
@@ -37,7 +37,7 @@ Dla prywatnych testów takie rozwiązanie jest jeszcze do przyjęcia, ale dla sp
 
 ## Kontrolowana konwersja – świadome budowanie e-booka  
 
-Kontrolowana konwersja to zupełnie inne podejście. Tu nie zdajesz się na algorytm, tylko **samodzielnie tworzysz strukturę pliku EPUB w HTML-u i CSS**. To wymaga wiedzy i praktyki, ale daje pełną kontrolę nad tym, jak książka wygląda na różnych urządzeniach.  
+Kontrolowana konwersja to zupełnie inne podejście. Tu nie zdajesz się tylko na algorytm, ale **decydujesz o strukturze pliku EPUB w HTML-u i stylowaniu CSS**. To wymaga wiedzy i praktyki, ale daje pełną kontrolę nad tym, jak książka wygląda na różnych urządzeniach.  
 
 Ważne jest również, aby znać **samą budowę pliku EPUB**. To nie jest „jeden plik” w potocznym sensie, ale **spakowana paczka ZIP** zawierająca ściśle określoną strukturę katalogów i dokumentów:  
 - plik **mimetype** (musi być pierwszy i nieskompresowany),  
@@ -53,7 +53,7 @@ Takie podejście pozwala:
 - tworzyć poprawną **strukturę semantyczną** (rozdziały, nagłówki, przypisy, spisy treści),  
 - zadbać o **dostępność (accessibility)** zgodnie z wytycznymi WCAG ([https://www.w3.org/WAI/standards-guidelines/epub/](https://www.w3.org/WAI/standards-guidelines/epub/)).  
 
-To wymaga dodatkowej wiedzy – przede wszystkim **umiejętności zapisu struktury w HTML oraz stylowania za pomocą CSS** – ale w efekcie otrzymujesz e-booka, który nie tylko dobrze wygląda, lecz także zapewnia najlepsze doświadczenie czytelnika (UX).  
+To wymaga dodatkowej wiedzy – przede wszystkim **umiejętności zapisu struktury książki w HTML oraz stylowania za pomocą CSS** – ale w efekcie otrzymujesz e-booka, który nie tylko dobrze wygląda, lecz także zapewnia najlepsze doświadczenie czytelnika (UX).  
 
 ---
 
@@ -63,9 +63,9 @@ Automatyczna konwersja to opcja na początek: szybki podgląd, testowa wersja dl
 
 Kontrolowana konwersja to rozwiązanie dla autorów, którzy chcą sprzedawać książki w księgarniach internetowych, publikować na Amazonie czy budować własną markę.  
 
-Możesz też pójść ścieżką **hybrydową** – wykorzystać automatyczne narzędzie (np. **Pandoc** do wstępnej konwersji Markdown → EPUB, albo programy takie jak **Calibre** czy **Sigil**, a nawet darmowe konwertery online typu **Zamzar** czy **Convertio**) do uzyskania pliku w formacie e-booka. To daje szybki punkt startowy.  
+Możesz też pójść ścieżką **hybrydową** – wykorzystać automatyczne narzędzia (np. **Pandoc** do wstępnej konwersji Markdown → EPUB, a nawet darmowe konwertery online typu **Zamzar** czy **Convertio**) do uzyskania pliku w formacie e-booka. To daje szybki punkt startowy.  
 
-Następnie możesz ręcznie poprawić i uporządkować kod w edytorze – sprawdzają się tu **Sigil** (wizualny edytor EPUB), **Calibre Editor**, albo klasyczne edytory tekstu dla programistów, takie jak **Visual Studio Code**, **Sublime Text** czy **Atom**. Dzięki temu hybrydowemu podejściu łączysz szybkość automatyzacji z jakością kontrolowanego formatowania.  
+Następnie możesz ręcznie poprawić i uporządkować kod w edytorze – sprawdzają się tu edytory **Sigil** (wizualny edytor EPUB), **Calibre Editor**, albo klasyczne edytory tekstu dla programistów, takie jak **Visual Studio Code**, **Sublime Text** czy **Atom**. Dzięki temu hybrydowemu podejściu łączysz szybkość automatyzacji z jakością kontrolowanego formatowania.  
 
 ---
 

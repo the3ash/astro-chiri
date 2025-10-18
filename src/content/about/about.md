@@ -18,7 +18,13 @@ You can leave this empty if you don’t want to show any content.
 
 **Zapraszam do lektury mojego bloga.**
 
-Nazywam się Aneta Jagła i od kilkunastu lat zajmuję się składem publikacji – zarówno drukowanych (DTP), jak i cyfrowych. Pod marką Elfa Publikacje wspieram autorów, wydawnictwa i firmy w tworzeniu estetycznych, czytelnych i zgodnych ze standardami e-booków oraz materiałów do druku. Na blogu dzielę się wiedzą, doświadczeniem i małymi typograficznymi sekretami.
+<p>
+  Nazywam się Aneta Jagła i od kilkunastu lat zajmuję się składem publikacji – zarówno drukowanych (DTP), jak i cyfrowych. 
+  Pod marką 
+  <a href="https://elfapublikacje.com" target="_blank" rel="noopener noreferrer"><strong>Elfa Publikacje</strong></a> 
+  wspieram autorów, wydawnictwa i firmy w tworzeniu estetycznych, czytelnych i zgodnych ze standardami e-booków oraz materiałów do druku. 
+  Na blogu dzielę się wiedzą, doświadczeniem i małymi typograficznymi sekretami.
+</p>
 
 <p style="display: flex; gap: 0.5em;">
   <a href="https://www.instagram.com/elfapublikacje"  target="_blank" rel="noopener noreferrer">

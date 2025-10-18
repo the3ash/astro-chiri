@@ -9,6 +9,31 @@ import img3 from '@/assets/img-3.jpeg'
 import img4 from '@/assets/img-4.jpeg'
 import img5 from '@/assets/img-5.jpeg'
 import img6 from '@/assets/img-6.jpeg'
+import img7 from '@/assets/img-7.jpeg'
+import img8 from '@/assets/img-8.jpeg'
+import img9 from '@/assets/img-9.jpeg'
+import img10 from '@/assets/img-10.jpeg'
+import img11 from '@/assets/img-11.jpeg'
+import img12 from '@/assets/img-12.jpeg'
+import img13 from '@/assets/img-13.jpeg'
+import img14 from '@/assets/img-14.jpeg'
+import img15 from '@/assets/img-15.jpeg'
+import img16 from '@/assets/img-16.jpeg'
+import img17 from '@/assets/img-17.jpeg'
+import img18 from '@/assets/img-18.jpeg'
+import img19 from '@/assets/img-19.jpeg'
+import img20 from '@/assets/img-20.jpeg'
+import img21 from '@/assets/img-21.jpeg'
+import img22 from '@/assets/img-22.jpeg'
+import img23 from '@/assets/img-23.jpeg'
+import img24 from '@/assets/img-24.jpeg'
+import img25 from '@/assets/img-25.jpeg'
+import img26 from '@/assets/img-26.jpeg'
+import img27 from '@/assets/img-27.jpeg'
+import img28 from '@/assets/img-28.jpeg'
+import img29 from '@/assets/img-29.jpeg'
+import img30 from '@/assets/img-30.jpeg'
+
 ---
 
 <!doctype html>
@@ -24,6 +49,8 @@ import img6 from '@/assets/img-6.jpeg'
   <meta name="color-scheme" content="light only" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><text x='10' y='48' font-family='Georgia,serif' font-size='48'>¶</text></svg>">
   <link rel="stylesheet" href="/node_modules/glightbox/dist/css/glightbox.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 
   <style is:global>
     :root{
@@ -87,14 +114,14 @@ import img6 from '@/assets/img-6.jpeg'
     /* Masonry gallery styles */
     .astro-masonry-grid {
       display: flex;
-      gap: 12px;
+      gap: 0;
       width: 100%;
-      column-gap: 12px;
+      column-gap: 0;
     }
     .astro-masonry-grid_column {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 0;
       margin-left: 6px;
       margin-right: 6px;
     }
@@ -109,7 +136,7 @@ import img6 from '@/assets/img-6.jpeg'
       overflow: hidden;
       box-shadow: var(--shadow);
       transition: transform 0.2s ease;
-      padding: 12px;
+      padding: 0;
       background: white;
       margin-bottom: 12px;
     }
@@ -134,7 +161,7 @@ import img6 from '@/assets/img-6.jpeg'
           <div class="kicker">Skład DTP • E-booki • Okładki</div>
           <h1>Projekty publikacji <span style="font-weight: normal;"> — logiczna struktura i komfort czytania na ekranie i papierze.</span></h1>
           <p style="text-align: center;">✦ ✦ ✦</p>
-          <p class="lead">Skład książek, gazet, katalogów, konwersje ebooków do formatów EPUB i PDF, projekty okładek, przygotowanie plików do druku.<strong> Oferta dla wydawnictw, firm i autorów.</strong></p>
+          <p class="lead">Projekty oraz skład książek, gazet, katalogów, konwersje ebooków do formatów EPUB i PDF, projekty okładek, przygotowanie plików do druku.<strong> Oferta dla wydawnictw, firm i autorów.</strong></p>
           <div class="cta">
             <a class="btn" href="#portfolio">Wybrane projekty</a>
             <a class="btn btn--ghost" href="#kontakt">Kontakt i wycena</a>
@@ -148,7 +175,7 @@ import img6 from '@/assets/img-6.jpeg'
         <h2>Oferta</h2>
         <div class="grid cols-3">
           <article class="card">
-            <h3>Skład i przygotowanie do druku</h3>
+            <h3>Projekty, skład i przygotowanie do druku</h3>
             <p>Gazety, magazyny, katalogi i książki. Profesjonalny skład z dbałością o typografię, strukturę publikacji i wymagania techniczne druku oraz e-booków.</p>
             <ul>
               <li>Projekt układu i stylów</li>
@@ -182,61 +209,173 @@ import img6 from '@/assets/img-6.jpeg'
     <section id="portfolio">
       <div class="wrap">
         <h2>Wybrane realizacje</h2>
+      </div>
         <Masonry
           breakpointCols={{
-            default: 2,
+            default: 6,
 
-            700: 2,
-            500: 1
+            700: 4,
+            500: 2
           }}
         >
-          <a href={img1.src} class="masonry-item glightbox">
-            <Image src={img1} alt="Projekt publikacji 1" />
+        <a href={img30.src} class="masonry-item glightbox">
+            <Image src={img30} alt="Projekt publikacji 30" />
           </a>
-          <a href={img2.src} class="masonry-item glightbox">
-            <Image src={img2} alt="Projekt publikacji 2" />
+        <a href={img29.src} class="masonry-item glightbox">
+            <Image src={img29} alt="Projekt publikacji 29" />
           </a>
-          <a href={img3.src} class="masonry-item glightbox">
-            <Image src={img3} alt="Projekt publikacji 3" />
+        <a href={img28.src} class="masonry-item glightbox">
+            <Image src={img28} alt="Projekt publikacji 28" />
           </a>
-          <a href={img4.src} class="masonry-item glightbox">
-            <Image src={img4} alt="Projekt publikacji 4" />
+        <a href={img27.src} class="masonry-item glightbox">
+            <Image src={img27} alt="Projekt publikacji 27" />
           </a>
-          <a href={img5.src} class="masonry-item glightbox">
-            <Image src={img5} alt="Projekt publikacji 5" />
+        <a href={img26.src} class="masonry-item glightbox">
+            <Image src={img26} alt="Projekt publikacji 26" />
           </a>
-          <a href={img6.src} class="masonry-item glightbox">
+        <a href={img25.src} class="masonry-item glightbox">
+            <Image src={img25} alt="Projekt publikacji 25" />
+          </a>
+        <a href={img24.src} class="masonry-item glightbox">
+            <Image src={img24} alt="Projekt publikacji 24" />
+          </a>
+        <a href={img23.src} class="masonry-item glightbox">
+            <Image src={img23} alt="Projekt publikacji 23" />
+          </a>
+        <a href={img22.src} class="masonry-item glightbox">
+            <Image src={img22} alt="Projekt publikacji 22" />
+          </a>
+        <a href={img21.src} class="masonry-item glightbox">
+            <Image src={img21} alt="Projekt publikacji 21" />
+          </a>
+        <a href={img20.src} class="masonry-item glightbox">
+            <Image src={img20} alt="Projekt publikacji 20" />
+          </a>
+        <a href={img19.src} class="masonry-item glightbox">
+            <Image src={img19} alt="Projekt publikacji 19" />
+          </a>
+        <a href={img18.src} class="masonry-item glightbox">
+            <Image src={img18} alt="Projekt publikacji 18" />
+          </a>
+        <a href={img17.src} class="masonry-item glightbox">
+            <Image src={img17} alt="Projekt publikacji 17" />
+          </a>
+        <a href={img16.src} class="masonry-item glightbox">
+            <Image src={img16} alt="Projekt publikacji 16" />
+          </a>
+        <a href={img15.src} class="masonry-item glightbox">
+            <Image src={img15} alt="Projekt publikacji 15" />
+          </a>
+        <a href={img14.src} class="masonry-item glightbox">
+            <Image src={img14} alt="Projekt publikacji 14" />
+          </a>
+        <a href={img13.src} class="masonry-item glightbox">
+            <Image src={img13} alt="Projekt publikacji 13" />
+          </a>
+        <a href={img12.src} class="masonry-item glightbox">
+            <Image src={img12} alt="Projekt publikacji 12" />
+          </a>
+        <a href={img11.src} class="masonry-item glightbox">
+            <Image src={img11} alt="Projekt publikacji 11" />
+          </a>
+        <a href={img10.src} class="masonry-item glightbox">
+            <Image src={img10} alt="Projekt publikacji 10" />
+          </a>
+        <a href={img9.src} class="masonry-item glightbox">
+            <Image src={img9} alt="Projekt publikacji 9" />
+          </a>
+        <a href={img8.src} class="masonry-item glightbox">
+            <Image src={img8} alt="Projekt publikacji 8" />
+          </a>
+        <a href={img7.src} class="masonry-item glightbox">
+            <Image src={img7} alt="Projekt publikacji 7" />
+          </a>
+        <a href={img6.src} class="masonry-item glightbox">
             <Image src={img6} alt="Projekt publikacji 6" />
           </a>
+        <a href={img5.src} class="masonry-item glightbox">
+            <Image src={img5} alt="Projekt publikacji 5" />
+          </a>
+        <a href={img4.src} class="masonry-item glightbox">
+            <Image src={img4} alt="Projekt publikacji 4" />
+          </a>
+        <a href={img3.src} class="masonry-item glightbox">
+            <Image src={img3} alt="Projekt publikacji 3" />
+          </a>
+        <a href={img2.src} class="masonry-item glightbox">
+            <Image src={img2} alt="Projekt publikacji 2" />
+          </a>
+        <a href={img1.src} class="masonry-item glightbox">
+            <Image src={img1} alt="Projekt publikacji 1" />
+          </a>
         </Masonry>
-      </div>
+
+        <div class="wrap" style="text-align: center;">
+  <a class="btn" href="https://www.instagram.com/elfapublikacje/" target="_blank" rel="noopener">
+    Więcej realizacji zobacz na <i class="fa-brands fa-instagram" aria-hidden="true"></i>
+  </a>
+</div>
+
+    
     </section>
 
-    <section id="proces">
-      <div class="wrap">
-        <h2>Jak pracujemy — prosty proces</h2>
-        <div class="grid cols-3">
-          <div class="card">
-            <h3>1. Materiały i brief</h3>
-            <p>Otrzymujemy od Państwa tekst (DOCX, Markdown), ilustracje oraz wytyczne dotyczące formatu, stylu i kolorystyki. Ustalamy wspólnie zakres prac, harmonogram i budżet.</p>
-          </div>
-          <div class="card">
-            <h3>2. Projekt i skład</h3>
-            <p>Przygotowujemy układ stron i styl typograficzny. Na etapie wstępnym przedstawiamy przykładowe rozkładówki, a po akceptacji składamy całość publikacji i przygotowujemy wersję próbną.</p>
-          </div>
-          <div class="card">
-            <h3>3. Gotowe pliki</h3>
-            <p>Finalnie przekazujemy gotowe pliki e-booka w standardzie EPUB3 oraz pliki drukarskie PDF/X. Każda wersja przechodzi kontrolę zgodności ze standardami i jest gotowa do druku i dystrybucji.</p>
-          </div>
-        </div>
+   <section id="proces">
+  <div class="wrap">
+    <h2>Jak pracujemy — prosty proces</h2>
 
-        <p class="orn" style="text-align: center;">✦ ✦ ✦</p>
+    <div class="grid cols-1">
 
-        <div class="aside-note">
-          Publikacje przygotowujemy od podstaw, bez użycia automatycznych konwerterów. E-booki powstają na czystym kodzie XHTML i CSS, dzięki czemu są lekkie, zgodne ze standardami i działają poprawnie na wszystkich czytnikach.
-        </div>
+      <div class="card">
+        <h3>1. Materiały i brief</h3>
+        <p>Otrzymujemy od Państwa:</p>
+        <ul>
+          <li>tekst (DOCX, Markdown lub inny edytowalny format),</li>
+          <li>ilustracje, fotografie i logotypy,</li>
+          <li>wytyczne dotyczące formatu, stylu i kolorystyki.</li>
+        </ul>
+        <p>Na tym etapie omawiamy oczekiwania dotyczące układu, typografii, wersji cyfrowej i drukowanej, a także sposobu dystrybucji. Wspólnie ustalamy harmonogram, zakres prac i budżet.</p>
       </div>
-    </section>
+
+      <div class="card">
+        <h3>2. Projekt i skład</h3>
+        <p>Tworzymy koncepcję wizualną publikacji – układ siatki, styl nagłówków, kroje pisma i kolorystykę. Na początku prezentujemy przykładowe rozkładówki, które pokazują kierunek projektu zarówno dla wersji drukowanej, jak i e-booka.</p>
+        <p>Po akceptacji przystępujemy do pełnego składu, opracowując układ stron i spójny styl typograficzny. Dla wersji elektronicznej przygotowujemy responsywny plik EPUB3 z elastycznym układem tekstu, dostosowanym do różnych urządzeń i rozdzielczości ekranu.</p>
+        <ul>
+          <li>projektujemy czytelny i uporządkowany układ stron,</li>
+          <li>dbamy o hierarchię typograficzną i rytm tekstu,</li>
+          <li>zachowujemy spójność wizualną między wersją drukowaną a cyfrową.</li>
+        </ul>
+        <p>Całość projektu opiera się na zasadach przejrzystości, czytelności i harmonii wizualnej.</p>
+      </div>
+
+      <div class="card">
+        <h3>3. Kontrola i finalne pliki</h3>
+        <p>Na zakończenie wykonujemy pełną kontrolę techniczną i jakościową:</p>
+        <ul>
+          <li>sprawdzamy poprawność układu stron, marginesy, spady i kolory w CMYK,</li>
+          <li>testujemy e-book na różnych czytnikach i aplikacjach, aby zapewnić zgodność ze standardem EPUB3,</li>
+          <li>weryfikujemy kompletność metadanych, linków i spisu treści.</li>
+        </ul>
+
+        <p>Gotowe materiały przekazujemy w formatach:</p>
+        <ul>
+          <li><strong>PDF/X</strong> – przygotowany do druku lub dystrybucji online,</li>
+          <li><strong>EPUB3</strong> – w pełni responsywny, zgodny z wytycznymi W3C i głównymi platformami dystrybucyjnymi.</li>
+        </ul>
+
+        <p>Każda publikacja przechodzi testy zgodności i jest gotowa do druku oraz publikacji cyfrowej.</p>
+      </div>
+    </div>
+
+    <p class="orn" style="text-align: center;">✦ ✦ ✦</p>
+
+    <div class="aside-note">
+      Publikacje przygotowujemy w profesjonalnym środowisku projektowym z pełną kontrolą nad typografią, kolorem i układem. 
+      E-booki powstają na czystym kodzie XHTML i CSS, dzięki czemu są lekkie, zgodne ze standardami i działają poprawnie na wszystkich czytnikach.
+    </div>
+  </div>
+</section>
+
 
     <section id="cennik">
       <div class="wrap">
@@ -249,12 +388,12 @@ import img6 from '@/assets/img-6.jpeg'
           </div>
           <div class="card">
             <h3>E-book (EPUB3 / Kindle-ready)</h3>
-            <div class="price">od 700 zł</div>
+            <div class="price">od 500 zł</div>
             <p class="meta">Kompleksowe przygotowanie e-booka: konwersja z pliku tekstowego, styl CSS, spis treści, testy i walidacja. Opcjonalnie także wersja MOBI dla starszych czytników.</p>
           </div>
           <div class="card">
             <h3>Projekt okładki</h3>
-            <div class="price">od 400 zł</div>
+            <div class="price">od 350 zł</div>
             <p class="meta">Projekt okładki do druku (ze spadami i grzbietem) oraz/lub wersja do e-booka. Pliki dostosowane do wymogów drukarni i platform sprzedażowych.</p>
           </div>
         </div>
