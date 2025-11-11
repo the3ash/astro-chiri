@@ -26,7 +26,18 @@ import { themeConfig } from '@/config'
     const copyButtons = document.querySelectorAll('.copy-button')
 
     copyButtons.forEach((button) => {
-      const preElement = button.closest('.copy-code-block')
+      // Avoid initializing multiple times (important for SPA navigation)
+      if (button.dataset.copyInit) return
+      button.dataset.copyInit = '1'
+
+      // Find the closest pre element with the .copy-code-block class
+      let preElement = button.closest('.copy-code-block')
+      if (!preElement) {
+        const parent = button.parentElement
+        if (parent) {
+          preElement = parent.querySelector('.copy-code-block')
+        }
+      }
       if (!preElement) return
 
       const codeElement = preElement.querySelector('code')
@@ -39,12 +50,19 @@ import { themeConfig } from '@/config'
       button.style.opacity = '0'
       button.style.pointerEvents = 'none'
 
-      preElement.addEventListener('mouseenter', () => {
+      // Determine the container to attach hover events
+      let container = preElement
+      const parent = button.parentElement
+      if (parent && parent.classList.contains('copy-code-wrapper')) {
+        container = parent
+      }
+
+      container.addEventListener('mouseenter', () => {
         button.style.opacity = '1'
         button.style.pointerEvents = 'auto'
       })
 
-      preElement.addEventListener('mouseleave', () => {
+      container.addEventListener('mouseleave', () => {
         if (!button.hasAttribute('data-copying')) {
           button.style.opacity = '0'
           button.style.pointerEvents = 'none'
@@ -61,7 +79,7 @@ import { themeConfig } from '@/config'
           button.innerHTML = copiedIcon
 
           setTimeout(() => {
-            if (!preElement.matches(':hover')) {
+            if (!container.matches(':hover')) {
               button.style.opacity = '0'
               button.style.pointerEvents = 'none'
             }
@@ -101,7 +119,7 @@ import { themeConfig } from '@/config'
           button.innerHTML = copiedIcon
 
           setTimeout(() => {
-            if (!preElement.matches(':hover')) {
+            if (!container.matches(':hover')) {
               button.style.opacity = '0'
               button.style.pointerEvents = 'none'
             }
@@ -121,6 +139,12 @@ import { themeConfig } from '@/config'
 </script>
 
 <style is:inline>
+  /* Ensure the positioned ancestor is correct */
+  .copy-code-wrapper {
+    position: relative !important;
+  }
+
+  /* Keep for backward compatibility */
   .copy-code-block {
     position: relative !important;
   }

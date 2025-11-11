@@ -5,33 +5,55 @@ import { visit } from 'unist-util-visit'
  */
 export default function rehypeCopyCode() {
   return (tree) => {
-    visit(tree, 'element', (node) => {
-      if (node.tagName === 'pre') {
-        if (!node.children || node.children.length === 0) {
-          return
-        }
+    visit(tree, 'element', (node, index, parent) => {
+      // Only process pre elements
+      if (node.tagName !== 'pre') {
+        return
+      }
 
-        const codeElement = node.children.find((child) => child.tagName === 'code')
-        if (!codeElement) {
-          return
-        }
+      // Validate pre element has children
+      if (!node.children?.length) {
+        return
+      }
 
-        node.properties = node.properties || {}
-        node.properties.className = node.properties.className || []
+      // Ensure code element exists
+      const hasCodeElement = node.children.some((child) => child.tagName === 'code')
+      if (!hasCodeElement) {
+        return
+      }
+
+      // Mark the pre element with class for styling
+      node.properties = node.properties || {}
+      node.properties.className = node.properties.className || []
+      if (!node.properties.className.includes('copy-code-block')) {
         node.properties.className.push('copy-code-block')
+      }
 
-        const copyButton = {
-          type: 'element',
-          tagName: 'button',
-          properties: {
-            className: ['copy-button'],
-            type: 'button',
-            'aria-label': 'Copy code'
-          },
-          children: []
-        }
+      // Create copy button
+      const copyButton = {
+        type: 'element',
+        tagName: 'button',
+        properties: {
+          className: ['copy-button'],
+          type: 'button',
+          'aria-label': 'Copy code to clipboard'
+        },
+        children: []
+      }
 
-        node.children.unshift(copyButton)
+      // Wrap pre and button in a container for better layout control
+      const wrapper = {
+        type: 'element',
+        tagName: 'div',
+        properties: {
+          className: ['copy-code-wrapper']
+        },
+        children: [copyButton, node]
+      }
+
+      // Replace the pre element with the wrapper
+      if (parent && typeof index === 'number') {
+        parent.children[index] = wrapper
       }
     })
   }
