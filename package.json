@@ -22,7 +22,7 @@
     "@astrojs/rss": "^4.0.13",
     "@astrojs/sitemap": "^3.6.0",
     "@playform/inline": "^0.1.2",
-    "astro": "^5.15.4",
+    "astro": "^5.15.5",
     "astro-og-canvas": "^0.7.2",
     "canvaskit-wasm": "^0.40.0",
     "feed": "^5.1.0",
@@ -42,16 +42,16 @@
     "@eslint/js": "^9.39.1",
     "@types/markdown-it": "^14.1.2",
     "@types/sanitize-html": "^2.16.0",
-    "@typescript-eslint/eslint-plugin": "^8.46.2",
-    "@typescript-eslint/parser": "^8.46.3",
-    "eslint": "^9.39.0",
+    "@typescript-eslint/eslint-plugin": "^8.46.4",
+    "@typescript-eslint/parser": "^8.46.4",
+    "eslint": "^9.39.1",
     "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-astro": "^1.4.0",
+    "eslint-plugin-astro": "^1.5.0",
     "globals": "^16.5.0",
     "prettier": "^3.6.2",
     "prettier-plugin-astro": "^0.14.1",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.46.2"
+    "typescript-eslint": "^8.46.4"
   }
 }
