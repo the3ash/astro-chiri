@@ -52,6 +52,10 @@ Check the [demo](https://astro-chiri.netlify.app/) for more details.
 - `pnpm new <title>` - Create a new post (use `_title` for drafts)
 - `pnpm update-theme` - Update the theme to the latest version
 
+## Showcases
+- [Official Demo](https://astro-chiri.netlify.app/)
+- [Archie's Blog](https://archie6.com)
+
 ## References
 
 - https://paco.me/
