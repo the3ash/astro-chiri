@@ -12,9 +12,9 @@
   --serif: Besley, Baskerville, Georgia, Cambria, 'Times New Roman', Times, serif;
   --mono: SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
 
-  --font-size-s: 16px;
-  --font-size-m: 20px;
-  --font-size-l: 24px;
+  --font-size-s: 20px;
+  --font-size-m: 24px;
+  --font-size-l: 28px;
 
   --font-weight-light: 350;
   --font-weight-regular: 400;
@@ -106,7 +106,7 @@ html {
 }
 
 body {
-  font-family: 'TsangerJinKai02-W04';
+  font-family: 'Source Han Serif CN VF';
   font-feature-settings: 'ss03' 1;
   font-size: 20px;
   text-autospace: normal;
@@ -121,7 +121,7 @@ body {
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  letter-spacing: var(--spacing-m);
+  /* letter-spacing: var(--spacing-m); */
   padding: 6rem 1.5rem 1.5rem 1.5rem;
   overscroll-behavior-y: contain;
   transition: background-color 0.2s ease-out;
