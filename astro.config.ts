@@ -25,6 +25,9 @@ export default defineConfig({
       config: imageConfig
     }
   },
+  prefetch: {
+    defaultStrategy: 'viewport'
+  },
   markdown: {
     shikiConfig: {
       theme: 'css-variables',
