@@ -1,73 +1,14 @@
 ---
-title: 'Embedded Content'
+title: '汉堡'
 pubDate: '2025-06-06'
 ---
 
-Use these directives to embed media:
+晚上我走进一家很大的汉堡店，找了个位置坐下。旁边桌有一对情侣在吵架，声音很大，没人管，影响我休息。我不想被打扰，就换到了窗边的单人座。
 
-```
-::link{url="https://xxxxx.xxx"}
+刚坐好，服务员过来提醒说等会儿他们要在这片区域开会，这里不能坐。我只好再换到另一个区域。结果那边没有空调，夏天很热，坐着很难受。我没办法，只能又回到靠近那对情侣的位置，选了离他们稍微远一点的座位，并且戴上降噪耳机来降低干扰。
 
-::spotify{url="https://open.spotify.com/type/xxxxx"}
+坐了一会儿，我想去洗手间。洗手间的地砖非常非常滑，我刚走进去就差点摔倒，险些“狗吃屎”。稳住之后，我回到座位开始吃汉堡。
 
-::youtube{url="https://www.youtube.com/watch?v=xxxxx"}
+吃到一半，感觉嘴里咬到了类似“骨头”的硬物，来不及顺利吞下去，那一刻整个人情绪崩溃了。我不想再继续吃，收拾了一下就离开了汉堡店。
 
-::bilibili{url="https://www.bilibili.com/video/xxxxx"}
-
-::github{repo="username/repo"}
-
-::x{url="https://x.com/username/status/xxxxx"}
-
-::neodb{url="https://neodb.social/category/xxxxx"}
-```
-
-```
-🟡
-
-When embedded content is still loading,
-the table of contents positioning may be inaccurate.
-```
-
-## Link Card
-
-::link{url="https://pitchfork.com/reviews/albums/ichiko-aoba-luminescent-creatures/"}
-
-```
-🟡
-
-If you don’t need Link Card,
-you can set `linkCard` to `false` in `src/config.ts`,
-then you don't need to set adapter before building.
-```
-
-## Spotify
-
-::spotify{url="https://open.spotify.com/track/41Y0ch6R3jzpJOZv6nhf9Z?si=6c82dbed65ab4853"}
-
-::spotify{url="https://open.spotify.com/album/1kBPEN3NIVwjdmIjjNk9vB?si=Lz29MvjwRnKX9y3dhxlbaQ"}
-
-## YouTube
-
-::youtube{url="https://www.youtube.com/embed/GlhV-OKHecI?si=KdB4rRPLAMEK-ozf"}
-
-## BiliBili
-
-::bilibili{url="https://www.bilibili.com/video/BV1Vm421W7pX/?vd_source=c0bc2746a6d2b23de50d26376498b2ff"}
-
-## GitHub
-
-::github{repo="the3ash/astro-chiri"}
-
-## X Post
-
-::x{url="https://x.com/DAVID_LYNCH/status/1174367510893752321"}
-
-## NeoDB (CN Only)
-
-::neodb{url="https://neodb.social/album/5nD3R8gmnVlsoOBdyO8PA3"}
-
-::neodb{url="https://neodb.social/movie/1bhogjXkNnlWWM0bf6aj8P"}
-
-::neodb{url="https://neodb.social/book/4BqQ5mhfKMHPND3L6hf0Qh"}
-
-::neodb{url="https://neodb.social/game/1hl18l0qD5UN93k8ZkCZ7Q"}
+总结来说，这个晚上我在汉堡店多次换座位：先是被吵架声打扰，后来遇到员工要开会，再遇到没有空调的区域，然后洗手间地面太滑差点摔倒，最后吃汉堡时又咬到硬物，心情受影响，只能选择离开。整个过程就是不断尝试找到一个能好好吃饭、安静待着的位置，但最终没能如愿。
