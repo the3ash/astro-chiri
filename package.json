@@ -19,7 +19,7 @@
   "dependencies": {
     "@astrojs/mdx": "^4.3.11",
     "@astrojs/netlify": "^6.6.1",
-    "@astrojs/rss": "^4.0.13",
+    "@astrojs/rss": "^4.0.14",
     "@astrojs/sitemap": "^3.6.0",
     "@playform/inline": "^0.1.2",
     "astro": "^5.15.9",
