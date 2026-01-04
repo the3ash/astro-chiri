@@ -17,7 +17,6 @@ Check the [demo](https://astro-chiri.netlify.app/) for more details.
 - [x] Sitemap
 - [x] OpenGraph
 - [x] RSS
-- [ ] Pagination
 
 ## Getting Started
 
