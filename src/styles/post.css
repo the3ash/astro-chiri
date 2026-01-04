@@ -10,6 +10,11 @@
   margin-bottom: 8rem;
 }
 
+/* Remove margin-top for the first child */
+.prose .content > :first-child {
+  margin-top: 0;
+}
+
 /* Post title section */
 .prose .title {
   margin-bottom: 2.5em;

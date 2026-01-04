@@ -56,7 +56,9 @@ const ogImage = `/open-graph/${postSlug}.png`
             }
           </div>
         </div>
-        <slot />
+        <article class="content">
+          <slot />
+        </article>
       </div>
     </main>
     <ImageOptimizer />
