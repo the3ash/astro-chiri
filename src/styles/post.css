@@ -224,7 +224,7 @@
 
 .prose ul li {
   position: relative;
-  padding-left: 0.5rem;
+  padding-left: 0.3125rem;
   margin-bottom: 0.5em;
 }
 
@@ -259,7 +259,7 @@
 .prose ol li {
   display: block;
   position: relative;
-  padding-left: 0.25rem;
+  padding-left: 0.125rem;
   margin-bottom: 0.5em;
 }
 
@@ -310,9 +310,9 @@
 
 /* Task list checkboxes */
 .prose ul.contains-task-list li.task-list-item input[type='checkbox'] {
-  margin-right: 0.5em;
+  margin-right: 0.625em;
   position: relative;
-  top: 0.175em;
+  top: 0.15em;
   width: 1em;
   height: 1em;
   border: 1.35px solid var(--text-tertiary);
