@@ -6,11 +6,9 @@
   --content-width: 25rem;
 
   /* Typography */
-  --sans:
-    Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell,
-    Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  --serif: Besley, Baskerville, Georgia, Cambria, 'Times New Roman', Times, serif;
-  --mono: SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+  --sans: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+  --serif: Besley, Baskerville, Georgia, 'Times New Roman', Times, serif;
+  --mono: 'SF Mono', SFMono-Regular, monospace;
 
   --font-size-s: 0.8125rem;
   --font-size-m: 0.9375rem;
