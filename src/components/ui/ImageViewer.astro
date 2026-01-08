@@ -55,7 +55,7 @@
       const previewImages = document.querySelectorAll('img[data-preview="true"]')
       previewImages.forEach((img) => {
         const imgElement = img as HTMLImageElement
-        imgElement.style.cursor = 'zoom-in'
+        imgElement.style.cursor = 'pointer'
         imgElement.addEventListener('click', (e) => {
           e.preventDefault()
           const target = e.target as HTMLImageElement
