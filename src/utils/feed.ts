@@ -72,7 +72,7 @@ async function fixRelativeImagePaths(
               format: 'webp',
               width: 800
             })
-            
+
             // Always use the optimized image path in production
             img.setAttribute('src', new URL(processedImage.src, baseUrl).toString())
           }
@@ -145,10 +145,17 @@ async function generateFeedInstance(context: APIContext) {
       }
     })
 
+    // Generate plain text summary for description
+    const plainText = sanitizeHtml(cleanHtml, { allowedTags: [], allowedAttributes: {} })
+      .replace(/\s+/g, ' ')
+      .trim()
+    const description = plainText.length > 200 ? plainText.slice(0, 200) + '...' : plainText
+
     feed.addItem({
       title: post.data.title,
       id: postUrl,
       link: postUrl,
+      description: description,
       content: cleanHtml,
       date: post.data.pubDate,
       published: post.data.pubDate
