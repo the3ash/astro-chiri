@@ -1,4 +1,4 @@
-import { getCollection } from 'astro:content'
+import { getCollection, type CollectionEntry } from 'astro:content'
 import { OGImageRoute } from 'astro-og-canvas'
 import { themeConfig } from '../../config'
 
@@ -8,7 +8,10 @@ const collectionEntries = await getCollection('posts')
 // Converts [{ id: 'post.md', data: { title: 'Example', pubDate: Date } }]
 // to { 'post.md': { title: 'Example', pubDate: Date } }
 const pages = Object.fromEntries(
-  collectionEntries.map(({ id, data }) => [id.replace(/\.(md|mdx)$/, ''), data])
+  collectionEntries.map((entry: CollectionEntry<'posts'>) => [
+    entry.id.replace(/\.(md|mdx)$/, ''),
+    entry.data
+  ])
 )
 
 export const { getStaticPaths, GET } = OGImageRoute({
@@ -43,7 +46,7 @@ export const { getStaticPaths, GET } = OGImageRoute({
     },
     fonts: [
       'https://cdn.jsdelivr.net/npm/font-pingfang-sc-font-weight-improved@latest/PingFangSC-Medium.woff2',
-      'https://cdn.jsdelivr.net/npm/font-pingfang-sc-font-weight-improved@latest/PingFangSC-Semibold.woff2',
+      'https://cdn.jsdelivr.net/npm/font-pingfang-sc-font-weight-improved@latest/PingFangSC-Semibold.woff2'
     ]
   })
 })
