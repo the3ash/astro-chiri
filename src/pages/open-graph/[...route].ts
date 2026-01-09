@@ -2,6 +2,8 @@ import { getCollection, type CollectionEntry } from 'astro:content'
 import { OGImageRoute } from 'astro-og-canvas'
 import { themeConfig } from '../../config'
 
+export const prerender = true
+
 const collectionEntries = await getCollection('posts')
 
 // Map the array of content collection entries to create an object.
@@ -14,10 +16,10 @@ const pages = Object.fromEntries(
   ])
 )
 
-export const { getStaticPaths, GET } = OGImageRoute({
+export const { getStaticPaths, GET } = await OGImageRoute({
   param: 'route',
   pages,
-  getImageOptions: (_path, page) => ({
+  getImageOptions: (_path: string, page: CollectionEntry<'posts'>['data']) => ({
     title: page.title,
     description: themeConfig.site.title,
     logo: {
