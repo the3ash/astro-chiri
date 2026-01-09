@@ -450,12 +450,29 @@
   opacity: 0.875;
   text-decoration: none;
   transition: color 0.2s ease-out;
-  padding-right: 0.5em;
+  padding-right: 0.125em;
 }
 
 .prose [data-footnote-ref]:hover,
 .prose [data-footnote-backref]:hover {
   color: var(--text-primary);
+}
+
+/* Footnote highlight animation */
+.prose .footnotes li.footnote-highlight,
+.prose sup.footnote-highlight,
+.prose cite.footnote-highlight {
+  animation: footnote-highlight 1.35s ease-out;
+}
+
+@keyframes footnote-highlight {
+  0%,
+  87% {
+    background-color: var(--selection);
+  }
+  100% {
+    background-color: transparent;
+  }
 }
 
 /* Code blocks */

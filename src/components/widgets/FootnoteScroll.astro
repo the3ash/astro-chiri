@@ -19,6 +19,17 @@
         window.scrollTo({
           top: targetPosition
         })
+
+        // Highlight effect
+        const highlightTarget = target.closest('cite') || target.closest('sup') || target
+        highlightTarget.classList.add('footnote-highlight')
+        highlightTarget.addEventListener(
+          'animationend',
+          () => {
+            highlightTarget.classList.remove('footnote-highlight')
+          },
+          { once: true }
+        )
       })
     })
   }
