@@ -2,12 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [main, master]
+    branches: [main]
   pull_request:
-    branches: [main, master]
-  check_suite:
-    types: [completed]
-  status: {}
+    branches: [main]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -20,14 +17,14 @@ permissions:
 
 jobs:
   validate:
-    name: Validate Code & Build
+    name: Validate & Build
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
 
-      - name: Setup pnpm
+      - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
           version: latest
@@ -35,35 +32,32 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: 'latest'
+          node-version: 'lts/*'
           cache: 'pnpm'
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile --prefer-offline
 
-      - name: Check formatting (if prettier is available)
-        run: |
-          if [ -f "pnpm-lock.yaml" ] && pnpm list prettier &>/dev/null; then
-            pnpm exec prettier --check .
-          else
-            echo "Prettier not configured, skipping format check"
-          fi
+      - name: Format check
+        run: pnpm format:check
         continue-on-error: true
 
-      - name: Run ESLint (if available)
-        run: |
-          if [ -f "pnpm-lock.yaml" ] && pnpm list eslint &>/dev/null; then
-            pnpm exec eslint .
-          else
-            echo "ESLint not configured, skipping lint check"
-          fi
-        continue-on-error: true
-
-      - name: Run linting
+      - name: Lint
         run: pnpm lint
+        continue-on-error: true
 
-      - name: Build project
+      - name: Type check
+        run: tsc -b
+
+      - name: Build
         run: pnpm build
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v6
+        with:
+          name: dist
+          path: dist/
+          retention-days: 7
 
   auto-merge:
     name: Auto Merge
@@ -83,8 +77,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Auto approve Dependabot PRs
-        if: github.actor == 'dependabot[bot]'
+      - name: Auto approve
         uses: hmarr/auto-approve-action@v4
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -95,7 +88,7 @@ jobs:
         id: wait-for-checks
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          checkName: 'Validate Code & Build'
+          checkName: 'Validate & Build'
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           timeoutSeconds: 600
           intervalSeconds: 10

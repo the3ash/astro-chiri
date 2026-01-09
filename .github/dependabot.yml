@@ -1,45 +1,91 @@
 version: 2
 updates:
-  # Enable npm (pnpm) dependency updates
+  # Enable npm dependency updates
   - package-ecosystem: 'npm'
     directory: '/'
     schedule:
-      # Check for updates every Monday at 09:00 (Asia/Shanghai)
       interval: 'weekly'
       day: 'monday'
       time: '09:00'
-      timezone: 'Asia/Shanghai'
-    # Limit the number of open PRs created by Dependabot
-    open-pull-requests-limit: 10
     # Allow automatic merging of non-major version updates
+    open-pull-requests-limit: 10
     allow:
       - dependency-type: 'all'
     assignees:
       - 'the3ash'
     commit-message:
-      # Use 'deps' for production dependencies, 'dev' for development dependencies
       prefix: 'deps'
       prefix-development: 'dev'
       include: 'scope'
-    # Labels to add to Dependabot PRs
+    versioning-strategy: auto
     labels:
       - 'dependencies'
       - 'automated'
-    ignore:
-      # Ignore major version updates (breaking changes)
-      - dependency-name: '*'
-        update-types: ['version-update:semver-major']
-    versioning-strategy: auto
+    # Group minor and patch updates together
+    groups:
+      react:
+        patterns:
+          - 'react*'
+        update-types:
+          - 'minor'
+          - 'patch'
+      vite:
+        patterns:
+          - 'vite*'
+          - '@vitejs/*'
+        update-types:
+          - 'minor'
+          - 'patch'
+      eslint:
+        patterns:
+          - 'eslint*'
+          - '@eslint/*'
+          - 'eslint-*'
+        update-types:
+          - 'minor'
+          - 'patch'
+      typescript:
+        patterns:
+          - 'typescript*'
+          - '@types/*'
+          - 'typescript-*'
+        update-types:
+          - 'minor'
+          - 'patch'
+      prettier:
+        patterns:
+          - 'prettier*'
+          - 'eslint-config-prettier'
+          - 'eslint-plugin-prettier'
+        update-types:
+          - 'minor'
+          - 'patch'
+      # Catch-all group for everything else
+      other-deps:
+        patterns:
+          - '*'
+        exclude-patterns:
+          - 'react*'
+          - 'vite*'
+          - '@vitejs/*'
+          - 'eslint*'
+          - '@eslint/*'
+          - 'eslint-*'
+          - 'typescript*'
+          - '@types/*'
+          - 'typescript-*'
+          - 'prettier*'
+        update-types:
+          - 'minor'
+          - 'patch'
 
   # Enable GitHub Actions updates
   - package-ecosystem: 'github-actions'
     directory: '/'
     schedule:
-      # Check for updates every Monday at 09:00 (Asia/Shanghai)
       interval: 'weekly'
       day: 'monday'
       time: '09:00'
-      timezone: 'Asia/Shanghai'
     open-pull-requests-limit: 10
     assignees:
       - 'the3ash'
@@ -49,4 +95,3 @@ updates:
     labels:
       - 'dependencies'
       - 'automated'
-      - 'github-actions'
