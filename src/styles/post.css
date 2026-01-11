@@ -224,7 +224,7 @@
 
 .prose ul li {
   position: relative;
-  padding-left: 0.3125rem;
+  padding-left: 0.125rem;
   margin-bottom: 0.5em;
 }
 
@@ -238,13 +238,15 @@
 }
 
 .prose ul li::before {
-  content: '•';
+  --size: 0.3125rem;
+  content: '';
   position: absolute;
-  left: -1.25rem;
-  top: -0.05em;
-  width: 1.5rem;
-  text-align: center;
-  color: var(--text-tertiary);
+  left: -0.785rem;
+  top: calc((1.75em - var(--size)) / 2);
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  background-color: var(--text-tertiary);
 }
 
 /* Ordered lists */
