@@ -3,8 +3,19 @@ name: CI
 on:
   push:
     branches: [main]
+    paths-ignore: &paths-ignore
+      - 'LICENSE'
+      - '.gitignore'
+      - '**/*.md'
+      - '**/*.png'
+      - '**/*.jpg'
+      - '**/*.jpeg'
+      - '**/*.gif'
+      - '**/*.webp'
+      - '**/*.svg'
   pull_request:
     branches: [main]
+    paths-ignore: *paths-ignore
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -47,7 +58,7 @@ jobs:
         continue-on-error: true
 
       - name: Type check
-        run: tsc -b
+        run: tsc --noEmit
 
       - name: Build
         run: pnpm build
