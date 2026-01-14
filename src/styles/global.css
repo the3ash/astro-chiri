@@ -144,18 +144,13 @@ body {
   background-color: var(--selection);
 }
 
-:focus {
-  outline: 2px solid var(--text-tertiary);
-  outline-offset: 2px;
-}
-
 :focus:not(:focus-visible) {
   outline: none;
 }
 
 :focus-visible {
-  outline: 2px solid var(--text-tertiary);
-  outline-offset: 2px;
+  outline: 1.5px dashed var(--text-tertiary);
+  border-radius: 0.25rem;
 }
 
 body[data-width] {
