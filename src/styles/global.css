@@ -108,13 +108,8 @@ body {
   font-family: var(--sans);
   font-feature-settings: 'ss03' 1;
   font-size: var(--font-size-m);
-  text-autospace: normal;
-  text-rendering: optimizeLegibility;
   line-height: 1.75;
   color: var(--text-primary);
-  font-display: swap;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
   margin: 0;
   min-height: 100vh;
   display: flex;
@@ -123,6 +118,12 @@ body {
   letter-spacing: var(--spacing-m);
   padding: 6rem 1.5rem 1.5rem 1.5rem;
   overscroll-behavior-y: contain;
+  text-autospace: normal;
+  text-spacing-trim: space-first;
+  text-rendering: optimizeLegibility;
+  font-synthesis: none;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 @media (max-width: 768px) {
