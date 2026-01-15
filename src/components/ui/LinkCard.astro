@@ -230,9 +230,10 @@
     order: 1;
   }
 
-  /* Set container size/padding when image hidden */
-  .prose .link-card-image-outer:has(.link-card-image[style*='display: none']) {
-    padding: 0.25rem 0.25rem 0 0.25rem;
+  /* Hide image outer container when no image is displayed */
+  .prose .link-card-image-outer:has(.link-card-image[style*='display: none']),
+  .prose .link-card-image-outer:not(:has(.link-card-image[style*='display: block'])) {
+    display: none;
   }
 
   .prose .link-card-image {
@@ -275,7 +276,7 @@
     font-size: var(--font-size-m);
     font-weight: var(--font-weight-bold);
     color: var(--text-primary);
-    margin: 0;
+    margin: 0.25rem 0 0 0;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -337,14 +338,13 @@
   }
 
   .prose .link-card:not(:has(.link-card-image[style*='display: block'])) {
-    padding: 1rem 1.25rem 0.75rem 1.25rem;
+    padding: 0.5rem 1.25rem 0.5rem 1.25rem;
+  }
+  .prose .link-card:has(.link-card-image[style*='display: block']) .link-card-content {
+    padding: 0.5rem 1.25rem 0.5rem 1.25rem;
   }
 
   .prose .link-card:not(:has(.link-card-image[style*='display: block'])) .link-card-content {
     padding: 0;
-  }
-
-  .prose .link-card:has(.link-card-image[style*='display: block']) .link-card-content {
-    padding: 1rem 1.25rem 0.75rem 1.25rem;
   }
 </style>
