@@ -3,8 +3,15 @@
 </div>
 
 <script>
+  let mask: HTMLElement | null = null
+  let ticking = false
+
   function updateMask() {
-    const mask = document.querySelector('.gradient-mask') as HTMLElement
+    if (!mask) {
+      mask = document.querySelector('.gradient-mask') as HTMLElement
+    }
+    if (!mask) return
+
     const threshold = 64
     const scrollY = window.scrollY
 
@@ -15,10 +22,23 @@
     }
   }
 
-  document.addEventListener('DOMContentLoaded', () => {
+  function onScroll() {
+    if (ticking) return
+    ticking = true
+    requestAnimationFrame(() => {
+      updateMask()
+      ticking = false
+    })
+  }
+
+  function initGradientMask() {
+    mask = document.querySelector('.gradient-mask') as HTMLElement
     updateMask()
-    window.addEventListener('scroll', updateMask)
-  })
+  }
+
+  // Use only astro:page-load as it fires on initial load and navigation
+  document.addEventListener('astro:page-load', initGradientMask)
+  window.addEventListener('scroll', onScroll, { passive: true })
 </script>
 
 <style>

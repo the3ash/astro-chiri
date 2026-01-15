@@ -85,25 +85,24 @@
 
     bindImageClickEvents()
 
-    const observer = new MutationObserver(() => {
-      bindImageClickEvents()
-    })
+    // Observe only the content area instead of the entire body
+    const contentArea = document.querySelector('.prose') || document.querySelector('.content') || document.querySelector('article')
+    if (contentArea) {
+      const observer = new MutationObserver(() => {
+        bindImageClickEvents()
+      })
 
-    observer.observe(document.body, {
-      childList: true,
-      subtree: true
-    })
+      observer.observe(contentArea, {
+        childList: true,
+        subtree: true
+      })
+    }
 
     // Hide initially
     viewer!.style.visibility = 'hidden'
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initImageViewer)
-  } else {
-    initImageViewer()
-  }
-
+  // Use only astro:page-load as it fires on initial load and navigation
   document.addEventListener('astro:page-load', initImageViewer)
 </script>
 

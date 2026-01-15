@@ -14,23 +14,20 @@ import { themeConfig } from '@/config'
 <script is:inline>
   function bindThemeToggle() {
     const themeToggle = document.getElementById('theme-toggle')
-    if (themeToggle && window.ThemeManager) {
-      // Remove existing event listeners to prevent duplicates
-      const newToggle = themeToggle.cloneNode(true)
-      themeToggle.parentNode.replaceChild(newToggle, themeToggle)
+    if (!themeToggle || !window.ThemeManager) return
 
-      newToggle.addEventListener('click', function (e) {
-        e.preventDefault()
-        e.stopPropagation()
-        window.ThemeManager.toggle()
-      })
-    }
+    // Skip if already bound
+    if (themeToggle.dataset.themeBound) return
+    themeToggle.dataset.themeBound = 'true'
+
+    themeToggle.addEventListener('click', function (e) {
+      e.preventDefault()
+      e.stopPropagation()
+      window.ThemeManager.toggle()
+    })
   }
 
-  // Bind on initial load
-  window.addEventListener('DOMContentLoaded', bindThemeToggle)
-
-  // Bind on Astro page transitions
+  // Use only astro:page-load as it fires on initial load and navigation
   document.addEventListener('astro:page-load', bindThemeToggle)
 </script>
 

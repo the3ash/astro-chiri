@@ -151,7 +151,8 @@
       `
     }
 
-    containers.forEach((container) => {
+    // Build fetch promises for parallel execution
+    const fetchPromises = Array.from(containers).map(async (container) => {
       const url = container.getAttribute('data-url')
 
       if (!url) return
@@ -178,27 +179,27 @@
       }
 
       if (fetchUrl) {
-        fetch(fetchUrl, {
-          mode: 'cors',
-          headers: {
-            Accept: 'application/json'
-          }
-        })
-          .then((res) => {
-            if (!res.ok) throw new Error(`Response ${res.status}`)
-            return res.json()
+        try {
+          const res = await fetch(fetchUrl, {
+            mode: 'cors',
+            headers: {
+              Accept: 'application/json'
+            }
           })
-          .then((json) => {
-            const data = json.data ? json.data : json
-            renderCard(container, data, url)
-          })
-          .catch(() => {
-            renderError(container)
-          })
+          if (!res.ok) throw new Error(`Response ${res.status}`)
+          const json = await res.json()
+          const data = json.data ? json.data : json
+          renderCard(container, data, url)
+        } catch {
+          renderError(container)
+        }
       } else {
         renderError(container)
       }
     })
+
+    // Execute all fetches in parallel
+    Promise.allSettled(fetchPromises)
   }
 
   loadNeoDBCards()
