@@ -5,10 +5,6 @@ updates:
     schedule:
       interval: 'weekly'
       day: 'monday'
-      time: '09:00'
-    open-pull-requests-limit: 5
-    rebase-strategy: auto
-    versioning-strategy: auto
     assignees:
       - 'the3ash'
     commit-message:
@@ -24,7 +20,8 @@ updates:
         update-types: ['minor', 'patch']
       # Markdown/MDX ecosystem
       markdown:
-        patterns: ['markdown-it', '@types/markdown-it', 'mdast-*', 'remark-*', 'rehype-*', 'unist-*']
+        patterns:
+          ['markdown-it', '@types/markdown-it', 'mdast-*', 'remark-*', 'rehype-*', 'unist-*']
         update-types: ['minor', 'patch']
       # Code quality tools
       eslint:
@@ -70,8 +67,6 @@ updates:
     schedule:
       interval: 'weekly'
       day: 'monday'
-      time: '09:00'
-    rebase-strategy: auto
     assignees:
       - 'the3ash'
     commit-message:
