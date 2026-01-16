@@ -1,97 +1,81 @@
 version: 2
 updates:
-  # Enable npm dependency updates
   - package-ecosystem: 'npm'
     directory: '/'
     schedule:
       interval: 'weekly'
       day: 'monday'
       time: '09:00'
-    # Allow automatic merging of non-major version updates
-    open-pull-requests-limit: 10
-    allow:
-      - dependency-type: 'all'
+    open-pull-requests-limit: 5
+    rebase-strategy: auto
+    versioning-strategy: auto
     assignees:
       - 'the3ash'
     commit-message:
       prefix: 'deps'
       prefix-development: 'dev'
       include: 'scope'
-    versioning-strategy: auto
     labels:
       - 'dependencies'
-      - 'automated'
-    # Group minor and patch updates together
     groups:
-      react:
-        patterns:
-          - 'react*'
-        update-types:
-          - 'minor'
-          - 'patch'
-      vite:
-        patterns:
-          - 'vite*'
-          - '@vitejs/*'
-        update-types:
-          - 'minor'
-          - 'patch'
+      # Astro framework
+      astro:
+        patterns: ['astro', '@astrojs/*', 'astro-*']
+        update-types: ['minor', 'patch']
+      # Markdown/MDX ecosystem
+      markdown:
+        patterns: ['markdown-it', '@types/markdown-it', 'mdast-*', 'remark-*', 'rehype-*', 'unist-*']
+        update-types: ['minor', 'patch']
+      # Code quality tools
       eslint:
-        patterns:
-          - 'eslint*'
-          - '@eslint/*'
-          - 'eslint-*'
-        update-types:
-          - 'minor'
-          - 'patch'
-      typescript:
-        patterns:
-          - 'typescript*'
-          - '@types/*'
-          - 'typescript-*'
-        update-types:
-          - 'minor'
-          - 'patch'
+        patterns: ['eslint', 'eslint-*', '@eslint/*', 'typescript-eslint']
+        update-types: ['minor', 'patch']
       prettier:
-        patterns:
-          - 'prettier*'
-          - 'eslint-config-prettier'
-          - 'eslint-plugin-prettier'
-        update-types:
-          - 'minor'
-          - 'patch'
-      # Catch-all group for everything else
+        patterns: ['prettier', 'prettier-*', 'eslint-config-prettier']
+        update-types: ['minor', 'patch']
+      # TypeScript
+      typescript:
+        patterns: ['typescript', '@types/*']
+        exclude-patterns: ['@types/markdown-it']
+        update-types: ['minor', 'patch']
+      # Build and utility tools
+      build-deps:
+        patterns: ['tsx', 'sharp', '@playform/*', 'canvaskit-wasm']
+        update-types: ['minor', 'patch']
+      # Other dependencies
       other-deps:
-        patterns:
-          - '*'
+        patterns: ['*']
         exclude-patterns:
-          - 'react*'
-          - 'vite*'
-          - '@vitejs/*'
+          - 'astro*'
+          - '@astrojs/*'
+          - 'markdown-it*'
+          - '@types/markdown-it'
+          - 'mdast-*'
+          - 'remark-*'
+          - 'rehype-*'
+          - 'unist-*'
           - 'eslint*'
           - '@eslint/*'
-          - 'eslint-*'
           - 'typescript*'
           - '@types/*'
-          - 'typescript-*'
           - 'prettier*'
-        update-types:
-          - 'minor'
-          - 'patch'
+          - 'tsx'
+          - 'sharp'
+          - '@playform/*'
+          - 'canvaskit-wasm'
+        update-types: ['minor', 'patch']
 
-  # Enable GitHub Actions updates
   - package-ecosystem: 'github-actions'
     directory: '/'
     schedule:
       interval: 'weekly'
       day: 'monday'
       time: '09:00'
-    open-pull-requests-limit: 10
+    rebase-strategy: auto
     assignees:
       - 'the3ash'
     commit-message:
-      prefix: 'github-actions'
+      prefix: 'ci'
       include: 'scope'
     labels:
       - 'dependencies'
-      - 'automated'
