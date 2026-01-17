@@ -25,11 +25,7 @@ const imagesGlob = import.meta.glob<{ default: ImageMetadata }>(
  * @param postPath - Current post path (e.g., 'some-post.md' or 'tech/another-post.md')
  * @returns - HTML string with processed image paths
  */
-async function fixRelativeImagePaths(
-  htmlContent: string,
-  baseUrl: string,
-  postPath: string
-): Promise<string> {
+async function fixRelativeImagePaths(htmlContent: string, baseUrl: string, postPath: string): Promise<string> {
   const root = htmlParser(htmlContent)
   const imageTags = root.querySelectorAll('img')
   const postDir = path.dirname(postPath)
@@ -121,13 +117,9 @@ async function generateFeedInstance(context: APIContext) {
     }
   })
 
-  const posts = await getCollection(
-    'posts',
-    ({ id }: CollectionEntry<'posts'>) => !id.startsWith('_')
-  )
+  const posts = await getCollection('posts', ({ id }: CollectionEntry<'posts'>) => !id.startsWith('_'))
   const sortedPosts = posts.sort(
-    (a: CollectionEntry<'posts'>, b: CollectionEntry<'posts'>) =>
-      b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+    (a: CollectionEntry<'posts'>, b: CollectionEntry<'posts'>) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
   )
 
   for (const post of sortedPosts) {
@@ -146,9 +138,7 @@ async function generateFeedInstance(context: APIContext) {
     })
 
     // Generate plain text summary for description
-    const plainText = sanitizeHtml(cleanHtml, { allowedTags: [], allowedAttributes: {} })
-      .replace(/\s+/g, ' ')
-      .trim()
+    const plainText = sanitizeHtml(cleanHtml, { allowedTags: [], allowedAttributes: {} }).replace(/\s+/g, ' ').trim()
     const description = plainText.length > 200 ? plainText.slice(0, 200) + '...' : plainText
 
     feed.addItem({

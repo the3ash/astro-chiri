@@ -86,7 +86,8 @@
     bindImageClickEvents()
 
     // Observe only the content area instead of the entire body
-    const contentArea = document.querySelector('.prose') || document.querySelector('.content') || document.querySelector('article')
+    const contentArea =
+      document.querySelector('.prose') || document.querySelector('.content') || document.querySelector('article')
     if (contentArea) {
       const observer = new MutationObserver(() => {
         bindImageClickEvents()

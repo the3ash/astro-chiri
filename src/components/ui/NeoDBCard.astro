@@ -96,9 +96,7 @@
       } else if (category === 'game') {
         // Game: Developer, Genre, Release Date
         if (data.developer && data.developer.length > 0) {
-          const developers = Array.isArray(data.developer)
-            ? data.developer.join(', ')
-            : data.developer
+          const developers = Array.isArray(data.developer) ? data.developer.join(', ') : data.developer
           fieldInfo.push(`开发者: ${developers}`)
         }
         if (data.genre && data.genre.length > 0) {
@@ -158,8 +156,7 @@
       if (!url) return
 
       let fetchUrl = ''
-      const neodbUrlPattern =
-        /neodb\.social\/(movie|book|music|album|game|tv\/season|tv|podcast)\/([\w-]+)/
+      const neodbUrlPattern = /neodb\.social\/(movie|book|music|album|game|tv\/season|tv|podcast)\/([\w-]+)/
       const isNeoDbUrl = neodbUrlPattern.test(url)
 
       if (isNeoDbUrl) {

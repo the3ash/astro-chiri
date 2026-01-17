@@ -1,4 +1,4 @@
-import type { CollectionEntry } from "astro:content"
+import type { CollectionEntry } from 'astro:content'
 
 // Reading time interface
 export interface ReadingTime {

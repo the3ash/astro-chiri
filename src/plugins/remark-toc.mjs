@@ -56,7 +56,7 @@ function extractTextContent(node) {
 
   return text.trim()
 }
-  
+
 // Generate a slug from text
 function generateSlug(text) {
   return (

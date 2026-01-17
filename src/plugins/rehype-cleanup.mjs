@@ -14,11 +14,7 @@ export default function rehypeCleanup() {
         // Find the checkbox input
         for (let i = 0; i < children.length; i++) {
           const child = children[i]
-          if (
-            child.type === 'element' &&
-            child.tagName === 'input' &&
-            child.properties?.type === 'checkbox'
-          ) {
+          if (child.type === 'element' && child.tagName === 'input' && child.properties?.type === 'checkbox') {
             inputIndex = i
             break
           }
@@ -68,4 +64,4 @@ export default function rehypeCleanup() {
       }
     })
   }
-  }
+}

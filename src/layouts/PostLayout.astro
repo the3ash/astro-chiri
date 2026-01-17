@@ -25,11 +25,7 @@ const postSlug = Astro.url.pathname.split('/').filter(Boolean).pop() || ''
 const ogImage = `/open-graph/${postSlug}.png`
 ---
 
-<BaseLayout
-  title={`${title} · ${themeConfig.site.title}`}
-  description={themeConfig.site.description}
-  type="post"
->
+<BaseLayout title={`${title} · ${themeConfig.site.title}`} description={themeConfig.site.description} type="post">
   <BaseHead
     title={`${title} · ${themeConfig.site.title}`}
     description={themeConfig.site.description}

@@ -50,8 +50,7 @@
         doc.querySelector('meta[name="twitter:image"]')?.getAttribute('content') ||
         ''
 
-      const imageAlt =
-        doc.querySelector('meta[property="og:image:alt"]')?.getAttribute('content') || title || ''
+      const imageAlt = doc.querySelector('meta[property="og:image:alt"]')?.getAttribute('content') || title || ''
 
       const metadata = {
         title: title?.trim() || '',

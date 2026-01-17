@@ -10,10 +10,7 @@ const collectionEntries = await getCollection('posts')
 // Converts [{ id: 'post.md', data: { title: 'Example', pubDate: Date } }]
 // to { 'post.md': { title: 'Example', pubDate: Date } }
 const pages = Object.fromEntries(
-  collectionEntries.map((entry: CollectionEntry<'posts'>) => [
-    entry.id.replace(/\.(md|mdx)$/, ''),
-    entry.data
-  ])
+  collectionEntries.map((entry: CollectionEntry<'posts'>) => [entry.id.replace(/\.(md|mdx)$/, ''), entry.data])
 )
 
 export const { getStaticPaths, GET } = await OGImageRoute({

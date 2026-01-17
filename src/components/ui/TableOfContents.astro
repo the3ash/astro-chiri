@@ -10,9 +10,7 @@ const { toc = [] }: TOCProps = Astro.props
     <ul class="toc-list" id="toc-list">
       <!-- Back to top link -->
       <li class="toc-item toc-level-0">
-        <a href="#" class="toc-link toc-title" title="Back to top" data-text="Back to top">
-          Back to top
-        </a>
+        <a href="#" class="toc-link toc-title" title="Back to top" data-text="Back to top"> Back to top </a>
       </li>
 
       <!-- TOC items -->
@@ -75,9 +73,7 @@ const { toc = [] }: TOCProps = Astro.props
     function checkContent() {
       if (!state.container || !state.links) return
 
-      const tocItems = Array.from(state.links).filter(
-        (link) => !link.classList.contains('toc-title')
-      )
+      const tocItems = Array.from(state.links).filter((link) => !link.classList.contains('toc-title'))
       state.hasContent = tocItems.length > 0
 
       if (!state.hasContent) {
