@@ -101,6 +101,7 @@ html {
   scrollbar-gutter: stable;
   overscroll-behavior-y: contain;
   -webkit-overflow-scrolling: touch;
+  -webkit-tap-highlight-color: transparent;
   transition: background-color 0.2s ease-out;
 }
 
