@@ -5,8 +5,30 @@
 <script>
   let mask: HTMLElement | null = null
   let ticking = false
+  let isMobileSafariBrowser = false
+
+  // Check if the browser is mobile Safari
+  function isMobileSafari(): boolean {
+    if (typeof window === 'undefined') return false
+
+    const ua = navigator.userAgent
+    const platform = navigator.platform
+
+    const isIOSDevice = /iP(ad|hone|od)/.test(ua) || (platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+
+    if (!isIOSDevice) return false
+
+    const isSafari = /Safari\//.test(ua) && !/(CriOS|FxiOS|EdgiOS|OPiOS|DuckDuckGo)/.test(ua)
+    if (!isSafari) return false
+
+    const isMobileLike =
+      window.matchMedia?.('(pointer: coarse)').matches || window.matchMedia?.('(max-width: 768px)').matches
+
+    return Boolean(isMobileLike)
+  }
 
   function updateMask() {
+    if (isMobileSafariBrowser) return
     if (!mask) {
       mask = document.querySelector('.gradient-mask') as HTMLElement
     }
@@ -32,7 +54,14 @@
   }
 
   function initGradientMask() {
+    isMobileSafariBrowser = isMobileSafari()
     mask = document.querySelector('.gradient-mask') as HTMLElement
+
+    if (isMobileSafariBrowser && mask) {
+      mask.style.display = 'none'
+      return
+    }
+
     updateMask()
   }
 
@@ -47,7 +76,7 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: 1.5rem;
+    height: 2rem;
     z-index: 99;
     pointer-events: none;
     background-color: var(--bg);
