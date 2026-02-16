@@ -3,6 +3,10 @@
     const footnoteLinks = document.querySelectorAll('[data-footnote-ref], [data-footnote-backref]')
 
     footnoteLinks.forEach((link) => {
+      // Skip if already bound
+      if (link.dataset.footnoteBound) return
+      link.dataset.footnoteBound = 'true'
+
       link.addEventListener('click', (e) => {
         e.preventDefault()
         const href = link.getAttribute('href')
@@ -19,15 +23,21 @@
         window.scrollTo({
           top: targetPosition
         })
+
+        // Highlight effect
+        const highlightTarget = target.closest('cite') || target.closest('sup') || target
+        highlightTarget.classList.add('footnote-highlight')
+        highlightTarget.addEventListener(
+          'animationend',
+          () => {
+            highlightTarget.classList.remove('footnote-highlight')
+          },
+          { once: true }
+        )
       })
     })
   }
 
-  document.addEventListener('astro:page-load', () => {
-    bindFootnoteEvents()
-  })
-
-  document.addEventListener('DOMContentLoaded', () => {
-    bindFootnoteEvents()
-  })
+  // Use only astro:page-load as it fires on initial load and navigation
+  document.addEventListener('astro:page-load', bindFootnoteEvents)
 </script>

@@ -19,9 +19,7 @@ const { posts } = Astro.props as PostListProps
             )}
             <p class="title">{post.data.title}</p>
             {themeConfig.date.dateOnRight && (
-              <div
-                class={themeConfig.general.postListDottedDivider ? 'dotted-divider' : 'divider'}
-              />
+              <div class={themeConfig.general.postListDottedDivider ? 'dotted-divider' : 'divider'} />
             )}
             {themeConfig.date.dateOnRight && (
               <p class="date font-features">

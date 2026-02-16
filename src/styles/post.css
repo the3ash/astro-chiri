@@ -11,6 +11,11 @@
   margin-bottom: 8rem;
 }
 
+/* Remove margin-top for the first child */
+.prose .content > :first-child {
+  margin-top: 0;
+}
+
 /* Post title section */
 .prose .title {
   margin-bottom: 2.5em;
@@ -220,7 +225,7 @@
 
 .prose ul li {
   position: relative;
-  padding-left: 0.5rem;
+  padding-left: 0.125rem;
   margin-bottom: 0.5em;
 }
 
@@ -234,13 +239,15 @@
 }
 
 .prose ul li::before {
-  content: '•';
+  --size: 0.3125rem;
+  content: '';
   position: absolute;
-  left: -1.25rem;
-  top: -0.05em;
-  width: 1.5rem;
-  text-align: center;
-  color: var(--text-tertiary);
+  left: -0.785rem;
+  top: calc((1.75em - var(--size)) / 2);
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  background-color: var(--text-tertiary);
 }
 
 /* Ordered lists */
@@ -255,7 +262,7 @@
 .prose ol li {
   display: block;
   position: relative;
-  padding-left: 0.25rem;
+  padding-left: 0.125rem;
   margin-bottom: 0.5em;
 }
 
@@ -306,9 +313,9 @@
 
 /* Task list checkboxes */
 .prose ul.contains-task-list li.task-list-item input[type='checkbox'] {
-  margin-right: 0.5em;
+  margin-right: 0.625em;
   position: relative;
-  top: 0.175em;
+  top: 0.15em;
   width: 1em;
   height: 1em;
   border: 1.35px solid var(--text-tertiary);
@@ -446,12 +453,29 @@
   opacity: 0.875;
   text-decoration: none;
   transition: color 0.2s ease-out;
-  padding-right: 0.5em;
+  padding-right: 0.125em;
 }
 
 .prose [data-footnote-ref]:hover,
 .prose [data-footnote-backref]:hover {
   color: var(--text-primary);
+}
+
+/* Footnote highlight animation */
+.prose .footnotes li.footnote-highlight,
+.prose sup.footnote-highlight,
+.prose cite.footnote-highlight {
+  animation: footnote-highlight 1.35s ease-out;
+}
+
+@keyframes footnote-highlight {
+  0%,
+  87% {
+    background-color: var(--selection);
+  }
+  100% {
+    background-color: transparent;
+  }
 }
 
 /* Code blocks */

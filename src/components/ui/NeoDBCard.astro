@@ -96,9 +96,7 @@
       } else if (category === 'game') {
         // Game: Developer, Genre, Release Date
         if (data.developer && data.developer.length > 0) {
-          const developers = Array.isArray(data.developer)
-            ? data.developer.join(', ')
-            : data.developer
+          const developers = Array.isArray(data.developer) ? data.developer.join(', ') : data.developer
           fieldInfo.push(`开发者: ${developers}`)
         }
         if (data.genre && data.genre.length > 0) {
@@ -151,14 +149,14 @@
       `
     }
 
-    containers.forEach((container) => {
+    // Build fetch promises for parallel execution
+    const fetchPromises = Array.from(containers).map(async (container) => {
       const url = container.getAttribute('data-url')
 
       if (!url) return
 
       let fetchUrl = ''
-      const neodbUrlPattern =
-        /neodb\.social\/(movie|book|music|album|game|tv\/season|tv|podcast)\/([\w-]+)/
+      const neodbUrlPattern = /neodb\.social\/(movie|book|music|album|game|tv\/season|tv|podcast)\/([\w-]+)/
       const isNeoDbUrl = neodbUrlPattern.test(url)
 
       if (isNeoDbUrl) {
@@ -178,27 +176,27 @@
       }
 
       if (fetchUrl) {
-        fetch(fetchUrl, {
-          mode: 'cors',
-          headers: {
-            Accept: 'application/json'
-          }
-        })
-          .then((res) => {
-            if (!res.ok) throw new Error(`Response ${res.status}`)
-            return res.json()
+        try {
+          const res = await fetch(fetchUrl, {
+            mode: 'cors',
+            headers: {
+              Accept: 'application/json'
+            }
           })
-          .then((json) => {
-            const data = json.data ? json.data : json
-            renderCard(container, data, url)
-          })
-          .catch(() => {
-            renderError(container)
-          })
+          if (!res.ok) throw new Error(`Response ${res.status}`)
+          const json = await res.json()
+          const data = json.data ? json.data : json
+          renderCard(container, data, url)
+        } catch {
+          renderError(container)
+        }
       } else {
         renderError(container)
       }
     })
+
+    // Execute all fetches in parallel
+    Promise.allSettled(fetchPromises)
   }
 
   loadNeoDBCards()

@@ -28,14 +28,10 @@ function toggleAstroAdapter(comment: boolean) {
   const astroConfig = fs.readFileSync(astroConfigPath, 'utf-8').split('\n')
 
   // Find the import line for netlify adapter (including commented lines)
-  const importIndex = astroConfig.findIndex(
-    (line) => line.trim().includes('import') && line.includes('netlify')
-  )
+  const importIndex = astroConfig.findIndex((line) => line.trim().includes('import') && line.includes('netlify'))
 
   // Find the adapter line (including commented lines)
-  const adapterIndex = astroConfig.findIndex(
-    (line) => line.trim().includes('adapter:') && line.includes('netlify')
-  )
+  const adapterIndex = astroConfig.findIndex((line) => line.trim().includes('adapter:') && line.includes('netlify'))
 
   if (importIndex === -1 || adapterIndex === -1) {
     console.error('Could not find netlify adapter import or configuration')

@@ -84,7 +84,11 @@
   }
 
   // Initialize favicon theme switcher
+  let faviconSwitcherInitialized = false
   function init() {
+    if (faviconSwitcherInitialized) return
+    faviconSwitcherInitialized = true
+
     try {
       new FaviconThemeSwitcher()
     } catch (error) {
@@ -92,13 +96,6 @@
     }
   }
 
-  // Initialize when DOM is ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init)
-  } else {
-    init()
-  }
-
-  // Re-initialize on Astro page loads
+  // Use only astro:page-load as it fires on initial load and navigation
   document.addEventListener('astro:page-load', init)
 </script>

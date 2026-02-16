@@ -46,12 +46,7 @@ const embedHandlers = {
     }
 
     let height = '152'
-    if (
-      url.includes('/album/') ||
-      url.includes('/playlist/') ||
-      url.includes('/artist/') ||
-      url.includes('/show/')
-    ) {
+    if (url.includes('/album/') || url.includes('/playlist/') || url.includes('/artist/') || url.includes('/show/')) {
       height = '352'
     }
 
@@ -199,8 +194,7 @@ const embedHandlers = {
       return false
     }
 
-    const neodbUrlPattern =
-      /neodb\.social\/(movie|book|music|album|game|tv\/season|tv|podcast)\/([\w-]+)/
+    const neodbUrlPattern = /neodb\.social\/(movie|book|music|album|game|tv\/season|tv|podcast)\/([\w-]+)/
     const match = url.match(neodbUrlPattern)
     const category = match ? match[1] : 'other'
 

@@ -38,7 +38,7 @@ pubDate: '2025-07-10'
 ```ts
 // Site Info
 site: {
-  website: 'https://astro-chiri.netlify.app/', // Site domain
+  website: 'https://chiri.the3ash.com/', // Site domain
   title: 'CHIRI', // Site title
   author: '3ASH', // Author name
   description: 'Minimal blog built by Astro', // Site description

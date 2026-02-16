@@ -3,8 +3,37 @@
 </div>
 
 <script>
+  let mask: HTMLElement | null = null
+  let ticking = false
+  let isMobileSafariBrowser = false
+
+  // Check if the browser is mobile Safari
+  function isMobileSafari(): boolean {
+    if (typeof window === 'undefined') return false
+
+    const ua = navigator.userAgent
+    const platform = navigator.platform
+
+    const isIOSDevice = /iP(ad|hone|od)/.test(ua) || (platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+
+    if (!isIOSDevice) return false
+
+    const isSafari = /Safari\//.test(ua) && !/(CriOS|FxiOS|EdgiOS|OPiOS|DuckDuckGo)/.test(ua)
+    if (!isSafari) return false
+
+    const isMobileLike =
+      window.matchMedia?.('(pointer: coarse)').matches || window.matchMedia?.('(max-width: 768px)').matches
+
+    return Boolean(isMobileLike)
+  }
+
   function updateMask() {
-    const mask = document.querySelector('.gradient-mask') as HTMLElement
+    if (isMobileSafariBrowser) return
+    if (!mask) {
+      mask = document.querySelector('.gradient-mask') as HTMLElement
+    }
+    if (!mask) return
+
     const threshold = 64
     const scrollY = window.scrollY
 
@@ -15,10 +44,30 @@
     }
   }
 
-  document.addEventListener('DOMContentLoaded', () => {
+  function onScroll() {
+    if (ticking) return
+    ticking = true
+    requestAnimationFrame(() => {
+      updateMask()
+      ticking = false
+    })
+  }
+
+  function initGradientMask() {
+    isMobileSafariBrowser = isMobileSafari()
+    mask = document.querySelector('.gradient-mask') as HTMLElement
+
+    if (isMobileSafariBrowser && mask) {
+      mask.style.display = 'none'
+      return
+    }
+
     updateMask()
-    window.addEventListener('scroll', updateMask)
-  })
+  }
+
+  // Use only astro:page-load as it fires on initial load and navigation
+  document.addEventListener('astro:page-load', initGradientMask)
+  window.addEventListener('scroll', onScroll, { passive: true })
 </script>
 
 <style>
@@ -27,29 +76,50 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: 6rem;
+    height: 2rem;
     z-index: 99;
     pointer-events: none;
-    background: linear-gradient(to bottom, var(--bg) 0%, transparent 100%);
+    background-color: var(--bg);
+    backdrop-filter: blur(1px);
     mask-image: linear-gradient(
       to bottom,
       black 0%,
-      rgba(0, 0, 0, 0.8) 20%,
-      rgba(0, 0, 0, 0.6) 40%,
-      rgba(0, 0, 0, 0.4) 60%,
-      rgba(0, 0, 0, 0.2) 80%,
+      rgba(0, 0, 0, 0.738) 19%,
+      rgba(0, 0, 0, 0.541) 34%,
+      rgba(0, 0, 0, 0.382) 47%,
+      rgba(0, 0, 0, 0.278) 56.5%,
+      rgba(0, 0, 0, 0.194) 65%,
+      rgba(0, 0, 0, 0.126) 73%,
+      rgba(0, 0, 0, 0.075) 80.2%,
+      rgba(0, 0, 0, 0.042) 86.1%,
+      rgba(0, 0, 0, 0.021) 91%,
+      rgba(0, 0, 0, 0.008) 95.2%,
+      rgba(0, 0, 0, 0.002) 98.2%,
       transparent 100%
     );
     -webkit-mask-image: linear-gradient(
       to bottom,
       black 0%,
-      rgba(0, 0, 0, 0.8) 20%,
-      rgba(0, 0, 0, 0.6) 40%,
-      rgba(0, 0, 0, 0.4) 60%,
-      rgba(0, 0, 0, 0.2) 80%,
+      rgba(0, 0, 0, 0.738) 19%,
+      rgba(0, 0, 0, 0.541) 34%,
+      rgba(0, 0, 0, 0.382) 47%,
+      rgba(0, 0, 0, 0.278) 56.5%,
+      rgba(0, 0, 0, 0.194) 65%,
+      rgba(0, 0, 0, 0.126) 73%,
+      rgba(0, 0, 0, 0.075) 80.2%,
+      rgba(0, 0, 0, 0.042) 86.1%,
+      rgba(0, 0, 0, 0.021) 91%,
+      rgba(0, 0, 0, 0.008) 95.2%,
+      rgba(0, 0, 0, 0.002) 98.2%,
       transparent 100%
     );
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: background-color 0.2s ease-out;
+  }
+
+  @media (min-width: 768px) {
+    .gradient-mask {
+      height: 4rem;
+    }
   }
 </style>

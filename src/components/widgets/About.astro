@@ -4,9 +4,7 @@ import { render } from 'astro:content'
 
 const aboutEntry = await getEntry('about', 'about')
 // Check if there is actual content (excluding comments)
-const hasContent = aboutEntry?.body
-  ? aboutEntry.body.replace(/<!--[\s\S]*?-->/g, '').trim().length > 0
-  : false
+const hasContent = aboutEntry?.body ? aboutEntry.body.replace(/<!--[\s\S]*?-->/g, '').trim().length > 0 : false
 const { Content } = hasContent && aboutEntry ? await render(aboutEntry) : { Content: null }
 ---
 

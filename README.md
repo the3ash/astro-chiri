@@ -5,7 +5,7 @@
 
 Chiri is a minimal blog theme built with [Astro](https://astro.build), offering customization options while preserving its clean aesthetic.
 
-Check the [demo](https://astro-chiri.netlify.app/) for more details.
+Check the [demo](https://chiri.the3ash.com/) for more details.
 
 ## Features
 
@@ -17,7 +17,6 @@ Check the [demo](https://astro-chiri.netlify.app/) for more details.
 - [x] Sitemap
 - [x] OpenGraph
 - [x] RSS
-- [ ] Pagination
 
 ## Getting Started
 

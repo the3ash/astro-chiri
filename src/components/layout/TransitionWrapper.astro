@@ -3,11 +3,10 @@ import type { TransitionProps } from '@/types'
 
 type Props = TransitionProps
 
-const { type, class: className = '' } = Astro.props
-const transitionName = type === 'post' ? 'post-content' : 'page-content'
+const { class: className = '' } = Astro.props
 ---
 
-<div transition:name={transitionName} class={className} id="transition-wrapper">
+<div class={className} id="transition-wrapper">
   <slot />
 </div>
 
@@ -31,13 +30,11 @@ const transitionName = type === 'post' ? 'post-content' : 'page-content'
 <style is:inline>
   @supports (view-transition-name: none) {
     @media not (prefers-reduced-motion: reduce) {
-      ::view-transition-old(post-content),
-      ::view-transition-old(page-content) {
+      ::view-transition-old(root) {
         animation: fade-out 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
       }
 
-      ::view-transition-new(post-content),
-      ::view-transition-new(page-content) {
+      ::view-transition-new(root) {
         opacity: 0;
         animation: fade-in 0.4s ease 0.2s forwards;
         will-change: filter, opacity, transform;

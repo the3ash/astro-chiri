@@ -62,12 +62,8 @@ import { themeConfig } from '@/config'
 
     adjustBackButtonPosition()
 
-    document.addEventListener('astro:page-load', () => {
-      adjustBackButtonPosition()
-    })
-    document.addEventListener('DOMContentLoaded', () => {
-      adjustBackButtonPosition()
-    })
+    // Use only astro:page-load as it fires on initial load and navigation
+    document.addEventListener('astro:page-load', adjustBackButtonPosition)
     window.addEventListener('resize', adjustBackButtonPosition)
   })()
 </script>

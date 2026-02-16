@@ -50,8 +50,7 @@
         doc.querySelector('meta[name="twitter:image"]')?.getAttribute('content') ||
         ''
 
-      const imageAlt =
-        doc.querySelector('meta[property="og:image:alt"]')?.getAttribute('content') || title || ''
+      const imageAlt = doc.querySelector('meta[property="og:image:alt"]')?.getAttribute('content') || title || ''
 
       const metadata = {
         title: title?.trim() || '',
@@ -200,7 +199,8 @@
 
 <style is:inline>
   .prose .link-card {
-    display: block;
+    display: flex;
+    flex-direction: column;
     border: 0.5px solid var(--border);
     border-radius: 8px;
     overflow: hidden;
@@ -219,15 +219,20 @@
 
   .prose .link-card-content {
     padding: 0.75rem 1.25rem 0.75rem 1.25rem;
+    order: 2;
+    display: flex;
+    flex-direction: column;
   }
 
   .prose .link-card-image-outer {
-    padding: 0 0.5rem 0.5rem 0.5rem;
+    padding: 0.5rem 0.5rem 0 0.5rem;
+    order: 1;
   }
 
-  /* Set container size/padding when image hidden */
-  .prose .link-card-image-outer:has(.link-card-image[style*='display: none']) {
-    padding: 0 0.25rem 0.25rem 0.25rem;
+  /* Hide image outer container when no image is displayed */
+  .prose .link-card-image-outer:has(.link-card-image[style*='display: none']),
+  .prose .link-card-image-outer:not(:has(.link-card-image[style*='display: block'])) {
+    display: none;
   }
 
   .prose .link-card-image {
@@ -270,11 +275,12 @@
     font-size: var(--font-size-m);
     font-weight: var(--font-weight-bold);
     color: var(--text-primary);
-    margin: 0.375rem 0 0 0;
+    margin: 0.25rem 0 0 0;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     padding-right: 1rem;
+    order: 1;
   }
 
   .prose .link-card .link-card-description {
@@ -289,6 +295,7 @@
     word-wrap: break-word !important;
     /* Fallback for older browsers */
     max-height: calc(1.4em * 2) !important;
+    order: 2;
   }
 
   /* Hide description when display is set to none */
@@ -308,12 +315,13 @@
   }
 
   .prose .link-card-url {
-    color: var(--text-secondary);
+    color: var(--text-tertiary);
     letter-spacing: 0.015em;
-    margin: 0;
+    margin: 0.25rem 0;
     display: flex;
     align-items: center;
     gap: 0.325rem;
+    order: 3;
   }
 
   .prose .link-card-url svg {
@@ -329,14 +337,13 @@
   }
 
   .prose .link-card:not(:has(.link-card-image[style*='display: block'])) {
-    padding: 1rem 1.25rem 0.75rem 1.25rem;
+    padding: 0.5rem 1.25rem 0.5rem 1.25rem;
+  }
+  .prose .link-card:has(.link-card-image[style*='display: block']) .link-card-content {
+    padding: 0.5rem 1.25rem 0.5rem 1.25rem;
   }
 
   .prose .link-card:not(:has(.link-card-image[style*='display: block'])) .link-card-content {
     padding: 0;
-  }
-
-  .prose .link-card:has(.link-card-image[style*='display: block']) .link-card-content {
-    padding: 1rem 1.25rem 0.75rem 1.25rem;
   }
 </style>
