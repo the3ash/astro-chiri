@@ -26,7 +26,7 @@
     "astro-og-canvas": "^0.10.1",
     "canvaskit-wasm": "^0.40.0",
     "feed": "^5.2.0",
-    "katex": "^0.16.28",
+    "katex": "^0.16.32",
     "markdown-it": "^14.1.1",
     "mdast-util-to-string": "^4.0.0",
     "node-html-parser": "^7.0.2",
@@ -34,7 +34,7 @@
     "rehype-katex": "^7.0.1",
     "remark-directive": "^4.0.0",
     "remark-math": "^6.0.0",
-    "sanitize-html": "^2.17.0",
+    "sanitize-html": "^2.17.1",
     "sharp": "^0.34.5",
     "unist-util-visit": "^5.1.0"
   },
