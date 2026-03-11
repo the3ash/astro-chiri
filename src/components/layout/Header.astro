@@ -6,7 +6,7 @@ import ThemeToggle from '@/components/ui/ThemeToggle.astro'
 <header>
   <nav>
     <a href="/">{themeConfig.site.title}</a>
-    <ThemeToggle />
+    {themeConfig.general.themeToggle && <ThemeToggle />}
   </nav>
 </header>
 <style>
