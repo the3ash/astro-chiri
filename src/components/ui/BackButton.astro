@@ -14,59 +14,55 @@ import { themeConfig } from '@/config'
   index
 </a>
 
-<script
-  is:inline
-  define:vars={{
-    contentWidth: themeConfig.general.contentWidth,
-    centeredLayout: themeConfig.general.centeredLayout,
-    toc: themeConfig.post.toc
-  }}
->
-  ;(function () {
-    // Adjust back button position based on layout and screen size
-    function adjustBackButtonPosition() {
-      const button = document.querySelector('.back-button')
-      if (!button) return
+{
+  themeConfig.general.centeredLayout && (
+    <script
+      is:inline
+      define:vars={{
+        contentWidth: themeConfig.general.contentWidth,
+        toc: themeConfig.post.toc
+      }}
+    >
+      ;(function () {
+        // Adjust back button position based on layout and screen size
+        function adjustBackButtonPosition() {
+          const button = document.querySelector('.back-button')
+          if (!button) return
 
-      // If not using centered layout, remove fixed positioning
-      if (!centeredLayout) {
-        button.classList.remove('fixed-position')
-        button.style.left = ''
-        return
-      }
+          // Calculate available margin space for positioning
+          const pageWidth = window.innerWidth
+          const contentWidthValue = parseFloat(contentWidth)
+          // Apply the same minimum width logic as in BaseLayout
+          const widthValue = Math.min(contentWidthValue, 50)
+          const shouldUseCustomWidth = widthValue > 25
+          const finalWidthValue = shouldUseCustomWidth ? widthValue : 25
+          const margin = (pageWidth - finalWidthValue * 16) / 2
+          const baseMinSpace = 11 * 16 // Base minimum space needed
+          // If toc is enabled, need additional 2.5rem (40px) space
+          const minSpace = toc ? baseMinSpace + 52 : baseMinSpace + 12
 
-      // Calculate available margin space for positioning
-      const pageWidth = window.innerWidth
-      const contentWidthValue = parseFloat(contentWidth)
-      // Apply the same minimum width logic as in BaseLayout
-      const widthValue = Math.min(contentWidthValue, 50)
-      const shouldUseCustomWidth = widthValue > 25
-      const finalWidthValue = shouldUseCustomWidth ? widthValue : 25
-      const margin = (pageWidth - finalWidthValue * 16) / 2
-      const baseMinSpace = 11 * 16 // Base minimum space needed
-      // If toc is enabled, need additional 2.5rem (40px) space
-      const minSpace = toc ? baseMinSpace + 52 : baseMinSpace + 12
+          // Position button fixed on the left if there's enough space
+          if (margin >= minSpace) {
+            button.classList.add('fixed-position')
+            const basePosition = margin - baseMinSpace
+            // If toc is enabled, move 2.5rem (40px) further left
+            const leftPosition = toc ? basePosition - 40 : basePosition
+            button.style.left = `${leftPosition}px`
+          } else {
+            button.classList.remove('fixed-position')
+            button.style.left = ''
+          }
+        }
 
-      // Position button fixed on the left if there's enough space
-      if (margin >= minSpace) {
-        button.classList.add('fixed-position')
-        const basePosition = margin - baseMinSpace
-        // If toc is enabled, move 2.5rem (40px) further left
-        const leftPosition = toc ? basePosition - 40 : basePosition
-        button.style.left = `${leftPosition}px`
-      } else {
-        button.classList.remove('fixed-position')
-        button.style.left = ''
-      }
-    }
+        adjustBackButtonPosition()
 
-    adjustBackButtonPosition()
-
-    // Use only astro:page-load as it fires on initial load and navigation
-    document.addEventListener('astro:page-load', adjustBackButtonPosition)
-    window.addEventListener('resize', adjustBackButtonPosition)
-  })()
-</script>
+        // Use only astro:page-load as it fires on initial load and navigation
+        document.addEventListener('astro:page-load', adjustBackButtonPosition)
+        window.addEventListener('resize', adjustBackButtonPosition)
+      })()
+    </script>
+  )
+}
 
 <style>
   .back-button {
