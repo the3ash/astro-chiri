@@ -8,6 +8,8 @@
     const viewerImg = document.getElementById('image-viewer-img') as HTMLImageElement
 
     if (!viewer || !viewerImg || viewerImg.tagName !== 'IMG') return
+    if (viewer.dataset.imageViewerInitialized) return
+    viewer.dataset.imageViewerInitialized = 'true'
 
     // Display image in fullscreen viewer overlay
     function showImage(src: string, alt?: string) {
@@ -15,8 +17,7 @@
         viewerImg.src = src
         viewerImg.alt = alt || ''
       }
-      // Show visibility first
-      viewer!.style.visibility = 'visible'
+
       void viewer!.offsetWidth
       viewer!.classList.add('active')
       document.body.classList.add('image-viewer-open')
@@ -38,7 +39,6 @@
     // Hide and clear image after transition ends
     viewer!.addEventListener('transitionend', (e) => {
       if (e.propertyName === 'opacity' && !viewer!.classList.contains('active')) {
-        viewer!.style.visibility = 'hidden'
         if (viewerImg) {
           viewerImg.src = ''
           viewerImg.alt = ''
@@ -55,6 +55,9 @@
       const previewImages = document.querySelectorAll('img[data-preview="true"]')
       previewImages.forEach((img) => {
         const imgElement = img as HTMLImageElement
+        if (imgElement.dataset.imageViewerBound) return
+        imgElement.dataset.imageViewerBound = 'true'
+
         imgElement.style.cursor = 'pointer'
         imgElement.addEventListener('click', (e) => {
           e.preventDefault()
@@ -99,8 +102,7 @@
       })
     }
 
-    // Hide initially
-    viewer!.style.visibility = 'hidden'
+    viewer!.classList.remove('active')
   }
 
   // Use only astro:page-load as it fires on initial load and navigation
@@ -119,6 +121,8 @@
     align-items: center;
     justify-content: center;
     opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
     transition: opacity 0.15s ease-in-out;
     background: color-mix(in srgb, var(--bg) 90%, transparent);
     cursor: zoom-out;
@@ -126,6 +130,8 @@
 
   .image-viewer.active {
     opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
   }
 
   .image-viewer img {
