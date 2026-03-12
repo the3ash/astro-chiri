@@ -64,12 +64,7 @@ const finalWidth = shouldUseCustomWidth ? `${widthValue}rem` : '25rem'
   .layout-wrapper {
     display: flex;
     flex-direction: column;
-    min-height: calc(100vh - 7.5rem);
-  }
-
-  @media (max-width: 768px) {
-    .layout-wrapper {
-      min-height: calc(100vh - 5.5rem);
-    }
+    flex: 1;
+    min-height: 0;
   }
 </style>
