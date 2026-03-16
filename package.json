@@ -19,8 +19,8 @@
   "dependencies": {
     "@astrojs/mdx": "^4.3.13",
     "@astrojs/netlify": "^6.6.4",
-    "@astrojs/rss": "^4.0.15",
-    "@astrojs/sitemap": "^3.7.0",
+    "@astrojs/rss": "^4.0.17",
+    "@astrojs/sitemap": "^3.7.1",
     "@playform/inline": "^0.1.2",
     "astro": "^5.18.0",
     "astro-og-canvas": "^0.10.1",
