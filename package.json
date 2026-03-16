@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.14",
-    "@astrojs/netlify": "^6.6.4",
+    "@astrojs/netlify": "^6.6.5",
     "@astrojs/rss": "^4.0.17",
     "@astrojs/sitemap": "^3.7.1",
     "@playform/inline": "^0.1.4",
