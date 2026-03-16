@@ -21,8 +21,8 @@ importers:
         specifier: ^3.7.1
         version: 3.7.1
       '@playform/inline':
-        specifier: ^0.1.2
-        version: 0.1.2(@netlify/blobs@10.7.0)(@types/node@25.5.0)(jiti@2.6.1)(rollup@4.59.0)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.2)
+        specifier: ^0.1.4
+        version: 0.1.4(@netlify/blobs@10.7.0)(@types/node@25.5.0)(jiti@2.6.1)(rollup@4.59.0)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.2)
       astro:
         specifier: ^5.18.0
         version: 5.18.0(@netlify/blobs@10.7.0)(@types/node@25.5.0)(jiti@2.6.1)(rollup@4.59.0)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.2)
@@ -1181,11 +1181,11 @@ packages:
     resolution: {integrity: sha512-QNqXyfVS2wm9hweSYD2O7F0G06uurj9kZ96TRQE5Y9hU7+tgdZwIkbAKc5Ocy1HxEY2kuDQa6cQ1WRs/O5LFKA==}
     engines: {node: ^12.20.0 || ^14.18.0 || >=16.0.0}
 
-  '@playform/inline@0.1.2':
-    resolution: {integrity: sha512-Eqk1FbKc1bNf5zyTBzrqeUvH0qExIzf6auw+yDXRl2MMZOt72FXQfnES1dtdxgjIEf4TDbPBtJ1rTofp52vDvQ==}
+  '@playform/inline@0.1.4':
+    resolution: {integrity: sha512-hl7v58Soxf/8lXxTfe7TcXRLoOGUdvwen7lKrOduZGi2Bu0sfDQjyEPKE5jaLXf26SBjfFiuAGyEllHddAPFfg==}
 
-  '@playform/pipe@0.1.3':
-    resolution: {integrity: sha512-cjRcaj6b8XZMS+N51In78EuD9e0x0M3gYxi2g+qUGk1iya2uxcS+aSrXxfBUZueOjxADQwpyS4zLEhlbHCGcDA==}
+  '@playform/pipe@0.1.4':
+    resolution: {integrity: sha512-SM3iJ5VHA61NsYMrtvk8DAZwkrpPtBCiJnfWjj1iX6Ke/hnHLqVjTmkXG087UMOa9Z+3J/zUoAkzf3Al6tiS8A==}
 
   '@rollup/pluginutils@5.3.0':
     resolution: {integrity: sha512-5EdhGZtnu3V88ces7s53hhfK5KSASnJZv8Lulpc04cWO3REESroJXg73DFsOmgbU2BhwV0E20bu2IDZb3VKW4Q==}
@@ -1392,11 +1392,11 @@ packages:
   '@types/nlcst@2.0.3':
     resolution: {integrity: sha512-vSYNSDe6Ix3q+6Z7ri9lyWqgGhJTmzRjZRqyq15N0Z/1/UnVsno9G/N40NBijoYx2seFDIl0+B2mgAb9mezUCA==}
 
-  '@types/node@22.13.14':
-    resolution: {integrity: sha512-Zs/Ollc1SJ8nKUAgc7ivOEdIBM8JAKgrqqUYi2J997JuKO7/tpQC+WCetQ1sypiKCQWHdvdg9wBNpUPEWZae7w==}
-
   '@types/node@24.12.0':
     resolution: {integrity: sha512-GYDxsZi3ChgmckRT9HPU0WEhKLP08ev/Yfcq2AstjrDASOYCSXeyjDsHg4v5t4jOj7cyDX3vmprafKlWIG9MXQ==}
+
+  '@types/node@25.0.3':
+    resolution: {integrity: sha512-W609buLVRVmeW693xKfzHeIV6nJGGz98uCPfeXI1ELMLXVeKYZ9m15fAMSaUPBHYLGFsVRcMmSCksQOrZV9BYA==}
 
   '@types/node@25.5.0':
     resolution: {integrity: sha512-jp2P3tQMSxWugkCUKLRPVUpGaL5MVFwF8RDuSRztfwgN1wmqJeMSbKlnEtQqU8UrhTmzEmZdu2I6v2dpp7XIxw==}
@@ -1800,9 +1800,9 @@ packages:
   base64-js@1.5.1:
     resolution: {integrity: sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==}
 
-  beasties@0.2.0:
-    resolution: {integrity: sha512-Ljqskqx/tbZagIglYoJIMzH5zgssyp+in9+9sAyh15N22AornBeIDnb8EZ6Rk+6ShfMxd92uO3gfpT0NtZbpow==}
-    engines: {node: '>=14.0.0'}
+  beasties@0.4.1:
+    resolution: {integrity: sha512-2Imdcw3LznDuxAbJM26RHniOLAzE6WgrK8OuvVXCQtNBS8rsnD9zsSEa3fHl4hHpUY7BYTlrpvtPVbvu9G6neg==}
+    engines: {node: '>=18.0.0'}
 
   better-ajv-errors@1.2.0:
     resolution: {integrity: sha512-UW+IsFycygIo7bclP9h5ugkNH8EjCSgqyFB/yQ4Hqqa1OEYDtb0uFIkYE0b6+CjkgJYVM5UKI/pJPxjYe9EZlA==}
@@ -2032,6 +2032,9 @@ packages:
   css-select@5.2.2:
     resolution: {integrity: sha512-TizTzUddG/xYLA3NXodFM0fSbNizXjOKhqiQQwvhlspadZokn1KDy0NZFS0wuEubIYAV5/c1/lAr0TaaFXEXzw==}
 
+  css-select@6.0.0:
+    resolution: {integrity: sha512-rZZVSLle8v0+EY8QAkDWrKhpgt6SA5OtHsgBnsj6ZaLb5dmDVOWUDtQitd9ydxxvEjhewNudS6eTVU7uOyzvXw==}
+
   css-tree@2.2.1:
     resolution: {integrity: sha512-OA0mILzGc1kCOCSJerOeqDxDQ4HOh+G8NbOJFOTgOCzpw7fCBubk0fEyxp8AgOL/jvLgYA/uV0cMbe43ElF1JA==}
     engines: {node: ^10 || ^12.20.0 || ^14.13.0 || >=15.0.0, npm: '>=7.0.0'}
@@ -2042,6 +2045,10 @@ packages:
 
   css-what@6.2.2:
     resolution: {integrity: sha512-u/O3vwbptzhMs3L1fQE82ZSLHQQfto5gyZzwteVIEyeaY5Fc7R4dapF/BvRoSYFeqfBk4m0V1Vafq5Pjv25wvA==}
+    engines: {node: '>= 6'}
+
+  css-what@7.0.0:
+    resolution: {integrity: sha512-wD5oz5xibMOPHzy13CyGmogB3phdvcDaB5t0W/Nr5Z2O/agcB8YwOz6e2Lsp10pNDzBoDO9nVa3RGs/2BttpHQ==}
     engines: {node: '>= 6'}
 
   cssesc@3.0.0:
@@ -2772,9 +2779,6 @@ packages:
 
   htmlparser2@8.0.2:
     resolution: {integrity: sha512-GYdjWKDkbRLkZ5geuHs5NY1puJ+PXwP7+fHPRz06Eirsb9ugf6d8kkXav6ADhcODhFFPMIXyxkxSuMf3D6NCFA==}
-
-  htmlparser2@9.1.0:
-    resolution: {integrity: sha512-5zfg6mHUoaer/97TxnGpxmbR7zJtPwIYFMZ/H5ucTlPZhKvtum05yiPK3Mgai3a0DyVxv7qYqoweaEd2nrYQzQ==}
 
   http-cache-semantics@4.2.0:
     resolution: {integrity: sha512-dTxcvPXqPvXBQpq5dUr6mEMJX4oIEFv6bwom3FDwKRDsuIjjJGANqhBuoAn9c1RQJIdAKav33ED65E2ys+87QQ==}
@@ -3728,6 +3732,12 @@ packages:
   postcss-media-query-parser@0.2.3:
     resolution: {integrity: sha512-3sOlxmbKcSHMjlUXQZKQ06jOswE7oVkXPxmZdoB1r5l0q6gTFTQSHxNxOrCccElbW7dxNytifNEo8qidX2Vsig==}
 
+  postcss-safe-parser@7.0.1:
+    resolution: {integrity: sha512-0AioNCJZ2DPYz5ABT6bddIqlhgwhpHZ/l65YAYo0BCIn0xiDpsnTHz0gnoTGk0OXZW0JRs+cDwL8u/teRdz+8A==}
+    engines: {node: '>=18.0'}
+    peerDependencies:
+      postcss: ^8.4.31
+
   postcss-selector-parser@7.1.1:
     resolution: {integrity: sha512-orRsuYpJVw8LdAwqqLykBj9ecS5/cRHlI5+nvTo8LcCKmzDmqVORXtOIYEEQuL9D4BxtA1lm5isAqzQZCoQ6Eg==}
     engines: {node: '>=4'}
@@ -4334,9 +4344,6 @@ packages:
 
   uncrypto@0.1.3:
     resolution: {integrity: sha512-Ql87qFHB3s/De2ClA9e0gsnS6zXG27SkTiSJwjCc9MebbfapQfuPzumMIUMi38ezPZVNFcHI9sUIepeQfw8J8Q==}
-
-  undici-types@6.20.0:
-    resolution: {integrity: sha512-Ny6QZ2Nju20vw1SRHe3d9jVu6gJ+4e3+MMpqu7pqE5HT6WsTSlce++GQmK5UXS8mzV8DSYHrQH+Xrf2jVcuKNg==}
 
   undici-types@7.16.0:
     resolution: {integrity: sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw==}
@@ -5797,11 +5804,11 @@ snapshots:
 
   '@pkgr/core@0.2.9': {}
 
-  '@playform/inline@0.1.2(@netlify/blobs@10.7.0)(@types/node@25.5.0)(jiti@2.6.1)(rollup@4.59.0)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.2)':
+  '@playform/inline@0.1.4(@netlify/blobs@10.7.0)(@types/node@25.5.0)(jiti@2.6.1)(rollup@4.59.0)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.2)':
     dependencies:
-      '@playform/pipe': 0.1.3
+      '@playform/pipe': 0.1.4
       astro: 5.18.0(@netlify/blobs@10.7.0)(@types/node@25.5.0)(jiti@2.6.1)(rollup@4.59.0)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.2)
-      beasties: 0.2.0
+      beasties: 0.4.1
       deepmerge-ts: 7.1.5
     transitivePeerDependencies:
       - '@azure/app-configuration'
@@ -5838,9 +5845,9 @@ snapshots:
       - uploadthing
       - yaml
 
-  '@playform/pipe@0.1.3':
+  '@playform/pipe@0.1.4':
     dependencies:
-      '@types/node': 22.13.14
+      '@types/node': 25.0.3
       deepmerge-ts: 7.1.5
       fast-glob: 3.3.3
 
@@ -6010,11 +6017,11 @@ snapshots:
     dependencies:
       '@types/unist': 3.0.3
 
-  '@types/node@22.13.14':
-    dependencies:
-      undici-types: 6.20.0
-
   '@types/node@24.12.0':
+    dependencies:
+      undici-types: 7.16.0
+
+  '@types/node@25.0.3':
     dependencies:
       undici-types: 7.16.0
 
@@ -6634,16 +6641,17 @@ snapshots:
 
   base64-js@1.5.1: {}
 
-  beasties@0.2.0:
+  beasties@0.4.1:
     dependencies:
-      css-select: 5.2.2
-      css-what: 6.2.2
+      css-select: 6.0.0
+      css-what: 7.0.0
       dom-serializer: 2.0.0
       domhandler: 5.0.3
-      htmlparser2: 9.1.0
+      htmlparser2: 10.1.0
       picocolors: 1.1.1
       postcss: 8.5.8
       postcss-media-query-parser: 0.2.3
+      postcss-safe-parser: 7.0.1(postcss@8.5.8)
 
   better-ajv-errors@1.2.0(ajv@8.18.0):
     dependencies:
@@ -6863,6 +6871,14 @@ snapshots:
       domutils: 3.2.2
       nth-check: 2.1.1
 
+  css-select@6.0.0:
+    dependencies:
+      boolbase: 1.0.0
+      css-what: 7.0.0
+      domhandler: 5.0.3
+      domutils: 3.2.2
+      nth-check: 2.1.1
+
   css-tree@2.2.1:
     dependencies:
       mdn-data: 2.0.28
@@ -6874,6 +6890,8 @@ snapshots:
       source-map-js: 1.2.1
 
   css-what@6.2.2: {}
+
+  css-what@7.0.0: {}
 
   cssesc@3.0.0: {}
 
@@ -7858,13 +7876,6 @@ snapshots:
       entities: 7.0.1
 
   htmlparser2@8.0.2:
-    dependencies:
-      domelementtype: 2.3.0
-      domhandler: 5.0.3
-      domutils: 3.2.2
-      entities: 4.5.0
-
-  htmlparser2@9.1.0:
     dependencies:
       domelementtype: 2.3.0
       domhandler: 5.0.3
@@ -9120,6 +9131,10 @@ snapshots:
 
   postcss-media-query-parser@0.2.3: {}
 
+  postcss-safe-parser@7.0.1(postcss@8.5.8):
+    dependencies:
+      postcss: 8.5.8
+
   postcss-selector-parser@7.1.1:
     dependencies:
       cssesc: 3.0.0
@@ -9967,8 +9982,6 @@ snapshots:
       which-boxed-primitive: 1.1.1
 
   uncrypto@0.1.3: {}
-
-  undici-types@6.20.0: {}
 
   undici-types@7.16.0: {}
 
