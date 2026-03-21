@@ -8,18 +8,6 @@
   to = "/_astro/:splat"
   status = 200
 
-# Enable Brotli Compression
-[build.processing]
-  skip_processing = false
-[build.processing.css]
-  bundle = true
-  minify = true
-[build.processing.js]
-  bundle = true
-  minify = true
-[build.processing.html]
-  pretty_urls = true
-
 # Global headers
 [[headers]]
   for = "/*"
@@ -100,7 +88,6 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
     Vary = "Accept-Encoding"
-
 
 
 

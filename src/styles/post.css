@@ -52,14 +52,14 @@
 
 /* Links */
 .prose a {
-  color: var(--primary);
+  color: var(--text-primary);
   text-decoration: underline;
   text-decoration-color: var(--text-tertiary);
   transition: text-decoration-color 0.2s ease-out;
 }
 
 .prose a:hover {
-  color: var(--primary);
+  color: var(--text-primary);
   text-decoration-color: var(--text-primary);
 }
 

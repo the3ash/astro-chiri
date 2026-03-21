@@ -21,7 +21,6 @@
     "@astrojs/netlify": "^6.6.5",
     "@astrojs/rss": "^4.0.17",
     "@astrojs/sitemap": "^3.7.1",
-    "@playform/inline": "^0.1.4",
     "astro": "^5.18.1",
     "astro-og-canvas": "^0.10.1",
     "canvaskit-wasm": "^0.40.0",
