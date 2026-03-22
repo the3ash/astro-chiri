@@ -17,15 +17,15 @@
     "update-theme": "tsx scripts/update-theme.ts"
   },
   "dependencies": {
-    "@astrojs/mdx": "^4.3.14",
-    "@astrojs/netlify": "^6.6.5",
+    "@astrojs/mdx": "^5.0.2",
+    "@astrojs/netlify": "^7.0.4",
     "@astrojs/rss": "^4.0.17",
     "@astrojs/sitemap": "^3.7.1",
-    "astro": "^5.18.1",
+    "astro": "^6.0.8",
     "astro-og-canvas": "^0.10.1",
-    "canvaskit-wasm": "^0.40.0",
+    "canvaskit-wasm": "^0.41.0",
     "feed": "^5.2.0",
-    "katex": "^0.16.38",
+    "katex": "^0.16.40",
     "markdown-it": "^14.1.1",
     "mdast-util-to-string": "^4.0.0",
     "node-html-parser": "^7.1.0",
@@ -33,7 +33,7 @@
     "rehype-katex": "^7.0.1",
     "remark-directive": "^4.0.0",
     "remark-math": "^6.0.0",
-    "sanitize-html": "^2.17.1",
+    "sanitize-html": "^2.17.2",
     "sharp": "^0.34.5",
     "unist-util-visit": "^5.1.0"
   },
@@ -41,9 +41,9 @@
     "@eslint/js": "^10.0.1",
     "@types/markdown-it": "^14.1.2",
     "@types/sanitize-html": "^2.16.1",
-    "@typescript-eslint/eslint-plugin": "^8.57.0",
-    "@typescript-eslint/parser": "^8.57.0",
-    "eslint": "^10.0.3",
+    "@typescript-eslint/eslint-plugin": "^8.57.1",
+    "@typescript-eslint/parser": "^8.57.1",
+    "eslint": "^10.1.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-astro": "^1.6.0",
     "globals": "^17.4.0",
@@ -51,6 +51,6 @@
     "prettier-plugin-astro": "^0.14.1",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.57.0"
+    "typescript-eslint": "^8.57.1"
   }
 }
