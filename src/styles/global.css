@@ -116,8 +116,8 @@ body {
   flex-direction: column;
   box-sizing: border-box;
   letter-spacing: var(--spacing-m);
-  padding-block: 6rem 1.5rem;
-  margin: 0 1.5rem 0 8rem;
+  margin: 0 auto;
+  width: 100%;
   overscroll-behavior-y: contain;
   text-autospace: normal;
   text-spacing-trim: space-first;
@@ -127,10 +127,20 @@ body {
   overflow-wrap: break-word;
 }
 
+body[data-centered='true'] {
+  padding: 6rem 1.5rem 1.5rem;
+}
+
+body[data-centered='false'] {
+  padding: 6rem 0 1.5rem;
+  margin: 0 1.5rem 0 8rem;
+}
+
 @media (max-width: 768px) {
-  body {
-    padding-block: 4rem 1.35rem;
-    margin: 0 1.35rem;
+  body[data-centered='true'],
+  body[data-centered='false'] {
+    padding: 4rem 1.35rem 1.35rem;
+    margin: 0 auto;
   }
 }
 
@@ -158,10 +168,6 @@ body {
 
 body[data-width] {
   max-width: var(--content-width);
-}
-
-body[data-centered='true'] {
-  margin: 0 auto;
 }
 
 main {
