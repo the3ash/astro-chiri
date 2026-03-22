@@ -22,21 +22,21 @@
 [[headers]]
   for = "/*.html"
   [headers.values]
-    Cache-Control = "public, max-age=86400, s-maxage=172800"
+    Cache-Control = "public, max-age=0, must-revalidate"
     Vary = "Accept-Encoding"
 
 # Blog posts
 [[headers]]
   for = "/*/"
   [headers.values]
-    Cache-Control = "public, max-age=86400, s-maxage=172800"
+    Cache-Control = "public, max-age=0, must-revalidate"
     Vary = "Accept-Encoding"
 
 # Homepage
 [[headers]]
   for = "/"
   [headers.values]
-    Cache-Control = "public, max-age=1800, s-maxage=3600"
+    Cache-Control = "public, max-age=0, must-revalidate"
     Vary = "Accept-Encoding"
 
 # Static assets
@@ -53,44 +53,10 @@
     Vary = "Accept-Encoding"
 
 [[headers]]
-  for = "/assets/*"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-    Vary = "Accept-Encoding"
-
-[[headers]]
   for = "/*.css"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
     Vary = "Accept-Encoding"
-
-[[headers]]
-  for = "/*.js"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-    Vary = "Accept-Encoding"
-
-# Images
-[[headers]]
-  for = "/*.jpg"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-    Vary = "Accept-Encoding"
-
-[[headers]]
-  for = "/*.png"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-    Vary = "Accept-Encoding"
-
-[[headers]]
-  for = "/*.webp"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-    Vary = "Accept-Encoding"
-
-
-
 
 
 
