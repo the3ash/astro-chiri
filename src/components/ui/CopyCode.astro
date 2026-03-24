@@ -2,7 +2,7 @@
 import { themeConfig } from '@/config'
 ---
 
-<script define:vars={{ copyCode: themeConfig.post.copyCode }}>
+<script is:inline define:vars={{ copyCode: themeConfig.post.copyCode }}>
   function initCopyCode() {
     const copyIcon = `
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="14" height="14" fill="currentColor">

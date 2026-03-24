@@ -1,6 +1,6 @@
 <script>
   function bindFootnoteEvents() {
-    const footnoteLinks = document.querySelectorAll('[data-footnote-ref], [data-footnote-backref]')
+    const footnoteLinks = document.querySelectorAll<HTMLElement>('[data-footnote-ref], [data-footnote-backref]')
 
     footnoteLinks.forEach((link) => {
       // Skip if already bound

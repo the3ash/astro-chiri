@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "astro dev",
     "prebuild": "pnpm exec tsx scripts/toggle-proxy.ts",
-    "build": "pnpm run prebuild && astro build",
+    "build": "pnpm run typecheck && pnpm run prebuild && astro build",
+    "typecheck": "pnpm run typecheck:ts && astro check",
+    "typecheck:ts": "tsc --noEmit",
     "preview": "astro preview",
     "astro": "astro",
     "lint": "eslint .",
@@ -38,11 +40,12 @@
     "unist-util-visit": "^5.1.0"
   },
   "devDependencies": {
+    "@astrojs/check": "^0.9.8",
     "@eslint/js": "^10.0.1",
     "@types/markdown-it": "^14.1.2",
     "@types/sanitize-html": "^2.16.1",
-    "@typescript-eslint/eslint-plugin": "^8.57.1",
-    "@typescript-eslint/parser": "^8.57.1",
+    "@typescript-eslint/eslint-plugin": "^8.57.2",
+    "@typescript-eslint/parser": "^8.57.2",
     "eslint": "^10.1.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-astro": "^1.6.0",
@@ -50,7 +53,7 @@
     "prettier": "^3.8.1",
     "prettier-plugin-astro": "^0.14.1",
     "tsx": "^4.21.0",
-    "typescript": "^5.9.3",
-    "typescript-eslint": "^8.57.1"
+    "typescript": "^6.0.2",
+    "typescript-eslint": "^8.57.2"
   }
 }
