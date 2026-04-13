@@ -49,7 +49,7 @@
     "eslint": "^10.2.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-astro": "^1.7.0",
-    "globals": "^17.4.0",
+    "globals": "^17.5.0",
     "prettier": "^3.8.2",
     "prettier-plugin-astro": "^0.14.1",
     "tsx": "^4.21.0",
