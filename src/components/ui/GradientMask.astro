@@ -1,5 +1,6 @@
-<div class="gradient-mask">
-  <slot />
+<div class="gradient-mask" aria-hidden="true">
+  <div class="gradient-mask__blur"></div>
+  <div class="gradient-mask__background"></div>
 </div>
 
 <script>
@@ -72,6 +73,22 @@
 
 <style>
   .gradient-mask {
+    --gradient-mask-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.92) 0%,
+      rgba(0, 0, 0, 0.738) 19%,
+      rgba(0, 0, 0, 0.541) 34%,
+      rgba(0, 0, 0, 0.382) 47%,
+      rgba(0, 0, 0, 0.278) 56.5%,
+      rgba(0, 0, 0, 0.194) 65%,
+      rgba(0, 0, 0, 0.126) 73%,
+      rgba(0, 0, 0, 0.075) 80.2%,
+      rgba(0, 0, 0, 0.042) 86.1%,
+      rgba(0, 0, 0, 0.021) 91%,
+      rgba(0, 0, 0, 0.008) 95.2%,
+      rgba(0, 0, 0, 0.002) 98.2%,
+      transparent 100%
+    );
     position: fixed;
     top: 0;
     left: 0;
@@ -79,41 +96,25 @@
     height: 2rem;
     z-index: 99;
     pointer-events: none;
-    background-color: var(--bg);
-    backdrop-filter: blur(1px);
-    mask-image: linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, 0.92) 0%,
-      rgba(0, 0, 0, 0.738) 19%,
-      rgba(0, 0, 0, 0.541) 34%,
-      rgba(0, 0, 0, 0.382) 47%,
-      rgba(0, 0, 0, 0.278) 56.5%,
-      rgba(0, 0, 0, 0.194) 65%,
-      rgba(0, 0, 0, 0.126) 73%,
-      rgba(0, 0, 0, 0.075) 80.2%,
-      rgba(0, 0, 0, 0.042) 86.1%,
-      rgba(0, 0, 0, 0.021) 91%,
-      rgba(0, 0, 0, 0.008) 95.2%,
-      rgba(0, 0, 0, 0.002) 98.2%,
-      transparent 100%
-    );
-    -webkit-mask-image: linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, 0.92) 0%,
-      rgba(0, 0, 0, 0.738) 19%,
-      rgba(0, 0, 0, 0.541) 34%,
-      rgba(0, 0, 0, 0.382) 47%,
-      rgba(0, 0, 0, 0.278) 56.5%,
-      rgba(0, 0, 0, 0.194) 65%,
-      rgba(0, 0, 0, 0.126) 73%,
-      rgba(0, 0, 0, 0.075) 80.2%,
-      rgba(0, 0, 0, 0.042) 86.1%,
-      rgba(0, 0, 0, 0.021) 91%,
-      rgba(0, 0, 0, 0.008) 95.2%,
-      rgba(0, 0, 0, 0.002) 98.2%,
-      transparent 100%
-    );
     opacity: 0;
+    transition: opacity 0.2s ease-out;
+  }
+
+  .gradient-mask__blur,
+  .gradient-mask__background {
+    position: absolute;
+    inset: 0;
+    mask-image: var(--gradient-mask-image);
+    -webkit-mask-image: var(--gradient-mask-image);
+  }
+
+  .gradient-mask__blur {
+    backdrop-filter: blur(1.5px);
+    -webkit-backdrop-filter: blur(1.5px);
+  }
+
+  .gradient-mask__background {
+    background-color: var(--bg);
     transition: background-color 0.2s ease-out;
   }
 
