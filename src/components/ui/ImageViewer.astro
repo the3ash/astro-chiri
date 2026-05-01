@@ -23,10 +23,6 @@
       document.body.classList.add('image-viewer-open')
       document.body.style.overflow = 'hidden'
       document.body.dataset.scrollY = window.scrollY.toString()
-      viewer!.style.cursor = 'auto'
-      setTimeout(() => {
-        viewer!.style.cursor = ''
-      }, 10)
     }
 
     // Hide the image viewer and restore page scroll
@@ -43,10 +39,6 @@
           viewerImg.src = ''
           viewerImg.alt = ''
         }
-        viewer!.style.cursor = 'auto'
-        setTimeout(() => {
-          viewer!.style.cursor = ''
-        }, 10)
       }
     })
 
@@ -125,7 +117,6 @@
     pointer-events: none;
     transition: opacity 0.15s ease-in-out;
     background: color-mix(in srgb, var(--bg) 90%, transparent);
-    cursor: zoom-out;
   }
 
   .image-viewer.active {
@@ -139,7 +130,6 @@
     max-width: 60vw;
     max-height: 80vh;
     object-fit: contain;
-    cursor: zoom-out;
   }
 
   @media (max-width: 768px) {
