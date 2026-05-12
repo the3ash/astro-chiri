@@ -48,8 +48,104 @@ function escapeHtml(value = '') {
     .replace(/'/g, '&#39;')
 }
 
+function escapeAttribute(value = '') {
+  return escapeHtml(value)
+}
+
 function getDisplayDomain(url) {
   return url.hostname.replace(/^www\./, '')
+}
+
+function getHostName(url) {
+  return url.hostname.replace(/^www\./, '').toLowerCase()
+}
+
+function isYouTubeVideoId(value) {
+  return /^[A-Za-z0-9_-]{11}$/.test(value)
+}
+
+function isBilibiliVideoId(value) {
+  return /^BV[A-Za-z0-9]+$/.test(value)
+}
+
+function getSpotifyEmbedUrl(rawUrl) {
+  const parsedUrl = normalizeHttpUrl(rawUrl)
+  if (!parsedUrl || getHostName(parsedUrl) !== 'open.spotify.com') return null
+
+  const path = parsedUrl.pathname.replace(/^\/embed\//, '/')
+  if (!/^\/(album|artist|episode|playlist|show|track)\/[A-Za-z0-9]+\/?$/.test(path)) return null
+
+  const embedUrl = new URL(parsedUrl.toString())
+  embedUrl.pathname = `/embed${path}`
+  if (!embedUrl.searchParams.has('utm_source')) {
+    embedUrl.searchParams.set('utm_source', 'generator')
+  }
+
+  return embedUrl
+}
+
+function getYouTubeVideoId(rawId, rawUrl) {
+  if (rawId && isYouTubeVideoId(rawId)) return rawId
+
+  const parsedUrl = normalizeHttpUrl(rawUrl)
+  if (!parsedUrl) return ''
+
+  const hostname = getHostName(parsedUrl)
+  let videoId = ''
+
+  if (hostname === 'youtu.be') {
+    videoId = parsedUrl.pathname.split('/').filter(Boolean)[0] || ''
+  } else if (hostname === 'youtube.com') {
+    if (parsedUrl.pathname.startsWith('/embed/')) {
+      videoId = parsedUrl.pathname.split('/').filter(Boolean)[1] || ''
+    } else {
+      videoId = parsedUrl.searchParams.get('v') || ''
+    }
+  }
+
+  return isYouTubeVideoId(videoId) ? videoId : ''
+}
+
+function getBilibiliVideoId(rawId, rawUrl) {
+  if (rawId && isBilibiliVideoId(rawId)) return rawId
+
+  const parsedUrl = normalizeHttpUrl(rawUrl)
+  if (!parsedUrl || getHostName(parsedUrl) !== 'bilibili.com') return ''
+
+  const match = parsedUrl.pathname.match(/\/video\/(BV[A-Za-z0-9]+)/)
+  const videoId = match ? match[1] : ''
+  return isBilibiliVideoId(videoId) ? videoId : ''
+}
+
+function getXPostUrl(rawUrl) {
+  const parsedUrl = normalizeHttpUrl(rawUrl)
+  if (!parsedUrl) return null
+
+  const hostname = getHostName(parsedUrl)
+  if (hostname !== 'x.com' && hostname !== 'twitter.com') return null
+
+  const match = parsedUrl.pathname.match(/^\/[A-Za-z0-9_]{1,15}\/status\/\d+/)
+  if (!match) return null
+
+  parsedUrl.hostname = 'twitter.com'
+  parsedUrl.pathname = match[0]
+  parsedUrl.search = ''
+  parsedUrl.hash = ''
+
+  return parsedUrl
+}
+
+function getGitHubRepo(repo) {
+  const match = String(repo)
+    .trim()
+    .match(/^([A-Za-z0-9-]+)\/([A-Za-z0-9._-]+)$/)
+  if (!match) return null
+
+  return {
+    owner: match[1],
+    name: match[2],
+    repo: `${match[1]}/${match[2]}`
+  }
 }
 
 function resolveMetadataImage(image, baseUrl) {
@@ -97,7 +193,7 @@ const embedHandlers = {
 
     return `
       <div class="link-card-wrapper">
-        <a href="${escapeHtml(url)}" class="${cardClass}" target="_blank" rel="noopener noreferrer">
+        <a href="${escapeAttribute(url)}" class="${cardClass}" target="_blank" rel="noopener noreferrer">
           <div class="link-card-content">
             <div class="link-card-url">${renderLinkIcon()}<span>${escapeHtml(domain)}</span></div>
             ${title ? `<p class="link-card-title">${escapeHtml(title)}</p>` : ''}
@@ -107,7 +203,7 @@ const embedHandlers = {
             image
               ? `<div class="link-card-image-outer">
                   <div class="link-card-image">
-                    <img src="${escapeHtml(image)}" alt="${escapeHtml(imageAlt)}" loading="lazy" decoding="async" />
+                    <img src="${escapeAttribute(image)}" alt="${escapeAttribute(imageAlt)}" loading="lazy" decoding="async" />
                   </div>
                 </div>`
               : ''
@@ -120,19 +216,13 @@ const embedHandlers = {
   // Spotify
   spotify: (node) => {
     const url = node.attributes?.url ?? ''
-    if (!url) {
+    const embedUrl = getSpotifyEmbedUrl(url)
+    if (!embedUrl) {
       return false
-    }
-    if (!/^https:\/\/open\.spotify\.com\//.test(url)) {
-      return false
-    }
-    let embedUrl = url.replace('open.spotify.com/', 'open.spotify.com/embed/')
-    if (!embedUrl.includes('utm_source=')) {
-      embedUrl += (embedUrl.includes('?') ? '&' : '?') + 'utm_source=generator'
     }
 
     let height = '152'
-    if (url.includes('/album/') || url.includes('/playlist/') || url.includes('/artist/') || url.includes('/show/')) {
+    if (/\/(album|artist|playlist|show)\//.test(embedUrl.pathname)) {
       height = '352'
     }
 
@@ -140,7 +230,7 @@ const embedHandlers = {
     <figure>
       <iframe
         style="border-radius:12px"
-        src="${embedUrl}"
+        src="${escapeAttribute(embedUrl.toString())}"
         width="100%"
         height="${height}"
         frameBorder="0"
@@ -154,13 +244,7 @@ const embedHandlers = {
 
   // Youtube
   youtube: (node) => {
-    let videoId = node.attributes?.id ?? ''
-    const url = node.attributes?.url ?? ''
-
-    if (!videoId && url) {
-      const match = url.match(/(?:v=|\/embed\/|youtu\.be\/)([\w-]{11})/)
-      if (match) videoId = match[1]
-    }
+    const videoId = getYouTubeVideoId(node.attributes?.id ?? '', node.attributes?.url ?? '')
 
     if (!videoId) {
       return false
@@ -170,7 +254,7 @@ const embedHandlers = {
     <figure>
       <iframe
         style="border-radius:6px"
-        src="https://www.youtube.com/embed/${videoId}"
+        src="https://www.youtube.com/embed/${escapeAttribute(videoId)}"
         title="YouTube video player"
         loading="lazy"
         frameborder="0"
@@ -183,12 +267,8 @@ const embedHandlers = {
 
   // Bilibili
   bilibili: (node) => {
-    let bvid = node.attributes?.id ?? ''
-    const url = node.attributes?.url ?? ''
-    if (!bvid && url) {
-      const match = url.match(/\/BV([\w]+)/)
-      if (match) bvid = 'BV' + match[1]
-    }
+    const bvid = getBilibiliVideoId(node.attributes?.id ?? '', node.attributes?.url ?? '')
+
     if (!bvid) {
       return false
     }
@@ -197,7 +277,7 @@ const embedHandlers = {
     <figure>
       <iframe
         style="border-radius:6px"
-        src="//player.bilibili.com/player.html?isOutside=true&bvid=${bvid}&p=1&autoplay=0&muted=0"
+        src="https://player.bilibili.com/player.html?isOutside=true&amp;bvid=${escapeAttribute(bvid)}&amp;p=1&amp;autoplay=0&amp;muted=0"
         title="Bilibili video player"
         loading="lazy"
         scrolling="no"
@@ -212,18 +292,17 @@ const embedHandlers = {
 
   // X Post Card
   x: (node) => {
-    const xUrl = node.attributes?.url ?? ''
-    if (!xUrl) {
+    const twitterUrl = getXPostUrl(node.attributes?.url ?? '')
+    if (!twitterUrl) {
       return false
     }
 
-    const twitterUrl = xUrl.replace(/(\w+:\/\/)?x\.com\//g, '$1twitter.com/')
     const uniqueId = `x-card-${Math.random().toString(36).slice(2, 11)}`
 
     return `
     <figure class="x-card">
       <blockquote class="twitter-tweet" data-dnt="true" id="${uniqueId}">
-        <a href="${twitterUrl}"></a>
+        <a href="${escapeAttribute(twitterUrl.toString())}"></a>
       </blockquote>
     </figure>
     `
@@ -231,24 +310,20 @@ const embedHandlers = {
 
   // Github Repository Card
   github: (node) => {
-    const repo = node.attributes?.repo ?? ''
-    if (!repo) {
+    const repoData = getGitHubRepo(node.attributes?.repo ?? '')
+    if (!repoData) {
       console.warn(`Missing GitHub repository`)
       return false
     }
 
-    const [owner, name] = repo.split('/')
-    if (!owner || !name) {
-      console.warn(`Invalid GitHub repository format: "${repo}"`)
-      return false
-    }
+    const { owner, name, repo } = repoData
 
     return `
-    <a href="https://github.com/${repo}" class="gc-container" target="_blank" rel="noopener noreferrer" data-repo="${repo}">
+    <a href="https://github.com/${escapeAttribute(repo)}" class="gc-container" target="_blank" rel="noopener noreferrer" data-repo="${escapeAttribute(repo)}">
         <div class="gc-title-bar">
           <div class="gc-owner-avatar" style="background-size: cover; background-position: center;" aria-hidden="true"></div>
           <span class="gc-repo-title">
-            <span>${owner}<span class="gc-slash" aria-hidden="true">/</span><strong>${name}</strong></span>
+            <span>${escapeHtml(owner)}<span class="gc-slash" aria-hidden="true">/</span><strong>${escapeHtml(name)}</strong></span>
           </span>
           <svg class="gc-github-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
             <path d="M12 1C5.9225 1 1 5.9225 1 12C1 16.8675 4.14875 20.9787 8.52125 22.4362C9.07125 22.5325 9.2775 22.2025 9.2775 21.9137C9.2775 21.6525 9.26375 20.7862 9.26375 19.865C6.5 20.3737 5.785 19.1912 5.565 18.5725C5.44125 18.2562 4.905 17.28 4.4375 17.0187C4.0525 16.8125 3.5025 16.3037 4.42375 16.29C5.29 16.2762 5.90875 17.0875 6.115 17.4175C7.105 19.0812 8.68625 18.6137 9.31875 18.325C9.415 17.61 9.70375 17.1287 10.02 16.8537C7.5725 16.5787 5.015 15.63 5.015 11.4225C5.015 10.2262 5.44125 9.23625 6.1425 8.46625C6.0325 8.19125 5.6475 7.06375 6.2525 5.55125C6.2525 5.55125 7.17375 5.2625 9.2775 6.67875C10.1575 6.43125 11.0925 6.3075 12.0275 6.3075C12.9625 6.3075 13.8975 6.43125 14.7775 6.67875C16.8813 5.24875 17.8025 5.55125 17.8025 5.55125C18.4075 7.06375 18.0225 8.19125 17.9125 8.46625C18.6138 9.23625 19.04 10.2125 19.04 11.4225C19.04 15.6437 16.4688 16.5787 14.0213 16.8537C14.42 17.1975 14.7638 17.8575 14.7638 18.8887C14.7638 20.36 14.75 21.5425 14.75 21.9137C14.75 22.2025 14.9563 22.5462 15.5063 22.4362C19.8513 20.9787 23 16.8537 23 12C23 5.9225 18.0775 1 12 1Z"></path>
@@ -275,20 +350,22 @@ const embedHandlers = {
 
   // NeoDB Card
   neodb: (node) => {
-    const url = node.attributes?.url ?? ''
-    if (!url) {
+    const parsedUrl = normalizeHttpUrl(node.attributes?.url ?? '')
+    if (!parsedUrl || getHostName(parsedUrl) !== 'neodb.social') {
       return false
     }
 
-    const neodbUrlPattern = /neodb\.social\/(movie|book|music|album|game|tv\/season|tv|podcast)\/([\w-]+)/
-    const match = url.match(neodbUrlPattern)
-    const category = match ? match[1] : 'other'
+    const url = parsedUrl.toString()
+    const match = parsedUrl.pathname.match(/^\/(movie|book|music|album|game|tv\/season|tv|podcast)\/([\w-]+)/)
+    if (!match) return false
+
+    const category = match[1]
 
     const isSquare = category === 'music' || category === 'album' || category === 'podcast'
     const skeletonClass = isSquare ? 'music' : 'other'
 
-    return `<div class="neodb-card-container" data-url="${url}">
-  <div class="neodb-card neodb-loading ${skeletonClass}">
+    return `<div class="neodb-card-container" data-url="${escapeAttribute(url)}">
+  <div class="neodb-card neodb-loading ${escapeAttribute(skeletonClass)}">
   </div>
 </div>`
   }
