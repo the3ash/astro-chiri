@@ -8,7 +8,7 @@
   /* Typography */
   --sans: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
   --serif: Besley, Baskerville, Georgia, 'Times New Roman', Times, serif;
-  --mono: 'SF Mono', SFMono-Regular, monospace;
+  --mono: 'SF Mono', SFMono-Regular, ui-monospace;
 
   --font-size-s: 0.8125rem;
   --font-size-m: 0.9375rem;
