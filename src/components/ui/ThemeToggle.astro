@@ -1,6 +1,12 @@
 <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
-  <div class="theme-icon hollow-circle"></div>
-  <div class="theme-icon solid-circle"></div>
+  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <g>
+      <rect width="12" height="12" fill="none" />
+      <path
+        d="M6 1C8.76142 1 11 3.23858 11 6C11 8.76142 8.76142 11 6 11C3.23858 11 1 8.76142 1 6C1 3.23858 3.23858 1 6 1ZM6 2.34961C3.98416 2.34961 2.34961 3.98416 2.34961 6C2.34961 8.01584 3.98416 9.65039 6 9.65039V2.34961Z"
+        fill="currentColor"></path>
+    </g>
+  </svg>
 </button>
 
 <script is:inline>
@@ -30,28 +36,23 @@
     cursor: pointer;
     display: flex;
     align-items: center;
+    justify-content: flex-end;
+    width: 1.5rem;
     height: 1.5rem;
-    gap: 0.1875rem;
     color: var(--text-primary);
-    transition: opacity 0.2s ease;
-    padding: 0 0 0 0.5rem;
+    opacity: 0.4;
+    transition: opacity 0.2s ease-out;
+    padding: 0;
     position: relative;
   }
 
-  .theme-icon {
-    width: 0.4375rem;
-    height: 0.4375rem;
-    transition: all 0.2s ease;
+  .theme-toggle:hover {
+    opacity: 1;
   }
 
-  .hollow-circle {
-    border: none;
-    border-radius: 50%;
-    box-shadow: inset 0 0 0 1.125px var(--text-primary);
-  }
-
-  .solid-circle {
-    background-color: var(--text-primary);
-    border-radius: 50%;
+  @media (hover: none) and (pointer: coarse) {
+    .theme-toggle:hover {
+      opacity: 0.4;
+    }
   }
 </style>
