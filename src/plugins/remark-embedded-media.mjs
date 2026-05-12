@@ -1,11 +1,71 @@
 import { visit } from 'unist-util-visit'
 import { markContentFeature } from './utils/content-features.mjs'
+import { themeConfig } from '../config.ts'
+import fs from 'node:fs'
 
 const FEATURE_BY_DIRECTIVE = {
   link: 'hasLinkCard',
   github: 'hasGithubCard',
   x: 'hasXPost',
   neodb: 'hasNeoDBCard'
+}
+
+const linkMetadataPath = new URL('../data/link-card-metadata.json', import.meta.url)
+let linkMetadataCache = {}
+let linkMetadataMtime = 0
+
+function getLinkMetadata(url, rawUrl) {
+  try {
+    const mtime = fs.statSync(linkMetadataPath).mtimeMs
+    if (mtime !== linkMetadataMtime) {
+      linkMetadataCache = JSON.parse(fs.readFileSync(linkMetadataPath, 'utf-8'))
+      linkMetadataMtime = mtime
+    }
+  } catch {
+    linkMetadataCache = {}
+    linkMetadataMtime = 0
+  }
+
+  return linkMetadataCache[url] || linkMetadataCache[rawUrl] || null
+}
+
+function normalizeHttpUrl(value) {
+  try {
+    const url = new URL(value)
+    if (url.protocol !== 'http:' && url.protocol !== 'https:') return null
+    return url
+  } catch {
+    return null
+  }
+}
+
+function escapeHtml(value = '') {
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+}
+
+function getDisplayDomain(url) {
+  return url.hostname.replace(/^www\./, '')
+}
+
+function resolveMetadataImage(image, baseUrl) {
+  if (!image) return ''
+
+  try {
+    return new URL(image, baseUrl).toString()
+  } catch {
+    return ''
+  }
+}
+
+function renderLinkIcon() {
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="currentColor" aria-hidden="true">
+    <path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path>
+  </svg>`
 }
 
 /**
@@ -15,25 +75,43 @@ const FEATURE_BY_DIRECTIVE = {
 const embedHandlers = {
   // Link Card
   link: (node) => {
-    const url = node.attributes?.url
-    if (!url) {
+    const rawUrl = node.attributes?.url ?? ''
+    const parsedUrl = normalizeHttpUrl(rawUrl)
+    if (!parsedUrl) {
       return false
     }
 
-    // Create the LinkCard HTML structure - all metadata will be fetched by JavaScript
+    const url = parsedUrl.toString()
+
+    if (!themeConfig.post.linkCard) {
+      return escapeHtml(`::link{url="${rawUrl}"}`)
+    }
+
+    const metadata = getLinkMetadata(url, rawUrl) || {}
+    const title = metadata.title?.trim() || ''
+    const description = metadata.description?.trim() || ''
+    const image = resolveMetadataImage(metadata.image?.trim(), url)
+    const imageAlt = metadata.imageAlt?.trim() || title
+    const domain = metadata.siteName?.trim() || getDisplayDomain(parsedUrl)
+    const cardClass = image ? 'link-card has-image' : 'link-card'
+
     return `
       <div class="link-card-wrapper">
-        <a href="${url}" class="link-card" target="_blank" rel="noopener noreferrer" data-url="${url}">
+        <a href="${escapeHtml(url)}" class="${cardClass}" target="_blank" rel="noopener noreferrer">
           <div class="link-card-content">
-            <div class="link-card-url"></div>
-            <p class="link-card-title" style="display: none;"></p>
-            <p class="link-card-description" style="display: none;"></p>
+            <div class="link-card-url">${renderLinkIcon()}<span>${escapeHtml(domain)}</span></div>
+            ${title ? `<p class="link-card-title">${escapeHtml(title)}</p>` : ''}
+            ${description ? `<p class="link-card-description">${escapeHtml(description)}</p>` : ''}
           </div>
-          <div class="link-card-image-outer">
-            <div class="link-card-image" style="display: none;">
-              <img src="" alt="" loading="lazy" />
-            </div>
-          </div>
+          ${
+            image
+              ? `<div class="link-card-image-outer">
+                  <div class="link-card-image">
+                    <img src="${escapeHtml(image)}" alt="${escapeHtml(imageAlt)}" loading="lazy" decoding="async" />
+                  </div>
+                </div>`
+              : ''
+          }
         </a>
       </div>
     `
