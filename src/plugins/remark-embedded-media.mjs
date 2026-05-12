@@ -1,4 +1,12 @@
 import { visit } from 'unist-util-visit'
+import { markContentFeature } from './utils/content-features.mjs'
+
+const FEATURE_BY_DIRECTIVE = {
+  link: 'hasLinkCard',
+  github: 'hasGithubCard',
+  x: 'hasXPost',
+  neodb: 'hasNeoDBCard'
+}
 
 /**
  * A remark plugin that converts custom directives to embedded media HTML elements
@@ -209,7 +217,7 @@ const embedHandlers = {
 }
 
 export default function remarkEmbeddedMedia() {
-  return (tree) => {
+  return (tree, file) => {
     visit(tree, ['leafDirective', 'containerDirective', 'textDirective'], (node) => {
       const handler = embedHandlers[node.name]
       if (!handler) {
@@ -220,6 +228,8 @@ export default function remarkEmbeddedMedia() {
       if (!htmlContent) {
         return
       }
+
+      markContentFeature(file, FEATURE_BY_DIRECTIVE[node.name])
 
       node.type = 'html'
       node.value = htmlContent

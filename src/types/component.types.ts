@@ -1,4 +1,4 @@
-import type { TOCItem, ReadingTime } from './content.types'
+import type { TOCItem, ReadingTime, ContentFeatures } from './content.types'
 
 // TOC component props interface
 export interface TOCProps {
@@ -12,6 +12,7 @@ export interface PostLayoutProps {
   image?: string
   readingTime?: ReadingTime
   toc?: TOCItem[]
+  contentFeatures?: ContentFeatures
 }
 
 // Transition props interface

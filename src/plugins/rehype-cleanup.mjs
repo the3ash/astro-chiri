@@ -1,11 +1,20 @@
 import { visit } from 'unist-util-visit'
+import { markContentFeature } from './utils/content-features.mjs'
+
+function hasProperty(properties, key) {
+  return Boolean(properties && Object.hasOwn(properties, key))
+}
 
 /**
  * Rehype plugin to cleanup and extract raw figure elements from paragraph nodes
  */
 export default function rehypeCleanup() {
-  return (tree) => {
+  return (tree, file) => {
     visit(tree, 'element', (node, index, parent) => {
+      if (hasProperty(node.properties, 'dataFootnoteRef') || hasProperty(node.properties, 'dataFootnoteBackref')) {
+        markContentFeature(file, 'hasFootnotes')
+      }
+
       // 1. Task List Item Fix: Remove leading space after checkbox
       if (node.tagName === 'li' && node.properties?.className?.includes('task-list-item')) {
         const children = node.children

@@ -20,8 +20,9 @@ const { Content, remarkPluginFrontmatter } = await render(post)
 
 const readingTime = remarkPluginFrontmatter.readingTime
 const toc = remarkPluginFrontmatter.toc || []
+const contentFeatures = remarkPluginFrontmatter.contentFeatures || {}
 ---
 
-<PostLayout {...post.data} readingTime={readingTime} toc={toc}>
+<PostLayout {...post.data} readingTime={readingTime} toc={toc} contentFeatures={contentFeatures}>
   <Content />
 </PostLayout>

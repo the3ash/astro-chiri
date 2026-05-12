@@ -19,10 +19,15 @@ import BaseLayout from '@/layouts/BaseLayout.astro'
 
 import { themeConfig } from '@/config'
 
-const { title, pubDate, readingTime, toc } = Astro.props as PostLayoutProps
+const { title, pubDate, readingTime, toc = [], contentFeatures = {} } = Astro.props as PostLayoutProps
 
 const postSlug = Astro.url.pathname.split('/').filter(Boolean).pop() || ''
 const ogImage = `/open-graph/${postSlug}.png`
+const shouldRenderToc = themeConfig.post.toc && toc.length > 0
+const shouldRenderCopyCode = themeConfig.post.copyCode && contentFeatures.hasCodeBlock
+const shouldRenderImageOptimizer = contentFeatures.hasContentImage
+const shouldRenderImageViewer = themeConfig.post.imageViewer && contentFeatures.hasContentImage
+const shouldRenderLinkCard = themeConfig.post.linkCard && contentFeatures.hasLinkCard
 ---
 
 <BaseLayout title={`${title} · ${themeConfig.site.title}`} description={themeConfig.site.description} type="post">
@@ -37,7 +42,7 @@ const ogImage = `/open-graph/${postSlug}.png`
       <div class="prose">
         <GradientMask />
         <BackButton />
-        {themeConfig.post.toc && <TableOfContents toc={toc} />}
+        {shouldRenderToc && <TableOfContents toc={toc} />}
         <div class="title">
           <h1>{title}</h1>
           <div class="date">
@@ -57,14 +62,14 @@ const ogImage = `/open-graph/${postSlug}.png`
         </article>
       </div>
     </main>
-    <ImageOptimizer />
-    <FootnoteScroll />
-    <CopyCode />
-    <GitHubCard />
-    <XPOST />
-    <NeoDBCard />
-    {themeConfig.post.imageViewer && <ImageViewer />}
-    {themeConfig.post.linkCard && <LinkCard />}
+    {shouldRenderImageOptimizer && <ImageOptimizer />}
+    {contentFeatures.hasFootnotes && <FootnoteScroll />}
+    {shouldRenderCopyCode && <CopyCode />}
+    {contentFeatures.hasGithubCard && <GitHubCard />}
+    {contentFeatures.hasXPost && <XPOST />}
+    {contentFeatures.hasNeoDBCard && <NeoDBCard />}
+    {shouldRenderImageViewer && <ImageViewer />}
+    {shouldRenderLinkCard && <LinkCard />}
     {themeConfig.general.footer && <Footer />}
   </div>
 </BaseLayout>
