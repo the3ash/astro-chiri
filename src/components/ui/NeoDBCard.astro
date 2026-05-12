@@ -1,4 +1,7 @@
 <script is:inline>
+  var neodbRequestCache = (window.__neodbRequestCache ||= new Map())
+  var neodbFetchTimeout = 8000
+
   function loadNeoDBCards() {
     const allContainers = document.querySelectorAll('.neodb-card-container')
 
@@ -16,6 +19,63 @@
 
     const renderError = (elem) => {
       elem.innerHTML = `<div class="neodb-card error"><p class="neodb-error">🔴&nbsp;&nbsp;Error</p></div>`
+    }
+
+    const getNeoDBFetchUrl = (url) => {
+      let fetchUrl = ''
+      const neodbUrlPattern = /neodb\.social\/(movie|book|music|album|game|tv\/season|tv|podcast)\/([\w-]+)/
+      const isNeoDbUrl = neodbUrlPattern.test(url)
+
+      if (isNeoDbUrl) {
+        const match = url.match(neodbUrlPattern)
+        let category = match ? match[1] : ''
+        const uuid = match ? match[2] : ''
+
+        if (category === 'tv/season') {
+          category = 'tv/season'
+        }
+
+        if (uuid && category) {
+          fetchUrl = `https://neodb.social/api/${category}/${uuid}`
+        }
+      } else {
+        fetchUrl = `https://neodb.social/api/catalog/fetch?url=${encodeURIComponent(url)}`
+      }
+
+      return fetchUrl
+    }
+
+    const fetchNeoDBData = (fetchUrl) => {
+      if (neodbRequestCache.has(fetchUrl)) {
+        return neodbRequestCache.get(fetchUrl)
+      }
+
+      const request = (async () => {
+        const controller = new AbortController()
+        const timeoutId = window.setTimeout(() => controller.abort(), neodbFetchTimeout)
+
+        try {
+          const res = await fetch(fetchUrl, {
+            mode: 'cors',
+            signal: controller.signal,
+            headers: {
+              Accept: 'application/json'
+            }
+          })
+
+          if (!res.ok) throw new Error(`Response ${res.status}`)
+
+          const json = await res.json()
+          return json.data ? json.data : json
+        } finally {
+          window.clearTimeout(timeoutId)
+        }
+      })()
+
+      neodbRequestCache.set(fetchUrl, request)
+      request.catch(() => neodbRequestCache.delete(fetchUrl))
+
+      return request
     }
 
     const renderCard = (elem, data, targetUrl) => {
@@ -155,43 +215,24 @@
 
       if (!url) return
 
-      let fetchUrl = ''
-      const neodbUrlPattern = /neodb\.social\/(movie|book|music|album|game|tv\/season|tv|podcast)\/([\w-]+)/
-      const isNeoDbUrl = neodbUrlPattern.test(url)
+      if (container.dataset.neodbState) return
 
-      if (isNeoDbUrl) {
-        const match = url.match(neodbUrlPattern)
-        let category = match ? match[1] : ''
-        const uuid = match ? match[2] : ''
-
-        if (category === 'tv/season') {
-          category = 'tv/season'
-        }
-
-        if (uuid && category) {
-          fetchUrl = `https://neodb.social/api/${category}/${uuid}`
-        }
-      } else {
-        fetchUrl = `https://neodb.social/api/catalog/fetch?url=${encodeURIComponent(url)}`
-      }
+      const fetchUrl = getNeoDBFetchUrl(url)
 
       if (fetchUrl) {
+        container.dataset.neodbState = 'loading'
+
         try {
-          const res = await fetch(fetchUrl, {
-            mode: 'cors',
-            headers: {
-              Accept: 'application/json'
-            }
-          })
-          if (!res.ok) throw new Error(`Response ${res.status}`)
-          const json = await res.json()
-          const data = json.data ? json.data : json
+          const data = await fetchNeoDBData(fetchUrl)
           renderCard(container, data, url)
+          container.dataset.neodbState = 'loaded'
         } catch {
           renderError(container)
+          container.dataset.neodbState = 'error'
         }
       } else {
         renderError(container)
+        container.dataset.neodbState = 'error'
       }
     })
 
