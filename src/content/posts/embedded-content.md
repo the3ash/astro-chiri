@@ -37,7 +37,9 @@ the table of contents positioning may be inaccurate.
 
 Link Card metadata is fetched automatically during `pnpm dev` and `pnpm build`.
 Run `pnpm update-link-metadata --force` to refresh existing entries.
----
+
+-
+
 To disable Link Card, set `linkCard: false` in `src/config.ts`.
 Restart `pnpm dev` for the change to take effect.
 ```

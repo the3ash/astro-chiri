@@ -28,7 +28,14 @@ export default defineConfig({
       theme: 'css-variables',
       wrap: false
     },
-    remarkPlugins: [remarkMath, remarkDirective, remarkEmbeddedMedia, remarkContentFeatures, remarkReadingTime, remarkTOC],
+    remarkPlugins: [
+      remarkMath,
+      remarkDirective,
+      remarkEmbeddedMedia,
+      remarkContentFeatures,
+      remarkReadingTime,
+      remarkTOC
+    ],
     rehypePlugins: [rehypeKatex, rehypeCleanup, rehypeImageProcessor, rehypeCopyCode]
   },
   integrations: [mdx(), sitemap()],

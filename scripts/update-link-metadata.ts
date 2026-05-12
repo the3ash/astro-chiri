@@ -132,8 +132,7 @@ async function fetchMetadata(url: string): Promise<LinkCardMetadata> {
       getMeta(root, 'meta[name="twitter:description"]') ||
       getMeta(root, 'meta[name="description"]') ||
       ''
-    const image =
-      getMeta(root, 'meta[property="og:image"]') || getMeta(root, 'meta[name="twitter:image"]') || ''
+    const image = getMeta(root, 'meta[property="og:image"]') || getMeta(root, 'meta[name="twitter:image"]') || ''
 
     return {
       title,
