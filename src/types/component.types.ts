@@ -69,12 +69,6 @@ export interface GitHubRepoData {
   }
 }
 
-// Cached repository data interface
-export interface CachedRepoData {
-  data: GitHubRepoData
-  timestamp: number
-}
-
 // GitHub card UI elements interface
 export interface CardElements {
   avatar: HTMLElement | null

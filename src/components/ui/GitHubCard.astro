@@ -1,48 +1,14 @@
 <script>
-  import type { GitHubRepoData, CachedRepoData, CardElements } from '@/types'
+  import {
+    fetchJsonWithCache,
+    getStorageCache,
+    initOnPageLoad,
+    setStorageCache,
+    setupLazyResources
+  } from '@/utils/client/lazy-resource'
+  import type { GitHubRepoData, CardElements } from '@/types'
 
-  let githubCardsObserver: IntersectionObserver | null = null
-
-  // Retrieve cached GitHub repository data from localStorage with expiration check
-  function getCachedData(repo: string): GitHubRepoData | null {
-    try {
-      const cacheKey = `github-repo-${repo}`
-      const cached = localStorage.getItem(cacheKey)
-
-      if (!cached) {
-        return null
-      }
-
-      const parsedCache: CachedRepoData = JSON.parse(cached)
-      const now = Date.now()
-      const oneHour = 60 * 60 * 1000 // 1 hour in milliseconds
-
-      // Check if cache is expired (older than 1 hour)
-      if (now - parsedCache.timestamp > oneHour) {
-        localStorage.removeItem(cacheKey)
-        return null
-      }
-
-      return parsedCache.data
-    } catch (error) {
-      console.warn('Failed to read from cache:', error)
-      return null
-    }
-  }
-
-  // Store GitHub repository data in localStorage with timestamp for cache expiration
-  function setCachedData(repo: string, data: GitHubRepoData): void {
-    try {
-      const cacheKey = `github-repo-${repo}`
-      const cacheData: CachedRepoData = {
-        data,
-        timestamp: Date.now()
-      }
-      localStorage.setItem(cacheKey, JSON.stringify(cacheData))
-    } catch (error) {
-      console.warn('Failed to save to cache:', error)
-    }
-  }
+  const githubCacheTtl = 60 * 60 * 1000
 
   // Update the GitHub card UI elements with fetched repository data
   function updateCardUI(el: CardElements, data: GitHubRepoData) {
@@ -75,6 +41,7 @@
   // Load GitHub repository data for a card, using cache if available or fetching from API
   async function loadCardData(card: HTMLElement) {
     const repo = card.dataset.repo
+
     if (!repo) {
       return
     }
@@ -87,64 +54,41 @@
       license: card.querySelector('.gc-license-info') as HTMLElement
     } as const
 
-    // Try to get cached data first
-    const cachedData = getCachedData(repo)
+    const cacheKey = `github-repo-${repo}`
+    const cachedData = getStorageCache<GitHubRepoData>(cacheKey, githubCacheTtl)
+
     if (cachedData) {
       updateCardUI(el, cachedData)
       return
     }
 
-    // If no cache, fetch from API
-    try {
-      const response = await fetch(`https://api.github.com/repos/${repo}`)
+    const data = await fetchJsonWithCache<GitHubRepoData>({
+      cacheName: 'github-repo',
+      cacheKey: repo,
+      url: `https://api.github.com/repos/${repo}`
+    })
 
-      if (!response.ok) {
-        if (el.desc) {
-          el.desc.textContent = '--'
-        }
-        return
-      }
+    setStorageCache(cacheKey, data)
+    updateCardUI(el, data)
+  }
 
-      const data = await response.json()
+  function renderCardError(card: HTMLElement): void {
+    const desc = card.querySelector('.gc-repo-description')
 
-      setCachedData(repo, data)
-
-      updateCardUI(el, data)
-    } catch (error) {
-      console.error(`Failed to fetch ${repo}:`, error)
-      if (el.desc) {
-        el.desc.textContent = '--'
-      }
+    if (desc) {
+      desc.textContent = '--'
     }
   }
 
-  // Set up intersection observer for lazy loading GitHub cards when they enter viewport
-  function lazySetupGithubCards() {
-    githubCardsObserver?.disconnect()
-
-    const githubCards = document.getElementsByClassName('gc-container')
-    if (githubCards.length === 0) {
-      return
-    }
-
-    // Create an intersection observer to lazy load GitHub repo data when cards enter viewport
-    githubCardsObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            loadCardData(entry.target as HTMLElement)
-            githubCardsObserver?.unobserve(entry.target)
-          }
-        })
-      },
-      { rootMargin: '200px' }
-    )
-
-    Array.from(githubCards).forEach((card) => githubCardsObserver?.observe(card))
-  }
-
-  lazySetupGithubCards()
-  document.addEventListener('astro:page-load', lazySetupGithubCards)
+  initOnPageLoad('github-cards', () => {
+    setupLazyResources({
+      key: 'github-cards',
+      selector: '.gc-container',
+      stateKey: 'githubState',
+      load: loadCardData,
+      onError: renderCardError
+    })
+  })
 </script>
 
 <style is:inline>

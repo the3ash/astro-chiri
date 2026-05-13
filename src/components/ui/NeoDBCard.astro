@@ -1,9 +1,14 @@
-<script is:inline>
-  window.__neodbRequestCache ||= new Map()
+<script>
+  import { fetchJsonWithCache, initOnPageLoad, setupLazyResources } from '@/utils/client/lazy-resource'
+
+  type NeoDBData = Record<string, unknown>
+  type FieldConfig = Record<string, Array<[string, (data: NeoDBData) => string]>>
+  type LocalizedTitle = {
+    lang?: unknown
+    text?: unknown
+  }
 
   function loadNeoDBCards() {
-    const neodbRequestCache = window.__neodbRequestCache
-    const neodbFetchTimeout = 8000
     const allContainers = document.querySelectorAll('.neodb-card-container')
 
     allContainers.forEach((container) => {
@@ -18,7 +23,7 @@
       return
     }
 
-    const createElement = (tagName, className) => {
+    const createElement = <TagName extends keyof HTMLElementTagNameMap>(tagName: TagName, className?: string) => {
       const element = document.createElement(tagName)
 
       if (className) {
@@ -28,7 +33,7 @@
       return element
     }
 
-    const renderError = (elem) => {
+    const renderError = (elem: HTMLElement) => {
       const card = createElement('div', 'neodb-card error')
       const text = createElement('p', 'neodb-error')
 
@@ -37,7 +42,7 @@
       elem.replaceChildren(card)
     }
 
-    const getHttpUrl = (url) => {
+    const getHttpUrl = (url: string) => {
       try {
         const parsedUrl = new URL(url)
 
@@ -51,11 +56,11 @@
       }
     }
 
-    const getSafeHttpUrl = (url) => getHttpUrl(url)?.toString() ?? ''
+    const getSafeHttpUrl = (url: unknown) => (typeof url === 'string' ? getHttpUrl(url)?.toString() : '') ?? ''
 
-    const getHostName = (url) => url.hostname.replace(/^www\./, '').toLowerCase()
+    const getHostName = (url: URL) => url.hostname.replace(/^www\./, '').toLowerCase()
 
-    const getNeoDBFetchUrl = (url) => {
+    const getNeoDBFetchUrl = (url: string) => {
       const parsedUrl = getHttpUrl(url)
 
       if (!parsedUrl) {
@@ -73,40 +78,30 @@
       return `https://neodb.social/api/catalog/fetch?url=${encodeURIComponent(parsedUrl.toString())}`
     }
 
-    const fetchNeoDBData = (fetchUrl) => {
-      if (neodbRequestCache.has(fetchUrl)) {
-        return neodbRequestCache.get(fetchUrl)
-      }
+    const getNeoDBData = (fetchUrl: string) => {
+      return fetchJsonWithCache<NeoDBData>({
+        cacheName: 'neodb',
+        cacheKey: fetchUrl,
+        url: fetchUrl,
+        init: {
+          mode: 'cors',
+          headers: {
+            Accept: 'application/json'
+          }
+        },
+        transform: (json) => {
+          if (json && typeof json === 'object' && 'data' in json) {
+            const value = (json as { data?: unknown }).data
 
-      const request = (async () => {
-        const controller = new AbortController()
-        const timeoutId = window.setTimeout(() => controller.abort(), neodbFetchTimeout)
+            return value && typeof value === 'object' ? (value as NeoDBData) : {}
+          }
 
-        try {
-          const res = await fetch(fetchUrl, {
-            mode: 'cors',
-            signal: controller.signal,
-            headers: {
-              Accept: 'application/json'
-            }
-          })
-
-          if (!res.ok) throw new Error(`Response ${res.status}`)
-
-          const json = await res.json()
-          return json.data ? json.data : json
-        } finally {
-          window.clearTimeout(timeoutId)
+          return json && typeof json === 'object' ? (json as NeoDBData) : {}
         }
-      })()
-
-      neodbRequestCache.set(fetchUrl, request)
-      request.catch(() => neodbRequestCache.delete(fetchUrl))
-
-      return request
+      })
     }
 
-    const toText = (value) => {
+    const toText = (value: unknown) => {
       if (typeof value === 'string') {
         return value.trim()
       }
@@ -118,17 +113,17 @@
       return ''
     }
 
-    const toTextList = (value) => {
+    const toTextList = (value: unknown) => {
       const values = Array.isArray(value) ? value : [value]
 
       return values.map(toText).filter(Boolean)
     }
 
-    const getJoinedText = (value) => toTextList(value).join(', ')
+    const getJoinedText = (value: unknown) => toTextList(value).join(', ')
 
-    const getFirstText = (value) => toTextList(value)[0] ?? ''
+    const getFirstText = (value: unknown) => toTextList(value)[0] ?? ''
 
-    const fieldConfig = {
+    const fieldConfig: FieldConfig = {
       movie: [
         ['导演', (data) => getJoinedText(data.director)],
         ['演员', (data) => getJoinedText(data.actor)],
@@ -172,11 +167,25 @@
       ]
     }
 
-    const getPreferredTitle = (data, category) => {
+    const isLocalizedTitle = (value: unknown): value is LocalizedTitle => {
+      return Boolean(value && typeof value === 'object')
+    }
+
+    const findLocalizedTitle = (titles: unknown[], lang: string | null) => {
+      return titles.find((title): title is LocalizedTitle => {
+        if (!isLocalizedTitle(title) || !toText(title.text)) {
+          return false
+        }
+
+        return lang === null ? title.lang !== 'zh-cn' : title.lang === lang
+      })
+    }
+
+    const getPreferredTitle = (data: NeoDBData, category: string) => {
       if (category === 'music' || category === 'album') {
         const localizedTitles = Array.isArray(data.localized_title) ? data.localized_title : []
-        const nonZhTitle = localizedTitles.find((title) => title?.lang !== 'zh-cn' && toText(title?.text))
-        const zhTitle = localizedTitles.find((title) => title?.lang === 'zh-cn' && toText(title?.text))
+        const nonZhTitle = findLocalizedTitle(localizedTitles, null)
+        const zhTitle = findLocalizedTitle(localizedTitles, 'zh-cn')
 
         return toText(nonZhTitle?.text) || toText(zhTitle?.text) || toText(data.title || data.name)
       }
@@ -184,15 +193,15 @@
       return toText(data.title || data.name)
     }
 
-    const getFieldInfo = (data, category) => {
+    const getFieldInfo = (data: NeoDBData, category: string) => {
       const fields = fieldConfig[category] ?? []
 
       return fields.map(([label, getValue]) => [label, getValue(data)]).filter(([, value]) => value)
     }
 
-    const createRating = (rating) => {
+    const createRating = (rating: unknown) => {
       const ratingElement = createElement('div', 'rating')
-      const itemRating = Number.parseFloat(rating)
+      const itemRating = Number.parseFloat(toText(rating))
 
       if (Number.isFinite(itemRating) && itemRating > 0) {
         const background = createElement('span', 'allstarbg')
@@ -212,7 +221,7 @@
       return ratingElement
     }
 
-    const renderCard = (elem, data, targetUrl) => {
+    const renderCard = (elem: HTMLElement, data: NeoDBData, targetUrl: string) => {
       const safeTargetUrl = getSafeHttpUrl(targetUrl)
 
       if (!safeTargetUrl) {
@@ -220,7 +229,7 @@
         return
       }
 
-      const cardData = data && typeof data === 'object' ? data : {}
+      const cardData = data && typeof data === 'object' ? (data as NeoDBData) : {}
       const category = toText(cardData.category)
       const title = getPreferredTitle(cardData, category)
       const coverUrl = getSafeHttpUrl(cardData.cover_image_url || cardData.cover_url)
@@ -263,42 +272,33 @@
       elem.replaceChildren(card)
     }
 
-    // Build fetch promises for parallel execution
-    const fetchPromises = Array.from(containers).map(async (container) => {
+    const loadCard = async (container: HTMLElement) => {
       const url = container.getAttribute('data-url')
 
-      if (!url) return
-
-      if (container.dataset.neodbState) return
+      if (!url) {
+        throw new Error('Missing NeoDB URL')
+      }
 
       const fetchUrl = getNeoDBFetchUrl(url)
 
-      if (fetchUrl) {
-        container.dataset.neodbState = 'loading'
-
-        try {
-          const data = await fetchNeoDBData(fetchUrl)
-          renderCard(container, data, url)
-          container.dataset.neodbState = 'loaded'
-        } catch {
-          renderError(container)
-          container.dataset.neodbState = 'error'
-        }
-      } else {
-        renderError(container)
-        container.dataset.neodbState = 'error'
+      if (!fetchUrl) {
+        throw new Error('Invalid NeoDB URL')
       }
+
+      const data = await getNeoDBData(fetchUrl)
+      renderCard(container, data, url)
+    }
+
+    setupLazyResources({
+      key: 'neodb-cards',
+      selector: '.neodb-card-container[data-url]',
+      stateKey: 'neodbState',
+      load: loadCard,
+      onError: renderError
     })
-
-    // Consume every async card task so unexpected failures do not become unhandled rejections.
-    void Promise.allSettled(fetchPromises)
   }
 
-  loadNeoDBCards()
-  if (!window.__neodbCardsInitialized) {
-    document.addEventListener('astro:page-load', loadNeoDBCards)
-    window.__neodbCardsInitialized = true
-  }
+  initOnPageLoad('neodb-cards', loadNeoDBCards)
 </script>
 
 <style is:inline>
