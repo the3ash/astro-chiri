@@ -29,44 +29,9 @@ import { themeConfig } from '@/config'
       button.dataset.copyState = state
     }
 
-    function copyTextFallback(text) {
-      const textArea = document.createElement('textarea')
-
-      textArea.value = text
-      textArea.setAttribute('readonly', '')
-      textArea.style.position = 'fixed'
-      textArea.style.top = '-9999px'
-      textArea.style.left = '-9999px'
-      textArea.style.opacity = '0'
-      document.body.appendChild(textArea)
-      textArea.focus()
-      textArea.select()
-
-      try {
-        // Intentional legacy path for browsers or contexts where Clipboard API is unavailable.
-        const copied = document.execCommand('copy')
-
-        if (!copied) {
-          throw new Error('Fallback copy command failed')
-        }
-
-        return true
-      } finally {
-        document.body.removeChild(textArea)
-      }
-    }
-
     async function copyText(text) {
-      if (navigator.clipboard?.writeText) {
-        try {
-          await navigator.clipboard.writeText(text)
-          return true
-        } catch {
-          // Fall through to the textarea fallback for browsers or contexts where Clipboard API is blocked.
-        }
-      }
-
-      return copyTextFallback(text)
+      await navigator.clipboard.writeText(text)
+      return true
     }
 
     function showIdleState(button) {
