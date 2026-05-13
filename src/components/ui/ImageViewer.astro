@@ -127,14 +127,21 @@
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transition: opacity 0.15s ease-in-out;
-    background: color-mix(in srgb, var(--bg) 90%, transparent);
+    transition:
+      opacity 0.15s ease-out,
+      visibility 0s linear 0.15s;
+    background: color-mix(in srgb, var(--bg) 60%, transparent);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
   }
 
   .image-viewer.active {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
+    transition:
+      opacity 0.15s ease-out,
+      visibility 0s ease-out;
   }
 
   :global(.prose img[data-preview='true']) {
