@@ -33,6 +33,7 @@ export const themeConfig: ThemeConfig = {
     toc: true, // Show table of contents (when there is enough page width)
     imageViewer: true, // Enable image viewer
     copyCode: true, // Enable copy button in code blocks
-    linkCard: true // Enable link card
+    linkCard: true, // Enable link card
+    katex: true // Enable KaTeX math rendering
   }
 }

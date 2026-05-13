@@ -4,9 +4,8 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "dev": "astro dev",
-    "prebuild": "pnpm exec tsx scripts/toggle-proxy.ts",
-    "build": "pnpm run typecheck && pnpm run prebuild && astro build",
+    "dev": "tsx scripts/update-link-metadata.ts && astro dev",
+    "build": "pnpm run typecheck && tsx scripts/update-link-metadata.ts && astro build",
     "typecheck": "pnpm run typecheck:ts && astro check",
     "typecheck:ts": "tsc --noEmit",
     "preview": "astro preview",
@@ -16,11 +15,11 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "new": "tsx scripts/new-post.ts",
+    "update-link-metadata": "tsx scripts/update-link-metadata.ts",
     "update-theme": "tsx scripts/update-theme.ts"
   },
   "dependencies": {
     "@astrojs/mdx": "^5.0.4",
-    "@astrojs/netlify": "^7.0.8",
     "@astrojs/rss": "^4.0.18",
     "@astrojs/sitemap": "^3.7.2",
     "astro": "^6.3.1",

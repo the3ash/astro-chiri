@@ -29,12 +29,18 @@
       return
     }
 
+    const systemThemeQuery = window.matchMedia('(prefers-color-scheme: dark)')
+
+    function getAppliedTheme() {
+      return document.documentElement.classList.contains('dark') ? 'dark' : 'light'
+    }
+
     window.ThemeManager = {
       STORAGE_KEY: 'chiri-theme',
       initialized: false,
 
       getSystemTheme() {
-        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+        return systemThemeQuery.matches ? 'dark' : 'light'
       },
 
       getStoredTheme() {
@@ -48,6 +54,7 @@
       setStoredTheme(theme) {
         try {
           if (theme === 'system') {
+            // Reserved API: clearing storage makes the current system theme effective again.
             localStorage.removeItem(this.STORAGE_KEY)
           } else {
             localStorage.setItem(this.STORAGE_KEY, theme)
@@ -70,13 +77,15 @@
         document.documentElement.classList.remove('light', 'dark')
         document.documentElement.classList.add(theme)
 
+        const isSystemTheme = this.isUsingSystemTheme()
+
         // Dispatch event for other components
         document.dispatchEvent(
           new CustomEvent('themechange', {
             detail: {
               theme,
-              isUserChoice: !this.isUsingSystemTheme(),
-              isSystemTheme: this.isUsingSystemTheme()
+              isUserChoice: !isSystemTheme,
+              isSystemTheme
             }
           })
         )
@@ -97,11 +106,10 @@
         // Set initial theme (maintain current theme when refreshing page)
         this.applyTheme(this.getEffectiveTheme())
 
-        // Listen for system theme changes
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+        systemThemeQuery.addEventListener('change', (e) => {
           const newSystemTheme = e.matches ? 'dark' : 'light'
 
-          // Always follow system theme changes and update stored theme preference
+          // Current product behavior: system theme changes always become the stored theme.
           this.setStoredTheme(newSystemTheme)
           this.applyTheme(newSystemTheme)
         })
@@ -113,16 +121,12 @@
     // Initialize theme manager
     window.ThemeManager.init()
 
-    // Apply theme when needed
     const applyTheme = () => {
       if (window.ThemeManager) {
         const theme = window.ThemeManager.getEffectiveTheme()
         window.ThemeManager.applyTheme(theme)
       }
     }
-
-    // Apply immediately on script load
-    applyTheme()
 
     // Listen for navigation events
     document.addEventListener('astro:before-preparation', applyTheme)
@@ -131,7 +135,7 @@
     const applyThemeAfterNavigation = () => {
       if (window.ThemeManager) {
         const currentTheme = window.ThemeManager.getEffectiveTheme()
-        const appliedTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light'
+        const appliedTheme = getAppliedTheme()
 
         if (currentTheme !== appliedTheme) {
           // Use requestAnimationFrame to ensure theme is applied in the next frame, avoiding conflicts with view transition
@@ -144,12 +148,5 @@
 
     document.addEventListener('astro:after-swap', applyThemeAfterNavigation)
     document.addEventListener('astro:page-load', applyThemeAfterNavigation)
-
-    // Handle system theme changes
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-      if (window.ThemeManager && window.ThemeManager.isUsingSystemTheme()) {
-        setTimeout(applyTheme, 0)
-      }
-    })
   })()
 </script>

@@ -5,6 +5,7 @@ import remarkMath from 'remark-math'
 import remarkDirective from 'remark-directive'
 import rehypeKatex from 'rehype-katex'
 import remarkEmbeddedMedia from './src/plugins/remark-embedded-media.mjs'
+import remarkContentFeatures from './src/plugins/remark-content-features.mjs'
 import remarkReadingTime from './src/plugins/remark-reading-time.mjs'
 import rehypeCleanup from './src/plugins/rehype-cleanup.mjs'
 import rehypeImageProcessor from './src/plugins/rehype-image-processor.mjs'
@@ -13,10 +14,8 @@ import remarkTOC from './src/plugins/remark-toc.mjs'
 import { themeConfig } from './src/config'
 import { imageConfig } from './src/utils/image-config'
 import path from 'path'
-import netlify from '@astrojs/netlify'
 
 export default defineConfig({
-  adapter: netlify(), // Set adapter for deployment, or set `linkCard` to `false` in `src/config.ts`
   site: themeConfig.site.website,
   image: {
     service: {
@@ -29,7 +28,14 @@ export default defineConfig({
       theme: 'css-variables',
       wrap: false
     },
-    remarkPlugins: [remarkMath, remarkDirective, remarkEmbeddedMedia, remarkReadingTime, remarkTOC],
+    remarkPlugins: [
+      remarkMath,
+      remarkDirective,
+      remarkEmbeddedMedia,
+      remarkContentFeatures,
+      remarkReadingTime,
+      remarkTOC
+    ],
     rehypePlugins: [rehypeKatex, rehypeCleanup, rehypeImageProcessor, rehypeCopyCode]
   },
   integrations: [mdx(), sitemap()],

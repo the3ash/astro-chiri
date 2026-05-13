@@ -1,5 +1,16 @@
 import { visit } from 'unist-util-visit'
-import { themeConfig } from '../config.ts'
+
+function toClassList(value) {
+  if (Array.isArray(value)) {
+    return value.filter(Boolean)
+  }
+
+  if (typeof value === 'string') {
+    return value.split(/\s+/).filter(Boolean)
+  }
+
+  return []
+}
 
 /**
  * Rehype plugin that processes images in markdown content:
@@ -10,6 +21,34 @@ import { themeConfig } from '../config.ts'
  */
 export default function rehypeImageProcessor() {
   return (tree) => {
+    let hasPriorityImage = false
+
+    visit(tree, 'element', (node) => {
+      if (node.tagName !== 'img') {
+        return
+      }
+
+      const existingClasses = [...toClassList(node.properties?.className), ...toClassList(node.properties?.class)]
+      const shouldPrioritizeImage = !hasPriorityImage
+
+      hasPriorityImage = true
+
+      // Enhanced image properties with performance optimizations
+      node.properties = {
+        ...node.properties,
+        'data-preview': 'true',
+        // Add lazy loading for better performance
+        loading: 'lazy',
+        // Add decoding hint for better performance
+        decoding: 'async',
+        // Add fetchpriority for critical images (first content image gets high priority)
+        ...(shouldPrioritizeImage ? { fetchpriority: 'high' } : {}),
+        className: existingClasses.includes('img-placeholder')
+          ? existingClasses
+          : [...existingClasses, 'img-placeholder']
+      }
+    })
+
     visit(tree, 'element', (node, index, parent) => {
       if (node.tagName !== 'p') {
         return
@@ -37,19 +76,6 @@ export default function rehypeImageProcessor() {
 
       for (const imgNode of imgNodes) {
         const alt = imgNode.properties?.alt?.trim()
-
-        // Enhanced image properties with performance optimizations
-        imgNode.properties = {
-          ...imgNode.properties,
-          'data-preview': themeConfig.post.imageViewer ? 'true' : 'false',
-          // Add lazy loading for better performance
-          loading: 'lazy',
-          // Add decoding hint for better performance
-          decoding: 'async',
-          // Add fetchpriority for critical images (first image gets high priority)
-          fetchpriority: newNodes.length === 0 ? 'high' : 'auto',
-          class: [...(imgNode.properties.class || []), 'img-placeholder']
-        }
 
         if (!alt || alt.includes('_')) {
           newNodes.push(imgNode)

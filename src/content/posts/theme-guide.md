@@ -57,7 +57,8 @@ post: {
   toc: true, // Show table of contents (when there is enough page width)
   imageViewer: true, // Enable image viewer
   copyCode: true, // Enable copy button in code blocks
-  linkCard: true // Enable link card
+  linkCard: true, // Enable link card
+  katex: true // Enable KaTeX math rendering
 }
 ```
 
@@ -96,14 +97,14 @@ export default defineConfig({
 
 ## Preview of Some Features
 
-![Theme Toggle](./_assets/theme-toggle.png)
+![Theme Toggle](./_assets/theme-toggle.webp)
 
-![Dotted Divider](./_assets/dotted-divider.png)
+![Dotted Divider](./_assets/dotted-divider.webp)
 
-![Date on Left Side](./_assets/date-on-left.png)
+![Date on Left Side](./_assets/date-on-left.webp)
 
-![Table of Contents](./_assets/toc.png)
+![Table of Contents](./_assets/toc.webp)
 
-![Reading Time](./_assets/reading-time.png)
+![Reading Time](./_assets/reading-time.webp)
 
-![Copy Code](./_assets/copy-code.png)
+![Copy Code](./_assets/copy-code.webp)

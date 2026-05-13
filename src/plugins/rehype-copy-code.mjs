@@ -1,10 +1,11 @@
 import { visit } from 'unist-util-visit'
+import { markContentFeature } from './utils/content-features.mjs'
 
 /**
  * Rehype plugin that adds copy button to code blocks for easy code copying functionality
  */
 export default function rehypeCopyCode() {
-  return (tree) => {
+  return (tree, file) => {
     visit(tree, 'element', (node, index, parent) => {
       // Only process pre elements
       if (node.tagName !== 'pre') {
@@ -21,6 +22,8 @@ export default function rehypeCopyCode() {
       if (!hasCodeElement) {
         return
       }
+
+      markContentFeature(file, 'hasCodeBlock')
 
       // Mark the pre element with class for styling
       node.properties = node.properties || {}

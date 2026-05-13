@@ -16,6 +16,16 @@ export interface TOCItem {
   index: number
 }
 
+export interface ContentFeatures {
+  hasCodeBlock?: boolean
+  hasContentImage?: boolean
+  hasFootnotes?: boolean
+  hasGithubCard?: boolean
+  hasLinkCard?: boolean
+  hasNeoDBCard?: boolean
+  hasXPost?: boolean
+}
+
 // PostList component props interface
 export interface PostListProps {
   posts: CollectionEntry<'posts'>[]

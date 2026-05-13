@@ -1,4 +1,13 @@
-<script is:inline>
+<script>
+  import { fetchJsonWithCache, initOnPageLoad, setupLazyResources } from '@/utils/client/lazy-resource'
+
+  type NeoDBData = Record<string, unknown>
+  type FieldConfig = Record<string, Array<[string, (data: NeoDBData) => string]>>
+  type LocalizedTitle = {
+    lang?: unknown
+    text?: unknown
+  }
+
   function loadNeoDBCards() {
     const allContainers = document.querySelectorAll('.neodb-card-container')
 
@@ -14,193 +23,282 @@
       return
     }
 
-    const renderError = (elem) => {
-      elem.innerHTML = `<div class="neodb-card error"><p class="neodb-error">🔴&nbsp;&nbsp;Error</p></div>`
-    }
+    const createElement = <TagName extends keyof HTMLElementTagNameMap>(tagName: TagName, className?: string) => {
+      const element = document.createElement(tagName)
 
-    const renderCard = (elem, data, targetUrl) => {
-      const itemRating = data?.rating && data.rating > 0 ? parseFloat(data.rating) : null
-      const coverUrl = data.cover_image_url || data.cover_url
-      const category = data.category || ''
-
-      const getPreferredTitle = () => {
-        // Special handling for music/album types only
-        if (category === 'music' || category === 'album') {
-          if (Array.isArray(data.localized_title)) {
-            const nonZh = data.localized_title.find((t) => t.lang !== 'zh-cn' && t.text)
-            if (nonZh) return nonZh.text
-            const zh = data.localized_title.find((t) => t.lang === 'zh-cn' && t.text)
-            if (zh) return zh.text
-          }
-        }
-        return data.title || data.name || ''
+      if (className) {
+        element.className = className
       }
 
-      const title = getPreferredTitle()
+      return element
+    }
 
+    const renderError = (elem: HTMLElement) => {
+      const card = createElement('div', 'neodb-card error')
+      const text = createElement('p', 'neodb-error')
+
+      text.textContent = '🔴  Error'
+      card.append(text)
+      elem.replaceChildren(card)
+    }
+
+    const getHttpUrl = (url: string) => {
+      try {
+        const parsedUrl = new URL(url)
+
+        if (parsedUrl.protocol !== 'http:' && parsedUrl.protocol !== 'https:') {
+          return null
+        }
+
+        return parsedUrl
+      } catch {
+        return null
+      }
+    }
+
+    const getSafeHttpUrl = (url: unknown) => (typeof url === 'string' ? getHttpUrl(url)?.toString() : '') ?? ''
+
+    const getHostName = (url: URL) => url.hostname.replace(/^www\./, '').toLowerCase()
+
+    const getNeoDBFetchUrl = (url: string) => {
+      const parsedUrl = getHttpUrl(url)
+
+      if (!parsedUrl) {
+        return ''
+      }
+
+      if (getHostName(parsedUrl) === 'neodb.social') {
+        const match = parsedUrl.pathname.match(/^\/(movie|book|music|album|game|tv\/season|tv|podcast)\/([\w-]+)/)
+        const category = match ? match[1] : ''
+        const uuid = match ? match[2] : ''
+
+        return category && uuid ? `https://neodb.social/api/${category}/${uuid}` : ''
+      }
+
+      return `https://neodb.social/api/catalog/fetch?url=${encodeURIComponent(parsedUrl.toString())}`
+    }
+
+    const getNeoDBData = (fetchUrl: string) => {
+      return fetchJsonWithCache<NeoDBData>({
+        cacheName: 'neodb',
+        cacheKey: fetchUrl,
+        url: fetchUrl,
+        init: {
+          mode: 'cors',
+          headers: {
+            Accept: 'application/json'
+          }
+        },
+        transform: (json) => {
+          if (json && typeof json === 'object' && 'data' in json) {
+            const value = (json as { data?: unknown }).data
+
+            return value && typeof value === 'object' ? (value as NeoDBData) : {}
+          }
+
+          return json && typeof json === 'object' ? (json as NeoDBData) : {}
+        }
+      })
+    }
+
+    const toText = (value: unknown) => {
+      if (typeof value === 'string') {
+        return value.trim()
+      }
+
+      if (typeof value === 'number') {
+        return String(value)
+      }
+
+      return ''
+    }
+
+    const toTextList = (value: unknown) => {
+      const values = Array.isArray(value) ? value : [value]
+
+      return values.map(toText).filter(Boolean)
+    }
+
+    const getJoinedText = (value: unknown) => toTextList(value).join(', ')
+
+    const getFirstText = (value: unknown) => toTextList(value)[0] ?? ''
+
+    const fieldConfig: FieldConfig = {
+      movie: [
+        ['导演', (data) => getJoinedText(data.director)],
+        ['演员', (data) => getJoinedText(data.actor)],
+        ['类型', (data) => getJoinedText(data.genre)],
+        ['上映时间', (data) => toText(data.year)]
+      ],
+      tv: [
+        ['导演', (data) => getJoinedText(data.director)],
+        ['演员', (data) => getJoinedText(data.actor)],
+        ['类型', (data) => getJoinedText(data.genre)],
+        ['首播', (data) => toText(data.year)]
+      ],
+      'tv/season': [
+        ['导演', (data) => getJoinedText(data.director)],
+        ['演员', (data) => getJoinedText(data.actor)],
+        ['类型', (data) => getJoinedText(data.genre)],
+        ['首播', (data) => toText(data.year)]
+      ],
+      music: [
+        ['艺术家', (data) => getFirstText(data.artist)],
+        ['流派', (data) => getJoinedText(data.genre)],
+        ['发行时间', (data) => toText(data.release_date)]
+      ],
+      album: [
+        ['艺术家', (data) => getFirstText(data.artist)],
+        ['流派', (data) => getJoinedText(data.genre)],
+        ['发行时间', (data) => toText(data.release_date)]
+      ],
+      book: [
+        ['作者', (data) => getJoinedText(data.author)],
+        ['出版社', (data) => getJoinedText(data.publisher || data.pub_house || data.company)]
+      ],
+      game: [
+        ['开发者', (data) => getJoinedText(data.developer)],
+        ['类型', (data) => getJoinedText(data.genre)],
+        ['发行时间', (data) => toText(data.release_date)]
+      ],
+      podcast: [
+        ['主播', (data) => getJoinedText(data.host || data.artist || data.creator)],
+        ['类型', (data) => getJoinedText(data.genre)]
+      ]
+    }
+
+    const isLocalizedTitle = (value: unknown): value is LocalizedTitle => {
+      return Boolean(value && typeof value === 'object')
+    }
+
+    const findLocalizedTitle = (titles: unknown[], lang: string | null) => {
+      return titles.find((title): title is LocalizedTitle => {
+        if (!isLocalizedTitle(title) || !toText(title.text)) {
+          return false
+        }
+
+        return lang === null ? title.lang !== 'zh-cn' : title.lang === lang
+      })
+    }
+
+    const getPreferredTitle = (data: NeoDBData, category: string) => {
+      if (category === 'music' || category === 'album') {
+        const localizedTitles = Array.isArray(data.localized_title) ? data.localized_title : []
+        const nonZhTitle = findLocalizedTitle(localizedTitles, null)
+        const zhTitle = findLocalizedTitle(localizedTitles, 'zh-cn')
+
+        return toText(nonZhTitle?.text) || toText(zhTitle?.text) || toText(data.title || data.name)
+      }
+
+      return toText(data.title || data.name)
+    }
+
+    const getFieldInfo = (data: NeoDBData, category: string) => {
+      const fields = fieldConfig[category] ?? []
+
+      return fields.map(([label, getValue]) => [label, getValue(data)]).filter(([, value]) => value)
+    }
+
+    const createRating = (rating: unknown) => {
+      const ratingElement = createElement('div', 'rating')
+      const itemRating = Number.parseFloat(toText(rating))
+
+      if (Number.isFinite(itemRating) && itemRating > 0) {
+        const background = createElement('span', 'allstarbg')
+        const foreground = createElement('span', 'allstarfg')
+        const ratingNums = createElement('span', 'rating_nums')
+        const starPercentage = Math.max(0, Math.min(100, Math.round((itemRating / 10) * 10) * 10))
+
+        foreground.style.width = `${starPercentage}%`
+        ratingNums.textContent = itemRating.toFixed(1)
+        background.append(foreground)
+        ratingElement.append(background, ratingNums)
+
+        return ratingElement
+      }
+
+      ratingElement.append(createElement('span', 'allstargray'))
+      return ratingElement
+    }
+
+    const renderCard = (elem: HTMLElement, data: NeoDBData, targetUrl: string) => {
+      const safeTargetUrl = getSafeHttpUrl(targetUrl)
+
+      if (!safeTargetUrl) {
+        renderError(elem)
+        return
+      }
+
+      const cardData = data && typeof data === 'object' ? (data as NeoDBData) : {}
+      const category = toText(cardData.category)
+      const title = getPreferredTitle(cardData, category)
+      const coverUrl = getSafeHttpUrl(cardData.cover_image_url || cardData.cover_url)
       const isSquare = category === 'music' || category === 'podcast'
       const coverClass = isSquare ? 'music' : 'other'
       const cardHeightClass = isSquare ? 'compact' : 'standard'
+      const card = createElement('a', `neodb-card ${cardHeightClass}`)
+      const info = createElement('div', 'neodb-info')
+      const titleElement = createElement('div', 'neodb-title')
 
-      // Convert rating to star percentage with half-star precision: 10 points = 100% (5 stars)
-      const starPercentage = itemRating !== null ? Math.round((itemRating / 10) * 10) * 10 : null
+      card.href = safeTargetUrl
+      card.target = '_blank'
+      card.rel = 'noopener noreferrer'
 
-      // Build field info
-      const fieldInfo = []
+      if (coverUrl) {
+        const cover = createElement('img', `neodb-cover ${coverClass}`)
 
-      if (category === 'movie' || category === 'tv' || category === 'tv/season') {
-        // Movie/TV: Director, Cast, Genre, Release Year
-        if (data.director && data.director.length > 0) {
-          const directors = Array.isArray(data.director) ? data.director.join(', ') : data.director
-          fieldInfo.push(`导演: ${directors}`)
-        }
-        if (data.actor && data.actor.length > 0) {
-          const actors = Array.isArray(data.actor) ? data.actor.join(', ') : data.actor
-          fieldInfo.push(`演员: ${actors}`)
-        }
-        if (data.genre && data.genre.length > 0) {
-          const genres = Array.isArray(data.genre) ? data.genre.join(', ') : data.genre
-          fieldInfo.push(`类型: ${genres}`)
-        }
-        // Add release year - "Release Date" for movies, "Premiere" for TV
-        if (data.year) {
-          const timeLabel = category === 'movie' ? '上映时间' : '首播'
-          fieldInfo.push(`${timeLabel}: ${data.year}`)
-        }
-      } else if (category === 'music' || category === 'album') {
-        // Music: Artist, Genre, Release Date
-        if (data.artist && data.artist.length > 0) {
-          // Only show the first artist for music/album
-          const artist = Array.isArray(data.artist) ? data.artist[0] : data.artist
-          fieldInfo.push(`艺术家: ${artist}`)
-        }
-        if (data.genre && data.genre.length > 0) {
-          const genres = Array.isArray(data.genre) ? data.genre.join(', ') : data.genre
-          fieldInfo.push(`流派: ${genres}`)
-        }
-        if (data.release_date) {
-          fieldInfo.push(`发行时间: ${data.release_date}`)
-        }
-      } else if (category === 'book') {
-        // Book: Author, Publisher
-        if (data.author && data.author.length > 0) {
-          const authors = Array.isArray(data.author) ? data.author.join(', ') : data.author
-          fieldInfo.push(`作者: ${authors}`)
-        }
-        // Check multiple possible publisher fields
-        const publisher = data.publisher || data.pub_house || data.company
-        if (publisher && (Array.isArray(publisher) ? publisher.length > 0 : publisher)) {
-          const publishers = Array.isArray(publisher) ? publisher.join(', ') : publisher
-          fieldInfo.push(`出版社: ${publishers}`)
-        }
-      } else if (category === 'game') {
-        // Game: Developer, Genre, Release Date
-        if (data.developer && data.developer.length > 0) {
-          const developers = Array.isArray(data.developer) ? data.developer.join(', ') : data.developer
-          fieldInfo.push(`开发者: ${developers}`)
-        }
-        if (data.genre && data.genre.length > 0) {
-          const genres = Array.isArray(data.genre) ? data.genre.join(', ') : data.genre
-          fieldInfo.push(`类型: ${genres}`)
-        }
-        if (data.release_date) {
-          fieldInfo.push(`发行时间: ${data.release_date}`)
-        }
-      } else if (category === 'podcast') {
-        // Podcast: Host, Genre
-        const host = data.host || data.artist || data.creator
-        if (host && (Array.isArray(host) ? host.length > 0 : host)) {
-          const hosts = Array.isArray(host) ? host.join(', ') : host
-          fieldInfo.push(`主播: ${hosts}`)
-        }
-        if (data.genre && data.genre.length > 0) {
-          const genres = Array.isArray(data.genre) ? data.genre.join(', ') : data.genre
-          fieldInfo.push(`类型: ${genres}`)
-        }
+        cover.src = coverUrl
+        cover.alt = title
+        cover.loading = 'lazy'
+        card.append(cover)
+      } else {
+        const cover = createElement('div', `neodb-cover ${coverClass}`)
+
+        cover.style.background = '#f3f4f6'
+        card.append(cover)
       }
 
-      elem.innerHTML = `
-        <a class="neodb-card ${cardHeightClass}" href="${targetUrl}" target="_blank" rel="noopener noreferrer">
-          ${coverUrl ? `<img class="neodb-cover ${coverClass}" src="${coverUrl}" alt="${title || ''}" loading="lazy" />` : `<div class="neodb-cover ${coverClass}" style="background: #f3f4f6;"></div>`}
-          <div class="neodb-info">
-            <div class="neodb-title">${title || ''}</div>
-            ${
-              starPercentage !== null
-                ? `<div class="rating">
-              <span class="allstarbg">
-                <span class="allstarfg" style="width:${starPercentage}%"></span>
-              </span>
-              <span class="rating_nums">${itemRating.toFixed(1)}</span>
-            </div>`
-                : `<div class="rating">
-              <span class="allstargray"></span>
-            </div>`
-            }
-            ${fieldInfo
-              .map((info) => {
-                if (info.startsWith('<div class="neodb-desc">')) {
-                  return info
-                }
-                return `<div class="neodb-field">${info}</div>`
-              })
-              .join('')}
-          </div>
-        </a>
-      `
+      titleElement.textContent = title
+      info.append(titleElement, createRating(cardData.rating))
+
+      getFieldInfo(cardData, category).forEach(([label, value]) => {
+        const field = createElement('div', 'neodb-field')
+
+        field.textContent = `${label}: ${value}`
+        info.append(field)
+      })
+
+      card.append(info)
+      elem.replaceChildren(card)
     }
 
-    // Build fetch promises for parallel execution
-    const fetchPromises = Array.from(containers).map(async (container) => {
+    const loadCard = async (container: HTMLElement) => {
       const url = container.getAttribute('data-url')
 
-      if (!url) return
-
-      let fetchUrl = ''
-      const neodbUrlPattern = /neodb\.social\/(movie|book|music|album|game|tv\/season|tv|podcast)\/([\w-]+)/
-      const isNeoDbUrl = neodbUrlPattern.test(url)
-
-      if (isNeoDbUrl) {
-        const match = url.match(neodbUrlPattern)
-        let category = match ? match[1] : ''
-        const uuid = match ? match[2] : ''
-
-        if (category === 'tv/season') {
-          category = 'tv/season'
-        }
-
-        if (uuid && category) {
-          fetchUrl = `https://neodb.social/api/${category}/${uuid}`
-        }
-      } else {
-        fetchUrl = `https://neodb.social/api/catalog/fetch?url=${encodeURIComponent(url)}`
+      if (!url) {
+        throw new Error('Missing NeoDB URL')
       }
 
-      if (fetchUrl) {
-        try {
-          const res = await fetch(fetchUrl, {
-            mode: 'cors',
-            headers: {
-              Accept: 'application/json'
-            }
-          })
-          if (!res.ok) throw new Error(`Response ${res.status}`)
-          const json = await res.json()
-          const data = json.data ? json.data : json
-          renderCard(container, data, url)
-        } catch {
-          renderError(container)
-        }
-      } else {
-        renderError(container)
+      const fetchUrl = getNeoDBFetchUrl(url)
+
+      if (!fetchUrl) {
+        throw new Error('Invalid NeoDB URL')
       }
+
+      const data = await getNeoDBData(fetchUrl)
+      renderCard(container, data, url)
+    }
+
+    setupLazyResources({
+      key: 'neodb-cards',
+      selector: '.neodb-card-container[data-url]',
+      stateKey: 'neodbState',
+      load: loadCard,
+      onError: renderError
     })
-
-    // Execute all fetches in parallel
-    Promise.allSettled(fetchPromises)
   }
 
-  loadNeoDBCards()
-  document.addEventListener('astro:page-load', loadNeoDBCards)
+  initOnPageLoad('neodb-cards', loadNeoDBCards)
 </script>
 
 <style is:inline>

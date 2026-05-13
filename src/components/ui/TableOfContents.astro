@@ -36,15 +36,24 @@ const { toc = [] }: TOCProps = Astro.props
   }}
 >
   ;(function () {
+    if (window.__tocController?.destroy) {
+      window.__tocController.destroy()
+    }
+
+    const activeOffset = 96
+
     // Core state
     const state = {
       container: null,
-      links: null,
-      headings: null,
+      linkList: [],
+      headingList: [],
       titleLink: null,
       headingMap: new Map(),
-      positions: [],
-      scrollTimeout: null,
+      headingObserver: null,
+      resizeTimeout: null,
+      resetTimeout: null,
+      activeLink: null,
+      activeId: null,
       hasContent: false
     }
 
@@ -53,13 +62,15 @@ const { toc = [] }: TOCProps = Astro.props
       state.container = document.querySelector('.toc-container')
       if (!state.container) return false
 
-      state.links = document.querySelectorAll('.toc-link')
-      state.headings = document.querySelectorAll('h1, h2, h3')
+      state.linkList = Array.from(document.querySelectorAll('.toc-link'))
+      state.headingList = Array.from(document.querySelectorAll('h1, h2, h3')).filter(
+        (heading, index, headings) => !(index === 0 && headings[0].tagName === 'H1') && heading.id
+      )
       state.titleLink = document.querySelector('.toc-link.toc-title')
 
       // Build heading map
       state.headingMap.clear()
-      state.links.forEach((link) => {
+      state.linkList.forEach((link) => {
         const href = link.getAttribute('href')
         if (href?.startsWith('#')) {
           state.headingMap.set(href.substring(1), link)
@@ -71,27 +82,14 @@ const { toc = [] }: TOCProps = Astro.props
 
     // Check if content exists
     function checkContent() {
-      if (!state.container || !state.links) return
+      if (!state.container) return
 
-      const tocItems = Array.from(state.links).filter((link) => !link.classList.contains('toc-title'))
+      const tocItems = state.linkList.filter((link) => !link.classList.contains('toc-title'))
       state.hasContent = tocItems.length > 0
 
       if (!state.hasContent) {
         state.container.style.display = 'none'
       }
-    }
-
-    // Cache heading positions
-    function cachePositions() {
-      if (!state.headings?.length) return
-
-      const scrollTop = window.pageYOffset
-      state.positions = Array.from(state.headings)
-        .filter((_, index) => !(index === 0 && state.headings[0].tagName === 'H1'))
-        .map((heading) => ({
-          id: heading.id,
-          offsetTop: heading.getBoundingClientRect().top + scrollTop
-        }))
     }
 
     // Adjust TOC position
@@ -136,7 +134,7 @@ const { toc = [] }: TOCProps = Astro.props
           if (target) {
             const rect = target.getBoundingClientRect()
             const scrollTop = window.pageYOffset || document.documentElement.scrollTop
-            const offset = rect.top + scrollTop - 96
+            const offset = rect.top + scrollTop - activeOffset
             window.scrollTo({ top: offset, behavior: 'smooth' })
             history.pushState(null, null, href)
           }
@@ -144,28 +142,60 @@ const { toc = [] }: TOCProps = Astro.props
       }
     }
 
-    // Update active state
-    function updateActive() {
-      if (!state.links?.length || !state.positions.length) return
+    function setActive(nextActiveId) {
+      const nextActiveLink =
+        nextActiveId && state.headingMap.has(nextActiveId) ? state.headingMap.get(nextActiveId) : state.titleLink
 
-      const scrollTop = window.pageYOffset + 100
-      let currentActive = null
-
-      // Find current active heading
-      for (let i = state.positions.length - 1; i >= 0; i--) {
-        if (scrollTop >= state.positions[i].offsetTop) {
-          currentActive = state.positions[i].id
-          break
-        }
+      if (state.activeId === nextActiveId && state.activeLink === nextActiveLink) {
+        return
       }
 
-      // Update active state
-      state.links.forEach((link) => link.classList.remove('active'))
+      if (state.activeLink) {
+        state.activeLink.classList.remove('active')
+      }
 
-      if (currentActive && state.headingMap.has(currentActive)) {
-        state.headingMap.get(currentActive).classList.add('active')
-      } else if (state.titleLink) {
-        state.titleLink.classList.add('active')
+      if (nextActiveLink) {
+        nextActiveLink.classList.add('active')
+      }
+
+      state.activeId = nextActiveId
+      state.activeLink = nextActiveLink
+    }
+
+    function setupHeadingObserver() {
+      if (state.headingObserver) {
+        state.headingObserver.disconnect()
+      }
+
+      if (!state.headingList.length) {
+        setActive(null)
+        return
+      }
+
+      state.headingObserver = new IntersectionObserver(refreshActiveHeading, {
+        rootMargin: `-${activeOffset}px 0px -65% 0px`,
+        threshold: 0
+      })
+
+      state.headingList.forEach((heading) => state.headingObserver.observe(heading))
+    }
+
+    function refreshActiveHeading() {
+      if (!state.headingList.length) {
+        setActive(null)
+        return
+      }
+
+      if (window.pageYOffset < 16 || state.headingList[0].getBoundingClientRect().top > activeOffset) {
+        setActive(null)
+        return
+      }
+
+      for (let i = state.headingList.length - 1; i >= 0; i--) {
+        if (state.headingList[i].getBoundingClientRect().top <= activeOffset) {
+          setActive(state.headingList[i].id)
+          break
+        }
       }
     }
 
@@ -176,70 +206,95 @@ const { toc = [] }: TOCProps = Astro.props
       if (initElements()) {
         checkContent()
         adjustPosition()
-        cachePositions()
+        setupHeadingObserver()
 
         if (state.container) {
-          state.container.removeEventListener('click', handleClick)
           state.container.addEventListener('click', handleClick)
         }
 
-        updateActive()
+        refreshActiveHeading()
       } else if (retryCount < maxRetries) {
         setTimeout(() => init(retryCount + 1), 100)
       }
     }
 
     // Event handlers
-    function handleScroll() {
-      if (state.scrollTimeout) {
-        cancelAnimationFrame(state.scrollTimeout)
-      }
-      state.scrollTimeout = requestAnimationFrame(updateActive)
-    }
-
     function handleResize() {
-      adjustPosition()
-      requestAnimationFrame(cachePositions)
+      if (state.resizeTimeout) {
+        cancelAnimationFrame(state.resizeTimeout)
+      }
+
+      state.resizeTimeout = requestAnimationFrame(() => {
+        adjustPosition()
+        refreshActiveHeading()
+      })
     }
 
-    // Cleanup
+    // Reset DOM-scoped work; destroy() additionally removes global listeners.
     function cleanup() {
-      if (state.scrollTimeout) {
-        cancelAnimationFrame(state.scrollTimeout)
-        state.scrollTimeout = null
+      if (state.container) {
+        state.container.removeEventListener('click', handleClick)
+      }
+
+      if (state.headingObserver) {
+        state.headingObserver.disconnect()
+        state.headingObserver = null
+      }
+
+      if (state.resizeTimeout) {
+        cancelAnimationFrame(state.resizeTimeout)
+        state.resizeTimeout = null
+      }
+
+      if (state.resetTimeout) {
+        cancelAnimationFrame(state.resetTimeout)
+        state.resetTimeout = null
       }
 
       Object.assign(state, {
         container: null,
-        links: null,
-        headings: null,
+        linkList: [],
+        headingList: [],
         titleLink: null,
         headingMap: new Map(),
-        positions: [],
+        activeLink: null,
+        activeId: null,
         hasContent: false
       })
     }
 
-    // Event listeners
-    document.addEventListener('astro:page-load', () => {
+    function reset() {
+      state.resetTimeout = null
       cleanup()
       init()
-    })
+    }
 
-    document.addEventListener('astro:after-swap', () => {
-      cleanup()
-      init()
-    })
-
-    // Fallback for when Astro transitions are disabled
-    document.addEventListener('DOMContentLoaded', () => {
-      if (!state.container || !state.hasContent) {
-        init()
+    function scheduleReset() {
+      if (state.resetTimeout) {
+        cancelAnimationFrame(state.resetTimeout)
       }
-    })
 
+      state.resetTimeout = requestAnimationFrame(reset)
+    }
+
+    function destroy() {
+      cleanup()
+      document.removeEventListener('astro:page-load', scheduleReset)
+      document.removeEventListener('astro:after-swap', scheduleReset)
+      window.removeEventListener('resize', handleResize)
+
+      if (window.__tocController?.destroy === destroy) {
+        window.__tocController = null
+      }
+    }
+
+    // Event listeners
+    document.addEventListener('astro:page-load', scheduleReset)
+    document.addEventListener('astro:after-swap', scheduleReset)
     window.addEventListener('resize', handleResize)
-    window.addEventListener('scroll', handleScroll)
+
+    window.__tocController = { destroy }
+    init()
   })()
 </script>
 

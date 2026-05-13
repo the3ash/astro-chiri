@@ -3,7 +3,7 @@
 // all pages through the use of the <BaseHead /> component.
 import { themeConfig } from '@/config'
 import type { BaseHeadProps } from '@/types/component.types'
-import 'katex/dist/katex.min.css'
+import katexCssUrl from 'katex/dist/katex.min.css?url'
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site)
 
@@ -14,12 +14,14 @@ const imageUrl = ogImage ? new URL(ogImage, Astro.url) : new URL('/og/chiri-og.p
 <!-- Global Metadata -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="icon" type="image/png" href="/favicons/favicon-light.png" media="(prefers-color-scheme: light)" />
+<link rel="icon" type="image/png" href="/favicons/favicon-dark.png" media="(prefers-color-scheme: dark)" />
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 <link rel="preload" href="/fonts/Inter.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
 <link rel="preload" href="/fonts/Besley-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
 <link rel="sitemap" href="/sitemap-index.xml" />
 <link rel="alternate" type="application/rss+xml" title={themeConfig.site.title} href={new URL('rss.xml', Astro.site)} />
+{themeConfig.post.katex && <link rel="stylesheet" href={katexCssUrl} media="print" onload={`this.media='all'`} />}
 <meta name="generator" content={Astro.generator} />
 
 <!-- Canonical URL -->

@@ -3,13 +3,27 @@
 </div>
 
 <script>
+  type ImageViewerController = {
+    destroy: () => void
+  }
+
+  declare global {
+    interface Window {
+      __imageViewerController?: ImageViewerController | null
+    }
+  }
+
   function initImageViewer() {
+    window.__imageViewerController?.destroy()
+
     const viewer = document.getElementById('image-viewer')
     const viewerImg = document.getElementById('image-viewer-img') as HTMLImageElement
+    const contentArea =
+      document.querySelector<HTMLElement>('.prose') ||
+      document.querySelector<HTMLElement>('.content') ||
+      document.querySelector<HTMLElement>('article')
 
-    if (!viewer || !viewerImg || viewerImg.tagName !== 'IMG') return
-    if (viewer.dataset.imageViewerInitialized) return
-    viewer.dataset.imageViewerInitialized = 'true'
+    if (!viewer || !viewerImg || viewerImg.tagName !== 'IMG' || !contentArea) return
 
     // Display image in fullscreen viewer overlay
     function showImage(src: string, alt?: string) {
@@ -32,69 +46,67 @@
       document.body.style.overflow = ''
     }
 
-    // Hide and clear image after transition ends
-    viewer!.addEventListener('transitionend', (e) => {
-      if (e.propertyName === 'opacity' && !viewer!.classList.contains('active')) {
-        if (viewerImg) {
-          viewerImg.src = ''
-          viewerImg.alt = ''
-        }
+    function handleContentClick(e: MouseEvent) {
+      const target = e.target
+
+      if (!(target instanceof HTMLImageElement) || target.dataset.preview !== 'true') {
+        return
       }
-    })
 
-    // Bind click events to images with data-preview="true" attribute
-    function bindImageClickEvents() {
-      const previewImages = document.querySelectorAll('img[data-preview="true"]')
-      previewImages.forEach((img) => {
-        const imgElement = img as HTMLImageElement
-        if (imgElement.dataset.imageViewerBound) return
-        imgElement.dataset.imageViewerBound = 'true'
-
-        imgElement.style.cursor = 'pointer'
-        imgElement.addEventListener('click', (e) => {
-          e.preventDefault()
-          const target = e.target as HTMLImageElement
-          showImage(target.src, target.alt || '')
-        })
-      })
+      e.preventDefault()
+      showImage(target.src, target.alt || '')
     }
 
-    viewer?.addEventListener('click', hideImage)
+    function handleViewerTransitionEnd(e: TransitionEvent) {
+      if (e.propertyName === 'opacity' && !viewer!.classList.contains('active')) {
+        viewerImg.src = ''
+        viewerImg.alt = ''
+      }
+    }
 
-    // Prevent touch scroll in image viewer
-    viewer?.addEventListener(
-      'touchmove',
-      (e) => {
-        if (viewer.classList.contains('active')) {
-          e.preventDefault()
-        }
-      },
-      { passive: false }
-    )
+    function handleViewerTouchMove(e: TouchEvent) {
+      if (viewer!.classList.contains('active')) {
+        e.preventDefault()
+      }
+    }
 
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && viewer.classList.contains('active')) {
+    function handleKeydown(e: KeyboardEvent) {
+      if (e.key === 'Escape' && viewer!.classList.contains('active')) {
         hideImage()
       }
-    })
-
-    bindImageClickEvents()
-
-    // Observe only the content area instead of the entire body
-    const contentArea =
-      document.querySelector('.prose') || document.querySelector('.content') || document.querySelector('article')
-    if (contentArea) {
-      const observer = new MutationObserver(() => {
-        bindImageClickEvents()
-      })
-
-      observer.observe(contentArea, {
-        childList: true,
-        subtree: true
-      })
     }
 
-    viewer!.classList.remove('active')
+    // Hide and clear image after transition ends
+    viewer.addEventListener('transitionend', handleViewerTransitionEnd)
+
+    viewer.addEventListener('click', hideImage)
+    contentArea.addEventListener('click', handleContentClick)
+
+    // Prevent touch scroll in image viewer
+    viewer.addEventListener('touchmove', handleViewerTouchMove, { passive: false })
+
+    document.addEventListener('keydown', handleKeydown)
+
+    viewer.classList.remove('active')
+
+    const controller: ImageViewerController = {
+      destroy() {
+        viewer.removeEventListener('transitionend', handleViewerTransitionEnd)
+        viewer.removeEventListener('click', hideImage)
+        viewer.removeEventListener('touchmove', handleViewerTouchMove)
+        contentArea.removeEventListener('click', handleContentClick)
+        document.removeEventListener('keydown', handleKeydown)
+        document.body.classList.remove('image-viewer-open')
+        document.body.style.overflow = ''
+        viewer.classList.remove('active')
+
+        if (window.__imageViewerController === controller) {
+          window.__imageViewerController = null
+        }
+      }
+    }
+
+    window.__imageViewerController = controller
   }
 
   // Use only astro:page-load as it fires on initial load and navigation
@@ -123,6 +135,10 @@
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
+  }
+
+  :global(.prose img[data-preview='true']) {
+    cursor: pointer;
   }
 
   .image-viewer img {
