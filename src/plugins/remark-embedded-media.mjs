@@ -189,7 +189,8 @@ const embedHandlers = {
     const image = resolveMetadataImage(metadata.image?.trim(), url)
     const imageAlt = metadata.imageAlt?.trim() || title
     const domain = metadata.siteName?.trim() || getDisplayDomain(parsedUrl)
-    const cardClass = image ? 'link-card has-image' : 'link-card'
+    const hasImage = Boolean(image)
+    const cardClass = hasImage ? 'link-card has-image' : 'link-card no-image'
 
     return `
       <div class="link-card-wrapper">
@@ -200,7 +201,7 @@ const embedHandlers = {
             ${description ? `<p class="link-card-description">${escapeHtml(description)}</p>` : ''}
           </div>
           ${
-            image
+            hasImage
               ? `<div class="link-card-image-outer">
                   <div class="link-card-image">
                     <img src="${escapeAttribute(image)}" alt="${escapeAttribute(imageAlt)}" loading="lazy" decoding="async" />
