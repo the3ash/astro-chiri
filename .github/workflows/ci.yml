@@ -35,14 +35,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v6
 
-      - name: Install pnpm for Dependabot
-        if: github.actor == 'dependabot[bot]'
-        uses: pnpm/action-setup@v6
-        with:
-          version: 10.30.3
-
       - name: Install pnpm
-        if: github.actor != 'dependabot[bot]'
         uses: pnpm/action-setup@v6
         with:
           version: latest
