@@ -19,10 +19,10 @@
     "update-theme": "tsx scripts/update-theme.ts"
   },
   "dependencies": {
-    "@astrojs/mdx": "^5.0.4",
+    "@astrojs/mdx": "^5.0.6",
     "@astrojs/rss": "^4.0.18",
     "@astrojs/sitemap": "^3.7.2",
-    "astro": "^6.3.1",
+    "astro": "^6.3.7",
     "astro-og-canvas": "^0.11.1",
     "canvaskit-wasm": "^0.41.1",
     "feed": "^5.2.1",
