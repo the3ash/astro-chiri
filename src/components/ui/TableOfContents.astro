@@ -40,13 +40,15 @@ const { toc = [] }: TOCProps = Astro.props
       window.__tocController.destroy()
     }
 
-    const activeOffset = 96
+    const activeOffset = 128
+    const jumpOffset = 96
 
     // Core state
     const state = {
       container: null,
       linkList: [],
       headingList: [],
+      headingHeight: null,
       titleLink: null,
       headingMap: new Map(),
       headingObserver: null,
@@ -66,6 +68,11 @@ const { toc = [] }: TOCProps = Astro.props
       state.headingList = Array.from(document.querySelectorAll('h1, h2, h3')).filter(
         (heading, index, headings) => !(index === 0 && headings[0].tagName === 'H1') && heading.id
       )
+
+      if (state.headingList[0]) {
+        state.headingHeight = state.headingList[0].getBoundingClientRect().height
+      }
+
       state.titleLink = document.querySelector('.toc-link.toc-title')
 
       // Build heading map
@@ -134,7 +141,7 @@ const { toc = [] }: TOCProps = Astro.props
           if (target) {
             const rect = target.getBoundingClientRect()
             const scrollTop = window.pageYOffset || document.documentElement.scrollTop
-            const offset = rect.top + scrollTop - activeOffset
+            const offset = rect.top + scrollTop - jumpOffset
             window.scrollTo({ top: offset, behavior: 'smooth' })
             history.pushState(null, null, href)
           }
@@ -173,7 +180,7 @@ const { toc = [] }: TOCProps = Astro.props
       }
 
       state.headingObserver = new IntersectionObserver(refreshActiveHeading, {
-        rootMargin: `-${activeOffset}px 0px -65% 0px`,
+        rootMargin: `-${activeOffset}px 0px 0px 0px`,
         threshold: 0
       })
 
@@ -186,13 +193,13 @@ const { toc = [] }: TOCProps = Astro.props
         return
       }
 
-      if (window.pageYOffset < 16 || state.headingList[0].getBoundingClientRect().top > activeOffset) {
+      if (window.pageYOffset < 16 || state.headingList[0].getBoundingClientRect().top > (activeOffset - state.headingHeight)) {
         setActive(null)
         return
       }
 
       for (let i = state.headingList.length - 1; i >= 0; i--) {
-        if (state.headingList[i].getBoundingClientRect().top <= activeOffset) {
+        if (state.headingList[i].getBoundingClientRect().top <= (activeOffset - state.headingHeight)) {
           setActive(state.headingList[i].id)
           break
         }
