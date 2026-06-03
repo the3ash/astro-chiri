@@ -40,7 +40,8 @@ const { toc = [] }: TOCProps = Astro.props
       window.__tocController.destroy()
     }
 
-    const activeOffset = 96
+    const activeOffset = 128
+    const jumpOffset = 96
 
     // Core state
     const state = {
@@ -49,7 +50,7 @@ const { toc = [] }: TOCProps = Astro.props
       headingList: [],
       titleLink: null,
       headingMap: new Map(),
-      headingObserver: null,
+      scrollFrame: null,
       resizeTimeout: null,
       resetTimeout: null,
       activeLink: null,
@@ -134,7 +135,7 @@ const { toc = [] }: TOCProps = Astro.props
           if (target) {
             const rect = target.getBoundingClientRect()
             const scrollTop = window.pageYOffset || document.documentElement.scrollTop
-            const offset = rect.top + scrollTop - activeOffset
+            const offset = rect.top + scrollTop - jumpOffset
             window.scrollTo({ top: offset, behavior: 'smooth' })
             history.pushState(null, null, href)
           }
@@ -162,24 +163,6 @@ const { toc = [] }: TOCProps = Astro.props
       state.activeLink = nextActiveLink
     }
 
-    function setupHeadingObserver() {
-      if (state.headingObserver) {
-        state.headingObserver.disconnect()
-      }
-
-      if (!state.headingList.length) {
-        setActive(null)
-        return
-      }
-
-      state.headingObserver = new IntersectionObserver(refreshActiveHeading, {
-        rootMargin: `-${activeOffset}px 0px -65% 0px`,
-        threshold: 0
-      })
-
-      state.headingList.forEach((heading) => state.headingObserver.observe(heading))
-    }
-
     function refreshActiveHeading() {
       if (!state.headingList.length) {
         setActive(null)
@@ -199,6 +182,17 @@ const { toc = [] }: TOCProps = Astro.props
       }
     }
 
+    function scheduleActiveRefresh() {
+      if (state.scrollFrame) {
+        return
+      }
+
+      state.scrollFrame = requestAnimationFrame(() => {
+        state.scrollFrame = null
+        refreshActiveHeading()
+      })
+    }
+
     // Initialize
     function init(retryCount = 0) {
       const maxRetries = 5
@@ -206,7 +200,6 @@ const { toc = [] }: TOCProps = Astro.props
       if (initElements()) {
         checkContent()
         adjustPosition()
-        setupHeadingObserver()
 
         if (state.container) {
           state.container.addEventListener('click', handleClick)
@@ -232,13 +225,17 @@ const { toc = [] }: TOCProps = Astro.props
 
     // Reset DOM-scoped work; destroy() additionally removes global listeners.
     function cleanup() {
+      if (state.activeLink) {
+        state.activeLink.classList.remove('active')
+      }
+
       if (state.container) {
         state.container.removeEventListener('click', handleClick)
       }
 
-      if (state.headingObserver) {
-        state.headingObserver.disconnect()
-        state.headingObserver = null
+      if (state.scrollFrame) {
+        cancelAnimationFrame(state.scrollFrame)
+        state.scrollFrame = null
       }
 
       if (state.resizeTimeout) {
@@ -257,6 +254,7 @@ const { toc = [] }: TOCProps = Astro.props
         headingList: [],
         titleLink: null,
         headingMap: new Map(),
+        scrollFrame: null,
         activeLink: null,
         activeId: null,
         hasContent: false
@@ -281,6 +279,7 @@ const { toc = [] }: TOCProps = Astro.props
       cleanup()
       document.removeEventListener('astro:page-load', scheduleReset)
       document.removeEventListener('astro:after-swap', scheduleReset)
+      window.removeEventListener('scroll', scheduleActiveRefresh)
       window.removeEventListener('resize', handleResize)
 
       if (window.__tocController?.destroy === destroy) {
@@ -291,6 +290,7 @@ const { toc = [] }: TOCProps = Astro.props
     // Event listeners
     document.addEventListener('astro:page-load', scheduleReset)
     document.addEventListener('astro:after-swap', scheduleReset)
+    window.addEventListener('scroll', scheduleActiveRefresh, { passive: true })
     window.addEventListener('resize', handleResize)
 
     window.__tocController = { destroy }
