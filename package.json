@@ -34,7 +34,7 @@
     "rehype-katex": "^7.0.1",
     "remark-directive": "^4.0.0",
     "remark-math": "^6.0.0",
-    "sanitize-html": "^2.17.4",
+    "sanitize-html": "^2.17.5",
     "sharp": "^0.35.1",
     "unist-util-visit": "^5.1.0"
   },
