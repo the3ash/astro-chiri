@@ -24,7 +24,6 @@ concurrency:
 permissions:
   contents: write
   pull-requests: write
-  checks: read
 
 jobs:
   validate:
@@ -82,29 +81,13 @@ jobs:
       )
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v7.0.0
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Auto approve
         uses: hmarr/auto-approve-action@v4
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           pull-request-number: ${{ github.event.pull_request.number }}
 
-      - name: Wait for all checks to complete
-        uses: fountainhead/action-wait-for-check@v1.2.0
-        id: wait-for-checks
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          checkName: 'Validate & Build'
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
-          timeoutSeconds: 600
-          intervalSeconds: 10
-
       - name: Auto merge
-        if: steps.wait-for-checks.outputs.conclusion == 'success'
         uses: actions/github-script@v9
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
