@@ -20,10 +20,10 @@
   },
   "dependencies": {
     "@astrojs/mdx": "^6.0.3",
-    "@astrojs/rss": "^4.0.18",
+    "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.3",
     "astro": "^6.4.6",
-    "astro-og-canvas": "^0.11.1",
+    "astro-og-canvas": "^0.13.0",
     "canvaskit-wasm": "^0.41.1",
     "feed": "^5.2.1",
     "katex": "^0.18.0",
