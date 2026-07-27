@@ -22,7 +22,7 @@
     "@astrojs/mdx": "^6.0.3",
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.3",
-    "astro": "^6.4.6",
+    "astro": "^6.4.8",
     "astro-og-canvas": "^0.13.0",
     "canvaskit-wasm": "^0.41.1",
     "feed": "^6.0.0",
