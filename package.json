@@ -27,7 +27,7 @@
     "canvaskit-wasm": "^0.41.1",
     "feed": "^6.0.0",
     "katex": "^0.18.1",
-    "markdown-it": "^14.3.0",
+    "markdown-it": "^15.0.0",
     "mdast-util-to-string": "^4.0.0",
     "node-html-parser": "^9.0.1",
     "reading-time": "^1.5.0",
