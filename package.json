@@ -36,7 +36,7 @@
     "remark-directive": "^4.0.0",
     "remark-math": "^6.0.0",
     "sanitize-html": "^2.17.7",
-    "sharp": "^0.35.3",
+    "sharp": "^0.35.4",
     "unist-util-visit": "^5.1.0"
   },
   "devDependencies": {
@@ -52,7 +52,7 @@
     "globals": "^17.11.0",
     "prettier": "^3.9.6",
     "prettier-plugin-astro": "^0.14.1",
-    "tsx": "^4.23.12",
+    "tsx": "^4.23.13",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.68.0"
   }
