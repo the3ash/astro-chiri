@@ -16,7 +16,7 @@ import { imageConfig } from './src/utils/image-config'
 import path from 'path'
 
 export default defineConfig({
-  site: themeConfig.site.website,
+  site: 'https://github.com/elac1/elac1.github.io',
   image: {
     service: {
       entrypoint: 'astro/assets/services/sharp',
