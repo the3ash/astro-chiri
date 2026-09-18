@@ -160,13 +160,7 @@ async function generateFeedInstance(context: APIContext) {
  */
 export async function generateRSS(context: APIContext) {
   const feed = await generateFeedInstance(context)
-  const rssXml = feed
-    .rss2()
-    .replace(
-      '<?xml version="1.0" encoding="utf-8"?>',
-      '<?xml version="1.0" encoding="utf-8"?>\n<?xml-stylesheet type="text/xsl" href="/feeds/rss-style.xsl"?>'
-    )
-  return new Response(rssXml, {
+  return new Response(feed.rss2(), {
     headers: { 'Content-Type': 'application/rss+xml; charset=utf-8' }
   })
 }
@@ -176,13 +170,7 @@ export async function generateRSS(context: APIContext) {
  */
 export async function generateAtom(context: APIContext) {
   const feed = await generateFeedInstance(context)
-  const atomXml = feed
-    .atom1()
-    .replace(
-      '<?xml version="1.0" encoding="utf-8"?>',
-      '<?xml version="1.0" encoding="utf-8"?>\n<?xml-stylesheet type="text/xsl" href="/feeds/atom-style.xsl"?>'
-    )
-  return new Response(atomXml, {
+  return new Response(feed.atom1(), {
     headers: { 'Content-Type': 'application/atom+xml; charset=utf-8' }
   })
 }
