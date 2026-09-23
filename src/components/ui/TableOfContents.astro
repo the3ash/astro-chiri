@@ -10,19 +10,20 @@ const { toc = [] }: TOCProps = Astro.props
     <ul class="toc-list" id="toc-list">
       <!-- Back to top link -->
       <li class="toc-item toc-level-0">
-        <a href="#" class="toc-link toc-title" title="Back to top" data-text="Back to top"> Back to top </a>
+        <a href="#" class="toc-link toc-title" title="Back to top" data-text="Back to top">
+          {' '}
+          Back to top{' '}
+        </a>
       </li>
 
       <!-- TOC items -->
-      {
-        toc.map((item) => (
-          <li class={`toc-item toc-level-${item.level}`}>
-            <a href={`#${item.id}`} class="toc-link" title={item.text} data-text={item.text}>
-              {item.text}
-            </a>
-          </li>
-        ))
-      }
+      {toc.map((item) => (
+        <li class={`toc-item toc-level-${item.level}`}>
+          <a href={`#${item.id}`} class="toc-link" title={item.text} data-text={item.text}>
+            {item.text}
+          </a>
+        </li>
+      ))}
     </ul>
   </nav>
 </div>

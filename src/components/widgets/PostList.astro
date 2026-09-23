@@ -7,30 +7,28 @@ const { posts } = Astro.props as PostListProps
 ---
 
 <ul>
-  {
-    posts.map((post) => (
-      <li>
-        <a href={`/${post.id}/`}>
-          <div class={`post-item ${!themeConfig.date.dateOnRight ? 'date-left' : ''}`}>
-            {!themeConfig.date.dateOnRight && (
-              <p class="date font-features">
-                <FormattedDate date={post.data.pubDate} context="list" />
-              </p>
-            )}
-            <p class="title">{post.data.title}</p>
-            {themeConfig.date.dateOnRight && (
-              <div class={themeConfig.general.postListDottedDivider ? 'dotted-divider' : 'divider'} />
-            )}
-            {themeConfig.date.dateOnRight && (
-              <p class="date font-features">
-                <FormattedDate date={post.data.pubDate} context="list" />
-              </p>
-            )}
-          </div>
-        </a>
-      </li>
-    ))
-  }
+  {posts.map((post) => (
+    <li>
+      <a href={`/${post.id}/`}>
+        <div class={`post-item ${!themeConfig.date.dateOnRight ? 'date-left' : ''}`}>
+          {!themeConfig.date.dateOnRight && (
+            <p class="date font-features">
+              <FormattedDate date={post.data.pubDate} context="list" />
+            </p>
+          )}
+          <p class="title">{post.data.title}</p>
+          {themeConfig.date.dateOnRight && (
+            <div class={themeConfig.general.postListDottedDivider ? 'dotted-divider' : 'divider'} />
+          )}
+          {themeConfig.date.dateOnRight && (
+            <p class="date font-features">
+              <FormattedDate date={post.data.pubDate} context="list" />
+            </p>
+          )}
+        </div>
+      </a>
+    </li>
+  ))}
 </ul>
 <div class="placeholder"></div>
 

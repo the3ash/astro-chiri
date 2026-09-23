@@ -12,11 +12,13 @@ const {
 
 <time
   datetime={date.toISOString()}
-  class={!themeConfig.date.dateOnRight &&
-  (themeConfig.date.dateFormat === 'MONTH DAY YYYY' || themeConfig.date.dateFormat === 'DAY MONTH YYYY') &&
-  context === 'list'
-    ? 'date-left'
-    : ''}
+  class={
+    !themeConfig.date.dateOnRight &&
+    (themeConfig.date.dateFormat === 'MONTH DAY YYYY' || themeConfig.date.dateFormat === 'DAY MONTH YYYY') &&
+    context === 'list'
+      ? 'date-left'
+      : ''
+  }
 >
   <Fragment set:html={formatDate(date, format)} />
 </time>
