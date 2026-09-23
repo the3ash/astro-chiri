@@ -26,7 +26,7 @@ updates:
         update-types: ['minor', 'patch']
       # Code quality tools
       eslint:
-        patterns: ['eslint', 'eslint-*', '@eslint/*', '@typescript-eslint/*']
+        patterns: ['eslint', 'eslint-*', '@eslint/*', '@typescript-eslint/*', 'typescript-eslint']
         update-types: ['minor', 'patch']
       prettier:
         patterns: ['prettier', 'prettier-*', 'eslint-config-prettier']
