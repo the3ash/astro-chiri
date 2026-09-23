@@ -20,13 +20,11 @@ const { title, description } = Astro.props
     <main>
       <slot />
     </main>
-    {
-      themeConfig.general.footer && (
-        <div>
-          <Footer />
-        </div>
-      )
-    }
+    {themeConfig.general.footer && (
+      <div>
+        <Footer />
+      </div>
+    )}
   </div>
 </BaseLayout>
 
