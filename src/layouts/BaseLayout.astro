@@ -29,17 +29,15 @@ const finalWidth = shouldUseCustomWidth ? `${widthValue}rem` : '25rem'
       ${shouldUseCustomWidth ? `--content-width: ${widthValue}rem;` : ''}
     `}
   >
-    {
-      fadeAnimation ? (
-        <TransitionWrapper type={type} class="layout-wrapper">
-          <slot />
-        </TransitionWrapper>
-      ) : (
-        <div class="layout-wrapper">
-          <slot />
-        </div>
-      )
-    }
+    {fadeAnimation ? (
+      <TransitionWrapper type={type} class="layout-wrapper">
+        <slot />
+      </TransitionWrapper>
+    ) : (
+      <div class="layout-wrapper">
+        <slot />
+      </div>
+    )}
 
     <script is:inline define:vars={{ fadeAnimation }}>
       if (!fadeAnimation) {
