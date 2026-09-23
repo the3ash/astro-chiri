@@ -21,8 +21,8 @@ importers:
         specifier: ^6.4.6
         version: 6.4.6(@netlify/blobs@10.7.4)(@types/node@25.6.0)(jiti@2.6.1)(rollup@4.60.4)(tsx@4.23.13)(yaml@2.9.0)
       astro-og-canvas:
-        specifier: ^0.13.1
-        version: 0.13.1(astro@6.4.6(@netlify/blobs@10.7.4)(@types/node@25.6.0)(jiti@2.6.1)(rollup@4.60.4)(tsx@4.23.13)(yaml@2.9.0))
+        specifier: ^0.13.2
+        version: 0.13.2(astro@6.4.6(@netlify/blobs@10.7.4)(@types/node@25.6.0)(jiti@2.6.1)(rollup@4.60.4)(tsx@4.23.13)(yaml@2.9.0))
       canvaskit-wasm:
         specifier: ^0.42.0
         version: 0.42.0
@@ -1618,8 +1618,8 @@ packages:
     resolution: {integrity: sha512-idgbHE8cjEU9f4Ne46RiGgwEviXYarNVoQoTZr+H1j7mbNCKp8EGGov2bR64/cvMpfBsX3XNPu9+muxAhK84eg==}
     engines: {node: ^22.22.3 || ^24.16.0 || >=26.3.0}
 
-  astro-og-canvas@0.13.1:
-    resolution: {integrity: sha512-YrsWTht6TwNWpP/GHZeQS9sUtxsyf5XeycFEekX0NMyljOVr93MfWcTkNw7GnFD862j4JdekiVGdn/xJ6+8C/g==}
+  astro-og-canvas@0.13.2:
+    resolution: {integrity: sha512-nD3KIXR2L27tJMYquxDzGuAwaR4DwK1XjvaEWMJXtcakWcHWahOyMAfOuPMET5qJaHc1wETxOeRQGq5KnPVH7w==}
     peerDependencies:
       astro: ^5.0.0 || ^6.0.0 || ^7.0.0
 
@@ -4745,12 +4745,12 @@ snapshots:
       - '@emnapi/runtime'
       - supports-color
 
-  astro-og-canvas@0.13.1(astro@6.4.6(@netlify/blobs@10.7.4)(@types/node@25.6.0)(jiti@2.6.1)(rollup@4.60.4)(tsx@4.23.13)(yaml@2.9.0)):
+  astro-og-canvas@0.13.2(astro@6.4.6(@netlify/blobs@10.7.4)(@types/node@25.6.0)(jiti@2.6.1)(rollup@4.60.4)(tsx@4.23.13)(yaml@2.9.0)):
     dependencies:
       astro: 6.4.6(@netlify/blobs@10.7.4)(@types/node@25.6.0)(jiti@2.6.1)(rollup@4.60.4)(tsx@4.23.13)(yaml@2.9.0)
       canvaskit-wasm: 0.42.0
       deterministic-object-hash: 2.0.2
-      entities: 8.0.0
+      entities: 8.1.0
 
   astro@6.4.6(@netlify/blobs@10.7.4)(@types/node@25.6.0)(jiti@2.6.1)(rollup@4.60.4)(tsx@4.23.13)(yaml@2.9.0):
     dependencies:
@@ -5009,7 +5009,7 @@ snapshots:
     dependencies:
       domelementtype: 3.0.0
       domhandler: 6.0.1
-      entities: 8.0.0
+      entities: 8.1.0
 
   domelementtype@2.3.0: {}
 
@@ -5551,7 +5551,7 @@ snapshots:
       domelementtype: 3.0.0
       domhandler: 6.0.1
       domutils: 4.0.2
-      entities: 8.0.0
+      entities: 8.1.0
 
   http-cache-semantics@4.2.0: {}
 
