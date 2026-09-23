@@ -24,7 +24,7 @@
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.4",
     "astro": "^6.4.6",
-    "astro-og-canvas": "^0.13.1",
+    "astro-og-canvas": "^0.13.2",
     "canvaskit-wasm": "^0.42.0",
     "feed": "^6.0.0",
     "katex": "^0.18.7",
