@@ -40,7 +40,7 @@
     "unist-util-visit": "^5.1.0"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.9.10",
+    "@astrojs/check": "^0.9.12",
     "@eslint/js": "^10.0.1",
     "@types/markdown-it": "^14.2.0",
     "@types/sanitize-html": "^2.16.2",
