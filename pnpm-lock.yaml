@@ -39,8 +39,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       node-html-parser:
-        specifier: ^9.0.5
-        version: 9.0.5
+        specifier: ^9.0.6
+        version: 9.0.6
       reading-time:
         specifier: ^1.5.0
         version: 1.5.0
@@ -91,8 +91,8 @@ importers:
         specifier: ^3.2.1
         version: 3.2.1(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)(@typescript-eslint/parser@8.72.1(eslint@10.14.0(jiti@2.6.1))(typescript@6.0.3))(eslint@10.14.0(jiti@2.6.1))(typescript-eslint@8.72.1(eslint@10.14.0(jiti@2.6.1))(typescript@6.0.3))
       globals:
-        specifier: ^17.13.0
-        version: 17.13.0
+        specifier: ^17.14.0
+        version: 17.14.0
       prettier:
         specifier: ^3.9.10
         version: 3.9.10
@@ -2139,8 +2139,8 @@ packages:
     resolution: {integrity: sha512-XxwI8EOhVQgWp6iDL+3b0r86f4d6AX6zSU55HfB4ydCEuXLXc5FcYeOu+nnGftS4TEju/11rt4KJPTMgbfmv4A==}
     engines: {node: '>=10.13.0'}
 
-  globals@17.13.0:
-    resolution: {integrity: sha512-RwMTC61u7hrG3ZJMkZQOK4JLJrKS8QtoTii63EmWvFXHqycY9FObBJQCbsLxSO8kjKhWE5kV1GC+Vb1g3RI0Zg==}
+  globals@17.14.0:
+    resolution: {integrity: sha512-UtdkTVyAJePQv0J2M9Xe4L0ruNSDV314XiIJsADI2Zf40bcdAonE/D/OhAU8AT99oij9mhLByb+NvA3QWZYgCg==}
     engines: {node: '>=18'}
 
   h3@1.15.11:
@@ -2598,8 +2598,8 @@ packages:
   node-fetch-native@1.6.7:
     resolution: {integrity: sha512-g9yhqoedzIUm0nTnTqAQvueMPVOuIY16bqgAJJC8XOOubYFNwz6IER9qs0Gq2Xd0+CecCKFjtdDTMA4u4xG06Q==}
 
-  node-html-parser@9.0.5:
-    resolution: {integrity: sha512-LpUc74Ax3L6AsxTEqoep0GDqCBbsPjtn74sYaiazxGXfwhe6iqD4E5sHTJFCU+wBxVMX+Dd7mvLim0QM1vsvpw==}
+  node-html-parser@9.0.6:
+    resolution: {integrity: sha512-q3ETJ2gU+VlERyYbiJ5JQ6+mMVV1Bc6mZQ7MdJ30moq+h3oN0kQGj3rWDORaSX1SOLSkPbY/bN+sBzDlliVOBA==}
 
   node-mock-http@1.0.4:
     resolution: {integrity: sha512-8DY+kFsDkNXy1sJglUfuODx1/opAGJGyrTuFqEoN90oRc2Vk0ZbD4K2qmKXBBEhZQzdKHIVfEJpDU8Ak2NJEvQ==}
@@ -5237,7 +5237,7 @@ snapshots:
       astro-eslint-parser: 3.1.0(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)
       eslint: 10.14.0(jiti@2.6.1)
       espree: 11.2.0
-      globals: 17.13.0
+      globals: 17.14.0
       postcss: 8.5.28
       postcss-selector-parser: 7.1.6
       synckit: 0.11.13
@@ -5445,7 +5445,7 @@ snapshots:
     dependencies:
       is-glob: 4.0.3
 
-  globals@17.13.0: {}
+  globals@17.14.0: {}
 
   h3@1.15.11:
     dependencies:
@@ -6284,7 +6284,7 @@ snapshots:
 
   node-fetch-native@1.6.7: {}
 
-  node-html-parser@9.0.5:
+  node-html-parser@9.0.6:
     dependencies:
       css-select: 5.2.2
       entities: 8.1.0
