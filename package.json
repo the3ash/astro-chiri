@@ -30,7 +30,7 @@
     "katex": "^0.19.1",
     "markdown-it": "^15.0.3",
     "mdast-util-to-string": "^4.0.0",
-    "node-html-parser": "^9.0.6",
+    "node-html-parser": "^9.0.7",
     "reading-time": "^1.5.0",
     "rehype-katex": "^7.0.1",
     "remark-directive": "^4.0.0",
