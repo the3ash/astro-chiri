@@ -35,7 +35,7 @@ jobs:
         uses: actions/checkout@v7.0.1
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v6.1.0
+        uses: pnpm/action-setup@v6.1.1
 
       - name: Setup Node.js
         uses: actions/setup-node@v7
@@ -53,10 +53,7 @@ jobs:
         run: pnpm lint
         continue-on-error: true
 
-      - name: Type check
-        run: tsc --noEmit
-
-      - name: Build
+      - name: Type check and build
         run: pnpm build
 
       - name: Upload build artifacts
