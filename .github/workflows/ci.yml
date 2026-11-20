@@ -53,10 +53,7 @@ jobs:
         run: pnpm lint
         continue-on-error: true
 
-      - name: Type check
-        run: tsc --noEmit
-
-      - name: Build
+      - name: Type check and build
         run: pnpm build
 
       - name: Upload build artifacts
