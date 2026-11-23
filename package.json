@@ -22,7 +22,7 @@
   "dependencies": {
     "@astrojs/mdx": "^6.0.3",
     "@astrojs/rss": "^4.0.19",
-    "@astrojs/sitemap": "^3.7.4",
+    "@astrojs/sitemap": "^3.7.5",
     "astro": "^6.4.6",
     "astro-og-canvas": "^0.13.3",
     "canvaskit-wasm": "^0.42.0",
